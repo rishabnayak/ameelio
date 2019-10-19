@@ -15,7 +15,7 @@
         <v-btn icon @click="signIn()">
           <v-icon>mdi-export-variant</v-icon>
         </v-btn>
-        <v-btn icon>
+        <v-btn icon @click="signOut()">
           <v-icon>mdi-delete-circle</v-icon>
         </v-btn>
         <v-btn icon>
