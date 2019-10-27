@@ -1,27 +1,32 @@
 <template>
   <div>
-    <v-toolbar>
-      <v-toolbar-title>Ameelio</v-toolbar-title>
+    <v-toolbar prominent style="background:linear-gradient(180deg, #3DB3EE 13.54%, rgba(255, 255, 255, 0) 99.99%, rgba(64, 159, 227, 0.982353) 100%), #0AA0EA;">
+      <img class="ml-3 mt-11" :src="require('../assets/the-logo.png')" height="35"/>
 
       <v-spacer></v-spacer>
 
       <v-toolbar-items>
-        <v-btn text>Link 1</v-btn>
-        <v-btn text>Link 2</v-btn>
-        <v-btn text>Link 3</v-btn>
+        <v-container mt-8>
+          <v-btn text color="white" @click="signIn()">Login</v-btn>
+        </v-container>
+        <v-container mt-8>
+          <v-btn text color="white" @click="register()">Register</v-btn>
+        </v-container>
       </v-toolbar-items>
 
+      <!--
       <template v-if="$vuetify.breakpoint.smAndUp">
-        <v-btn icon @click="signIn()">
-          <v-icon>mdi-export-variant</v-icon>
+        <v-btn @click="signIn()">
+          Login
         </v-btn>
-        <v-btn icon @click="signOut()">
-          <v-icon>mdi-delete-circle</v-icon>
+        <v-btn @click="register()">
+          Register
         </v-btn>
         <v-btn icon>
           <v-icon>mdi-plus-circle</v-icon>
         </v-btn>
       </template>
+      -->
     </v-toolbar>
   </div>
   <!-- <v-toolbar dark color="primary">
@@ -75,15 +80,20 @@ export default {
     signIn() {
       this.$router.push("/login");
     },
+    register() {
+      this.$router.push("/register")
+    },
     home() {
       this.$router.push("/");
     },
-    profile() {
-      this.$router.push("/profile");
-    },
-    mailgun() {
-      this.$router.push("/mailgun");
-    }
+    /*
+      profile() {
+        this.$router.push("/profile");
+      },
+      mailgun() {
+        this.$router.push("/mailgun");
+      }
+    */
   },
   data() {
     return {};
