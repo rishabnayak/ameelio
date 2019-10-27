@@ -27,9 +27,3 @@ export default {
     },
 }
 </script>
-
-<style scoped>
-    body {
-        background: linear-gradient(180deg, #3DB3EE 13.54%, rgba(255, 255, 255, 0) 99.99%, rgba(64, 159, 227, 0.982353) 100%), #0AA0EA;
-    }
-</style>

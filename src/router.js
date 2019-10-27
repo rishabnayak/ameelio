@@ -27,7 +27,7 @@ const router = new Router({
     {
       path: "/register",
       name: "register",
-      component: () => import("./views/Login.vue"),
+      component: () => import("./views/Register.vue"),
       meta: {
         requiresAuth: false
       }
