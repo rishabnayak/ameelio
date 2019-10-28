@@ -20,28 +20,50 @@
                   <Appointments></Appointments>
                 </v-col>
               </v-row>
-              <v-container>
-              
-                    <div class="addContact">
-                      <button type="button" class="btn" @click="showModal">
-                        Add a Contact
-                      </button>
-                      <modal v-show="isModalVisible" @close="closeModal">
-                        <template v-slot:header>Add a Contact</template>
-                        <template v-slot:body>
-                          <form>
-                            <!-- <p>First Name</p> -->
-                            <div><input type="text" name="firstName" placeholder="First Name"></div>
-                            <div><input type="text" name="lastName" placeholder="Last Name"></div>
-                            <div><input type="date" name="date"></div>
-                          </form>
+              <popUp>
+                <template v-slot:buttonText>Add Contact</template>
+                <template v-slot:title>Add Contact</template>
+                <template v-slot:content>
+                  <form>
+                    
+                    <div><input type="text" name="firstName" placeholder="First Name"></div>
+                    <div><input type="text" name="lastName" placeholder="Last Name"></div>
+                    <div><input type="date" name="date"></div>
+                    </form>
+                </template>
+              </popUp>
+              <popUp>
+                <template v-slot:buttonText>Schedule a Call</template>
+                <template v-slot:title>Schedule a Call</template>
+                <template v-slot:content>
+                  <v-select  :items="contacts" label="Select a person from your contacts"></v-select>
+                </template>
+              </popUp>
+
+<!--               <div class="addContact">
+                <button type="button" class="btn" @click="showModal">
+                  Add a Contact
+                </button>
+                <modal v-show="isModalVisible" @close="closeModal">
+                  <template v-slot:header>Add a Contact</template>
+                  <template v-slot:body>
+                    
                         </template>
 
-                      </modal>
-                    </div>
-                  </v-container>
+                </modal>
 
+                <button type="button" class="btn" @click="showModal">
+                  Schedule a Call
+                </button>
+                <modal v-show="isModalVisible" @close="closeModal">
+                  <template v-slot:header>Schedule a Call</template>
+                  <template v-slot:body>
+                    <select></select>
+                  </template>
 
+                </modal>
+              </div> -->
+  
 
             </div>
             
@@ -69,17 +91,20 @@
 <script>
 import Appointments from '../components/Appointments'
 import modal from '../components/Modal'
+import popUp from '../components/popUp'
 // import HelloWorld from './HelloWorld.vue'
 export default {
   name: 'home',
   components: {
     Appointments,
-    modal
+    modal,
+    popUp
     // HelloWorld
   },
   data (){
     return{
-      isModalVisible: false
+      isModalVisible: false,
+      contacts: ['Louis', 'Amelia', 'etc.']
     }
     
   },
@@ -115,12 +140,7 @@ input:focus{
   outline: none;
 }
 
-button{
-  background-color: #ff6666;
-  color: white;
-  padding: 10px;
-  border-radius: 10px
-}
+
 
 .sidebar {
   background-image: linear-gradient(to bottom,  #399BE2,#42b0ff);
