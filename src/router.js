@@ -16,6 +16,7 @@ const router = new Router({
         requiresAuth: false
       }
     },
+
     {
       path: "/login",
       name: "login",
