@@ -12,7 +12,7 @@
     <v-container>
       <v-data-table :headers="mainHeaders"
                      :items="mainItems"
-                     item-key="name" items-per-page="5">
+                     item-key="name" >
       </v-data-table>
     </v-container>  
   </div>
@@ -33,12 +33,12 @@ export default {
           { name: 'Marc Moreno', date: 'October 30', time: '3:00pm' },
           { name: 'Wallace  Frank', date: 'October 31', time: '4:00pm' },
           { name: 'Enrique  Sanders', date: 'October 45', time: '5:00pm' },
-          { name: 'Marc Moreno', date: 'October 30', time: '3:00pm' },
-          { name: 'Wallace  Frank', date: 'October 31', time: '4:00pm' },
-          { name: 'Enrique  Sanders', date: 'October 45', time: '5:00pm' },
-          { name: 'Marc Moreno', date: 'October 30', time: '3:00pm' },
-          { name: 'Wallace  Frank', date: 'October 31', time: '4:00pm' },
-          { name: 'Enrique  Sanders', date: 'October 45', time: '5:00pm' },
+          // { name: 'Marc Moreno', date: 'October 30', time: '3:00pm' },
+          // { name: 'Wallace  Frank', date: 'October 31', time: '4:00pm' },
+          // { name: 'Enrique  Sanders', date: 'October 45', time: '5:00pm' },
+          // { name: 'Marc Moreno', date: 'October 30', time: '3:00pm' },
+          // { name: 'Wallace  Frank', date: 'October 31', time: '4:00pm' },
+          // { name: 'Enrique  Sanders', date: 'October 45', time: '5:00pm' },
 
         ]
       }
