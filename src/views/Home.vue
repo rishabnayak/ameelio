@@ -20,6 +20,7 @@
                   <Appointments></Appointments>
                 </v-col>
               </v-row>
+              <v-container>
               
                     <div class="addContact">
                       <button type="button" class="btn" @click="showModal">
@@ -38,6 +39,7 @@
 
                       </modal>
                     </div>
+                  </v-container>
 
 
 
@@ -93,20 +95,26 @@ export default {
 </script>
 <style scoped>
 
-.modal {
-  width: 50%;
-}
-.row, div.container {
-  margin: 0;
+/*.modal {
+  width: 200px;
+}*/
+.row, .container {
   padding: 0;
-  width: 100%;
+  min-width: 100%;
 }
 input {
   border-bottom-width: 1px;
   border-bottom-style: solid;
+  height: 45px;
   margin-top: 10px;
   color:  #A9A9A9;
+  width: 80%;
 }
+
+input:focus{
+  outline: none;
+}
+
 button{
   background-color: #ff6666;
   color: white;
