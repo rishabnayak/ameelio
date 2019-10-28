@@ -17,7 +17,11 @@
                 <v-col>
                   <p>Future Calls</p>
                   
-                  <Appointments></Appointments>
+                  <Appointments :mainHeaders="mainHeadersContacts"
+                                :mainItems="mainItemsContacts"
+                  >
+                    
+                  </Appointments>
                 </v-col>
               </v-row>
               <popUp>
@@ -37,6 +41,13 @@
                 <template v-slot:title>Schedule a Call</template>
                 <template v-slot:content>
                   <v-select  :items="contacts" label="Select a person from your contacts"></v-select>
+
+                  <v-row justify="center">
+                      <v-date-picker v-model="date"></v-date-picker>
+                  </v-row>
+                  <v-row justify="center">
+                      <v-time-picker v-model="time"></v-time-picker>
+                  </v-row>
                 </template>
               </popUp>
 
@@ -104,7 +115,23 @@ export default {
   data (){
     return{
       isModalVisible: false,
-      contacts: ['Louis', 'Amelia', 'etc.']
+      contacts: ['Louis', 'Amelia', 'etc.'],
+      mainHeadersContacts: [
+          { text: 'Name', value: 'name' },
+          { text: 'Date', value: 'date' },
+          { text: 'Time', value: 'time'}
+        ],
+  
+        mainItemsContacts: [
+          { name: 'Marc Moreno', date: 'October 30', time: '3:00pm' },
+          { name: 'Wallace  Frank', date: 'October 31', time: '4:00pm' },
+          { name: 'Enrique  Sanders', date: 'October 45', time: '5:00pm' },
+        ],
+      date: new Date().toISOString().substr(0, 10),
+      time: null
+
+
+
     }
     
   },
@@ -123,6 +150,14 @@ export default {
 /*.modal {
   width: 200px;
 }*/
+
+.time{
+  margin-bottom: 20px;
+
+
+}
+
+
 .row, .container {
   padding: 0;
   min-width: 100%;
