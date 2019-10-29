@@ -51,31 +51,6 @@
                 </template>
               </popUp>
 
-<!--               <div class="addContact">
-                <button type="button" class="btn" @click="showModal">
-                  Add a Contact
-                </button>
-                <modal v-show="isModalVisible" @close="closeModal">
-                  <template v-slot:header>Add a Contact</template>
-                  <template v-slot:body>
-                    
-                        </template>
-
-                </modal>
-
-                <button type="button" class="btn" @click="showModal">
-                  Schedule a Call
-                </button>
-                <modal v-show="isModalVisible" @close="closeModal">
-                  <template v-slot:header>Schedule a Call</template>
-                  <template v-slot:body>
-                    <select></select>
-                  </template>
-
-                </modal>
-              </div> -->
-  
-
             </div>
             
             <div class="calls" align-center>
@@ -125,7 +100,7 @@ export default {
         mainItemsContacts: [
           { name: 'Marc Moreno', date: 'October 30', time: '3:00pm' },
           { name: 'Wallace  Frank', date: 'October 31', time: '4:00pm' },
-          { name: 'Enrique  Sanders', date: 'October 45', time: '5:00pm' },
+          { name: 'Enrique  Sanders', date: 'October 23', time: '5:00pm' },
         ],
       date: new Date().toISOString().substr(0, 10),
       time: null

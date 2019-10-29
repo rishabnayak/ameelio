@@ -54,7 +54,10 @@ export default {
     max-height: 100%;
     min-width: 100%;
     margin: 0;
+    border-radius: 10px;
   }
+
+
 /*  *{
     margin: 0;
   }*/
