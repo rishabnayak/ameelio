@@ -15,7 +15,7 @@
             <div class="calls">
               <v-row>
                 <v-col>
-                  <p>Future Calls</p>
+                  <p>Past Calls</p>
                   
                   <Appointments :mainHeaders="mainHeadersContacts"
                                 :mainItems="mainItemsContacts"
