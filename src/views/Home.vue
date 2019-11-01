@@ -3,40 +3,28 @@
 
     <!-- < -->
     <v-container>
-      <v-row>
-        <div class="col col-2 sidebar">
-          <v-col>
-            <p>This will be the sidebar</p>
-          </v-col>
-        </div>
-        
-        <v-col>
-          <v-container>
-            <div class="calls">
-              <v-row>
-                <v-col>
-                  <p>Past Calls</p>
-                  
-                  <Appointments :mainHeaders="mainHeadersContacts"
-                                :mainItems="mainItemsContacts"
-                  >
-                    
-                  </Appointments>
-                </v-col>
-              </v-row>
-              <popUp>
+      <p>Past Calls</p>
+      <Appointments :mainHeaders="mainHeadersContacts"
+                    :mainItems="mainItemsContacts"
+       ></Appointments>
+
+      <popUp>
                 <template v-slot:buttonText>Add Contact</template>
                 <template v-slot:title>Add Contact</template>
                 <template v-slot:content>
                   <form>
-                    
-                    <div><input type="text" name="firstName" placeholder="First Name"></div>
-                    <div><input type="text" name="lastName" placeholder="Last Name"></div>
+                    <label for="firstName">First Name</label>
+                    <div><input type="text" name="firstName" placeholder="John"></div>
+                    <label for="lastName">Last Name</label>
+                    <div><input type="text" name="lastName" placeholder="Doe"></div>
+                    <label for="date">Birth Date</label>
                     <div><input type="date" name="date"></div>
+                    <label for="location">Prison Location</label>
+                    <div><input type="text" name="location"></div>
                     </form>
                 </template>
               </popUp>
-              <popUp>
+<!--               <popUp>
                 <template v-slot:buttonText>Schedule a Call</template>
                 <template v-slot:title>Schedule a Call</template>
                 <template v-slot:content>
@@ -49,24 +37,8 @@
                       <v-time-picker v-model="time"></v-time-picker>
                   </v-row>
                 </template>
-              </popUp>
+      </popUp> -->
 
-            </div>
-            
-            <div class="calls" align-center>
-              
-              <v-row >
-                <v-col>
-                  <p>Calendar</p>
-                  <Appointments></Appointments>
-                </v-col>
-              </v-row>
-              
-            </div>
-          </v-container>
-          
-        </v-col>
-      </v-row>
     </v-container>
   
   </div>
@@ -121,27 +93,14 @@ export default {
 };
 </script>
 <style scoped>
-
-/*.modal {
-  width: 200px;
-}*/
-
-.time{
-  margin-bottom: 20px;
-
-
-}
-
-
-.row, .container {
-  padding: 0;
-  min-width: 100%;
+form{
+  margin: auto;
 }
 input {
   border-bottom-width: 1px;
   border-bottom-style: solid;
   height: 45px;
-  margin-top: 10px;
+  margin-bottom: 25px;
   color:  #A9A9A9;
   width: 80%;
 }
@@ -150,11 +109,5 @@ input:focus{
   outline: none;
 }
 
-
-
-.sidebar {
-  background-image: linear-gradient(to bottom,  #399BE2,#42b0ff);
-  color: white;
-}
 
 </style>
