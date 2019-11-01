@@ -5,7 +5,7 @@
     <v-container class='calendar'>
 
       <h1>Schedule a Call</h1>
-      <Calendar :events="calendarEvents"></Calendar>
+      <Calendar :events="calendarEvents" :height="calendarHeight"></Calendar>
 
   </v-sheet>
     </v-container>
@@ -86,6 +86,7 @@ export default {
           { name: 'Wallace  Frank', date: 'October 31', time: '4:00pm' },
           { name: 'Enrique  Sanders', date: 'October 23', time: '5:00pm' },
         ],
+     calendarHeight: 500,
      calendarEvents: [
         {
           name: 'Vacation',
@@ -226,6 +227,10 @@ export default {
 };
 </script>
 <style scoped>
+
+/**{
+  max-height: 100vh;
+}*/
 
 form{
   margin: auto;

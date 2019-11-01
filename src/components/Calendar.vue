@@ -44,7 +44,7 @@
           </v-menu>
         </v-toolbar>
       </v-sheet>
-      <v-sheet height="600">
+      <v-sheet :height="height">
         <v-calendar
           ref="calendar"
           v-model="focus"
@@ -110,6 +110,9 @@
 <script>
   export default {
     name: "Calendar",
+    props: {
+      height: Number
+    },
     data: () => ({
       today: '2019-01-01',
       focus: '2019-01-01',
