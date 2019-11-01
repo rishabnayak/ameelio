@@ -4,7 +4,8 @@
     <!-- < -->
     <v-container class='calendar'>
 
-      <h1>Schedule a Call</h1>
+      <h1>Calendar</h1>
+      <Calendar :events="calendarEvents" :height="calendarHeight"></Calendar>
       <popUp>
         <template v-slot:buttonText>Add a Contact</template>
         <template v-slot:title>Add a Contact</template>
@@ -21,9 +22,22 @@
             </form>
         </template>
       </popUp>
-      <Calendar :events="calendarEvents" :height="calendarHeight"></Calendar>
+      <popUp>
+        <template v-slot:buttonText>Schedule a Call</template>
+        <template v-slot:title>Schedule a Call</template>
+        <template v-slot:content>
+          <v-select  :items="contacts" label="Select a person from your contacts"></v-select>
 
-  </v-sheet>
+          <v-row justify="center">
+              <v-date-picker v-model='calendarDate'></v-date-picker>
+          </v-row>
+          <v-row justify="center">
+              <v-time-picker v-model="calendarTime"></v-time-picker>
+          </v-row>
+
+        </template>
+      </popUp>
+      <!-- <p>{{calendarTime}}</p> -->
     </v-container>
 
     <v-container>
@@ -35,20 +49,7 @@
 
 
     </v-container>
-<!--               <popUp>
-                <template v-slot:buttonText>Schedule a Call</template>
-                <template v-slot:title>Schedule a Call</template>
-                <template v-slot:content>
-                  <v-select  :items="contacts" label="Select a person from your contacts"></v-select>
 
-                  <v-row justify="center">
-                      <v-date-picker v-model="date"></v-date-picker>
-                  </v-row>
-                  <v-row justify="center">
-                      <v-time-picker v-model="time"></v-time-picker>
-                  </v-row>
-                </template>
-      </popUp> -->
 
     </v-container>
   
@@ -74,6 +75,8 @@ export default {
   },
   data (){
     return{
+      calendarDate: new Date().toISOString().substr(0, 10),
+      calendarTime: null,
       isModalVisible: false,
       contacts: ['Louis', 'Amelia', 'etc.'],
       mainHeadersContacts: [
