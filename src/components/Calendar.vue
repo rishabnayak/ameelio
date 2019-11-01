@@ -1,7 +1,6 @@
 <template>
 
-<!-- <v-slot>This is the default </v-slot> -->
-
+ 
   <v-row class="fill-height">
     <v-col>
       <v-sheet height="64">
@@ -63,7 +62,6 @@
           v-model="selectedOpen"
           :close-on-content-click="false"
           :activator="selectedElement"
-          full-width
           offset-x
         >
           <v-card
@@ -130,7 +128,8 @@
       selectedOpen: false,
     }),
     props: {
-      events: Object
+      events: Array,
+      height: Number
     },
     computed: {
       title () {

@@ -5,21 +5,9 @@
     <v-container class='calendar'>
 
       <h1>Schedule a Call</h1>
-      <Calendar :events="calendarEvents" :height="calendarHeight"></Calendar>
-
-  </v-sheet>
-    </v-container>
-
-    <v-container>
-      
-      <h1>Past Calls</h1>
-      <Appointments :mainHeaders="mainHeadersContacts"
-                    :mainItems="mainItemsContacts"
-       ></Appointments>
-
       <popUp>
-        <template v-slot:buttonText>Add Contact</template>
-        <template v-slot:title>Add Contact</template>
+        <template v-slot:buttonText>Add a Contact</template>
+        <template v-slot:title>Add a Contact</template>
         <template v-slot:content>
           <form>
             <label for="firstName">First Name</label>
@@ -33,6 +21,19 @@
             </form>
         </template>
       </popUp>
+      <Calendar :events="calendarEvents" :height="calendarHeight"></Calendar>
+
+  </v-sheet>
+    </v-container>
+
+    <v-container>
+      
+      <h1>Past Calls</h1>
+      <Appointments :mainHeaders="mainHeadersContacts"
+                    :mainItems="mainItemsContacts"
+       ></Appointments>
+
+
     </v-container>
 <!--               <popUp>
                 <template v-slot:buttonText>Schedule a Call</template>
