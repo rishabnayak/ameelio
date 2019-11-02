@@ -18,6 +18,15 @@ const router = new Router({
     },
 
     {
+      path: "/add-contact-form",
+      name: "addContactForm",
+      component: () => import("./views/AddContactForm.vue"),
+      meta: {
+        requiresAuth: false
+      }
+    },
+
+    {
       path: "/login",
       name: "login",
       component: () => import("./views/Login.vue"),

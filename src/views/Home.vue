@@ -8,18 +8,9 @@
       <Calendar :events="calendarEvents" :height="calendarHeight"></Calendar>
       <popUp>
         <template v-slot:buttonText>Add a Contact</template>
-        <template v-slot:title>Add a Contact</template>
+        <template v-slot:title><h1>Add a Contact</h1></template>
         <template v-slot:content>
-          <form>
-            <label for="firstName">First Name</label>
-            <div><input type="text" name="firstName" placeholder="John"></div>
-            <label for="lastName">Last Name</label>
-            <div><input type="text" name="lastName" placeholder="Doe"></div>
-            <label for="date">Birth Date</label>
-            <div><input type="date" name="date"></div>
-            <label for="location">Prison Location</label>
-            <div><input type="text" name="location"></div>
-            </form>
+          <AddContact />
         </template>
       </popUp>
       <popUp>
@@ -63,6 +54,7 @@ import Appointments from '../components/Appointments'
 import modal from '../components/Modal'
 import popUp from '../components/popUp'
 import Calendar from '../components/Calendar'
+import AddContact from '../components/AddContact'
 // import HelloWorld from './HelloWorld.vue'
 export default {
   name: 'home',
@@ -70,7 +62,8 @@ export default {
     Appointments,
     modal,
     popUp,
-    Calendar
+    Calendar,
+    AddContact
     // HelloWorld
   },
   data (){
@@ -236,25 +229,12 @@ export default {
   max-height: 100vh;
 }*/
 
-form{
-  margin: auto;
-}
-input {
-  border-bottom-width: 1px;
-  border-bottom-style: solid;
-  height: 45px;
-  margin-bottom: 25px;
-  color:  #A9A9A9;
-  width: 80%;
-}
 
-input:focus{
-  outline: none;
-}
 
 .calendar {
   height: 50%;
 }
+
 
 
 
