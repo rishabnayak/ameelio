@@ -17,13 +17,13 @@
       </popUp>
       <popUp>
         <template v-slot:buttonText>Schedule a Call</template>
-        <template v-slot:title>Schedule a Call</template>
+        <template v-slot:title><h1>Schedule a Call</h1></template>
         <template v-slot:content>
           <v-select  :items="contacts" label="Select a person from your contacts"></v-select>
 
-          <v-row justify="center">
+          <!-- <v-row justify="center">
               <v-date-picker v-model='calendarDate'></v-date-picker>
-          </v-row>
+          </v-row> -->
           <v-row justify="center">
               <v-time-picker v-model="calendarTime"></v-time-picker>
           </v-row>
