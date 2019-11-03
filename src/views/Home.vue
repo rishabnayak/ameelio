@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Sidebar />
+    <Sidebar :drawer="isExpanded" name="John LastName"/>
 
     <!-- < -->
     <div class="main">
@@ -73,6 +73,7 @@ export default {
   },
   data (){
     return{
+      isExpanded: false,
       calendarDate: new Date().toISOString().substr(0, 10),
       calendarTime: null,
       isModalVisible: false,
@@ -224,7 +225,14 @@ export default {
       },
       closeModal() {
         this.isModalVisible = false;
-      }
+      },
+      addMargin() {
+            if(isExpanded){
+              document.getElementByClassName("main").style.marginLeft = "25%";
+            } else {
+              document.getElementByClassName("main").style.marginLeft = "10%";
+            }
+         }
     },
 };
 </script>
@@ -238,8 +246,10 @@ export default {
 
 .main {
   height: 50%;
-  margin-left: 20%;
+  margin-left: 12%;
 }
+
+
 
 
 

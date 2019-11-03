@@ -10,12 +10,12 @@
  >
    <v-img v-if="!mini"
      src="@/assets/logo.png"
-     height="50"
+     height="40"
      contain
    />
    <v-img v-else
      src="@/assets/logo_mini.png"
-     height="50"
+     height="35"
      contain
    />
    <v-list-item>
@@ -23,7 +23,7 @@
        <v-img src="@/assets/profile_placeholder.png"></v-img>
      </v-list-item-avatar>
      <v-list-item-content>
-       <v-list-item-title>John Leider</v-list-item-title>
+       <v-list-item-title>{{name}}</v-list-item-title>
      </v-list-item-content>
      <v-btn
        icon
@@ -48,7 +48,7 @@
      </v-list-item>
    </v-list>
    <template v-slot:append>
-     <div class="pa-2">
+     <div v-if="!mini"  class="pa-2">
        <v-btn block color="error">Logout</v-btn>
      </div>
    </template>
@@ -57,6 +57,9 @@
 <script>
  export default {
   name: "Sidebar",
+  props: {
+    name: String
+  },
    data () {
      return {
        drawer: true,
@@ -69,3 +72,14 @@
    },
  }
 </script>
+
+
+<style scoped>
+  .v-navigation-drawer--fixed.v-navigation-drawer--open{
+    padding-top: 15px;
+  }
+
+.pa-2{
+  max-width: 50%;
+}  
+</style>
