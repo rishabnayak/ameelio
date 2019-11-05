@@ -1,4 +1,4 @@
-<template>
+<template><div>
  <v-navigation-drawer
    id="drawer"
    app
@@ -53,7 +53,14 @@
      </div>
    </template>
  </v-navigation-drawer>
-</template>
+
+
+  <div :class="{ addMargin: !mini}" >
+    <slot name='body'>
+        This is the body
+      </slot>
+  </div>
+  </div></template>
 <script>
  export default {
   name: "Sidebar",
@@ -75,11 +82,14 @@
 
 
 <style scoped>
-  .v-navigation-drawer--fixed.v-navigation-drawer--open{
-    padding-top: 15px;
-  }
+.v-navigation-drawer--fixed.v-navigation-drawer--open{
+  padding-top: 15px;
+}
 
 .pa-2{
   max-width: 50%;
+}
+.addMargin {
+ margin-left: 20%;
 }  
 </style>

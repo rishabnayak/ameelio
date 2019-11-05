@@ -54,8 +54,8 @@
           :now="today"
           :type="type"
           @click:event="showEvent"
-          @click:more="viewDay"
-          @click:date="viewDay"
+          @click:more="viewWeek"
+          @click:date="viewWeek"
           @change="updateRange"
         ></v-calendar>
         <v-menu
@@ -119,7 +119,6 @@
         month: 'Month',
         week: 'Week',
         day: 'Day',
-        '4day': '4 Days',
       },
       start: null,
       end: null,
@@ -153,8 +152,6 @@
           case 'month':
             return `${startMonth} ${startYear}`
           case 'week':
-          case '4day':
-            return `${startMonth} ${startDay} ${startYear} - ${suffixMonth} ${endDay} ${suffixYear}`
           case 'day':
             return `${startMonth} ${startDay} ${startYear}`
         }
@@ -170,9 +167,9 @@
       this.$refs.calendar.checkChange()
     },
     methods: {
-      viewDay ({ date }) {
+      viewWeek ({ date }) {
         this.focus = date
-        this.type = 'day'
+        this.type = 'week'
       },
       getEventColor (event) {
         return event.color
