@@ -23,7 +23,7 @@
        <v-img src="@/assets/profile_placeholder.png"></v-img>
      </v-list-item-avatar>
      <v-list-item-content>
-       <v-list-item-title>{{name}}</v-list-item-title>
+       <v-list-item-title><h4>{{name}}</h4></v-list-item-title>
      </v-list-item-content>
      <v-btn
        icon
@@ -82,6 +82,10 @@
 
 
 <style scoped>
+h4{
+  font-size: 0.8vw;
+
+}
 .v-navigation-drawer--fixed.v-navigation-drawer--open{
   padding-top: 15px;
 }
