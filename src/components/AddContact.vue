@@ -1,50 +1,43 @@
 <template>
-	<form>
-	<div><h2 id="addContactTitle">Inmate Information</h2></div>
-	<label for="firstName">First Name</label>
-	<div><input type="text" name="firstName" placeholder="John"></div>
-	<label for="lastName">Last Name</label>
-	<div><input type="text" name="lastName" placeholder="Doe"></div>
-	<label for="date">Birth Date</label>
-	<div><input type="date" name="date"></div>
-	<label for="location">Place of Incarceration</label>
-	<div><input type="text" name="location"></div>
-	<label for="race">Race</label>
-	<div><input type="Race" name="race"></div>
-	<label for="sex">Sex</label>
-	<div><input type="radio" name="Sex"></div>
-	</form>
+	<div>
+
+	<Sidebar name = "John doe giant last name">
+		<template v-slot:body>
+
+			<form>
+				<h2 class='infoTitle'>Personal Information</h2>
+				<label for="userFirstName">First Name</label>
+				<div><input type="text" name="userFirstName" placeholder="John"></div>
+				<label for="userLastName">Last Name</label>
+				<div><input type="text" name="userLastName" placeholder="Doe"></div>
+				<label for="relationship">Relationship With Inmate</label>
+				<div><input type="text" name="relationship" placeholder="Brother"></div>
+			</form>
+
+			<AddContact />
+		</template>
+	</Sidebar>
+	</div>
 </template>
 
 <script>
+	import AddContact from "../components/AddContact"
+	import Sidebar from "../components/Sidebar"
 	export default{
-		name: "AddContact",
-		components:{
-
+		name: "AddContactForm",
+		components: {
+			AddContact,
+			Sidebar
+		},
+		data() {
+			return {
+				username: "John Doe this is a userLastName"
+			}
 		}
 	}
 </script>
 
+
 <style scoped>
-form{
-  margin: auto;
-  width: 80%;
-}
-input {
-  border-bottom-width: 1px;
-  border-bottom-style: solid;
-  height: 45px;
-  margin-bottom: 25px;
-  color:  #A9A9A9;
-  width: 80%;
-}
-
-input:focus{
-  outline: none;
-}
-
-#addContactTitle{
-  margin-bottom: 30px;
-}
-
+	
 </style>

@@ -1,4 +1,4 @@
-<template>
+<template><div>
  <v-navigation-drawer
    id="drawer"
    app
@@ -23,7 +23,7 @@
        <v-img src="@/assets/profile_placeholder.png"></v-img>
      </v-list-item-avatar>
      <v-list-item-content>
-       <v-list-item-title>{{name}}</v-list-item-title>
+       <v-list-item-title><h4>{{name}}</h4></v-list-item-title>
      </v-list-item-content>
      <v-btn
        icon
@@ -53,7 +53,14 @@
      </div>
    </template>
  </v-navigation-drawer>
-</template>
+
+
+  <div :class="{ addMargin: !mini}" >
+    <slot name='body'>
+        This is the body
+      </slot>
+  </div>
+  </div></template>
 <script>
  export default {
   name: "Sidebar",
@@ -75,11 +82,16 @@
 
 
 <style scoped>
-  .v-navigation-drawer--fixed.v-navigation-drawer--open{
-    padding-top: 15px;
-  }
-
+h4{
+  font-size: 0.8vw;
+}
+.v-navigation-drawer--fixed.v-navigation-drawer--open{
+  padding-top: 15px;
+}
 .pa-2{
   max-width: 50%;
+}
+.addMargin {
+ margin-left: 20%;
 }  
 </style>

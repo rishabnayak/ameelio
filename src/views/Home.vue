@@ -1,41 +1,57 @@
 <template>
   <div>
-    <Sidebar :drawer="isExpanded" name="John LastName"/>
+    <Sidebar name="John Doe" >
 
     <!-- < -->
-    <div class="main">
-    <v-container class='calendar'>
+    <template v-slot:body>
+      <v-container class='calendar'>
 
-      <h1>Calendar</h1>
-      <Calendar :events="calendarEvents" :height="calendarHeight"></Calendar>
+        <h1>Calendar</h1>
+        <Calendar :events="calendarEvents" :height="calendarHeight"></Calendar>
+        <popUp>
+          <template v-slot:buttonText>Add a Contact</template>
+          <template v-slot:title><h1>Add a Contact</h1></template>
+          <template v-slot:content>
+            <AddContact />
+          </template>
+        </popUp>
+        <popUp>
+          <template v-slot:buttonText>Schedule a Call</template>
+          <template v-slot:title><h1>Schedule a Call</h1></template>
+          <template v-slot:content>
+            <v-select  :items="contacts" label="Select a person from your contacts"></v-select>
 
-      <popUp>
-        <template v-slot:buttonText>Add a Contact</template>
-        <template v-slot:title><h1>Add a Contact</h1></template>
-        <template v-slot:content>
-          <AddContact />
-        </template>
-      </popUp>
+            <!-- <v-row justify="center">
+                <v-date-picker v-model='calendarDate'></v-date-picker>
+            </v-row> -->
+            <v-row justify="center">
+                <v-time-picker v-model="calendarTime"></v-time-picker>
+            </v-row>
+
+          </template>
+        </popUp>
+        <!-- <p>{{calendarTime}}</p> -->
+      </v-container>
+
+      <v-container>
+        
+        <h1>Past Calls</h1>
+        <Appointments :mainHeaders="mainHeadersContacts"
+                      :mainItems="mainItemsContacts"
+         ></Appointments>
 
 
-    </v-container>
+      </v-container>
 
 
-    
-
-    <v-container>
-      
-      <h1>Past Calls</h1>
-      <Appointments :mainHeaders="mainHeadersContacts"
-                    :mainItems="mainItemsContacts"
-       ></Appointments>
-
-
-    </v-container>
+      </v-container>
+    </template>
+  </Sidebar>
   
   </div>
 </div>
 </template>
+
 
 
 
@@ -107,13 +123,10 @@ export default {
 
 
 <style scoped>
-/**{
-  max-height: 100vh;
-}*/
-.main {
-  height: 50%;
-  margin-left: 12%;
+*{
+  margin-left: 20px;
 }
+
 </style>
 
 
