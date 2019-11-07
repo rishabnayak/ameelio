@@ -103,14 +103,7 @@ export default {
       },
       closeModal() {
         this.isModalVisible = false;
-      },
-      addMargin() {
-            if(isExpanded){
-              document.getElementByClassName("main").style.marginLeft = "25%";
-            } else {
-              document.getElementByClassName("main").style.marginLeft = "10%";
-            }
-         }
+      }
     },
 };
 </script>

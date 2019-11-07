@@ -84,10 +84,12 @@
 <style scoped>
 h4{
   font-size: 0.8vw;
+
 }
 .v-navigation-drawer--fixed.v-navigation-drawer--open{
   padding-top: 15px;
 }
+
 .pa-2{
   max-width: 50%;
 }
