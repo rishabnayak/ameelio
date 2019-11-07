@@ -4,7 +4,7 @@ import router from './router'
 import store from './store'
 import './registerServiceWorker'
 import vuetify from './plugins/vuetify';
-import firebase from "firebase/app";
+import firebase from "firebase";
 import "firebase/auth";
 import "firebaseui/dist/firebaseui.css";
 
@@ -22,3 +22,6 @@ firebase.auth().onAuthStateChanged(async () => {
     }).$mount("#app");
   }
 });
+
+export const db = firebase.firestore();
+
