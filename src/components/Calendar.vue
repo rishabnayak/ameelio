@@ -41,13 +41,32 @@
           </v-menu>
         </v-toolbar>
       </v-sheet>
-
+      <v-dialog v-model="dialog" max-width="500">
+        <v-card>
+          <v-container>
+            <v-form @submit.prevent="addEvent">
+              <v-select  :items="contacts" v-model="name" label="Select a person from your contacts (required)"></v-select>
+              <v-text-field v-model="start" type="date" label="Date (required)"></v-text-field>
+              <v-row justify="center">
+                <v-time-picker 
+                  v-model="startTime"
+                  :landscape="$vuetify.breakpoint.smAndUp"
+                  :allowed-hours="allowedHours"
+                  :allowed-minutes="m => m % 30 === 0"
+                  class="mt-4"
+                  scrollable
+                  min="8:00"
+                  max="22:00"
+                  >
+                </v-time-picker>
+              </v-row>
+              <v-btn type="submit" color="primary" class="mr-4" @click.stop="dialog = false">
+                create event
               </v-btn>
             </v-form>
           </v-container>
         </v-card>
       </v-dialog>
-
 <v-sheet height="600">
   <v-calendar
   ref="calendar"
@@ -78,7 +97,6 @@
       <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
       <div class="flex-grow-1"></div>
     </v-toolbar>
-
     <v-card-text>
       <form v-if="currentlyEditing !== selectedEvent.id">
         {{ selectedEvent.details }}
@@ -93,7 +111,6 @@
       </textarea-autosize>
     </form>
   </v-card-text>
-
   <v-card-actions>
     <v-btn text color="secondary" @click="selectedOpen = false">
       close
@@ -111,10 +128,41 @@
 </v-col>
 </v-row>
 </template>
-
-
-
 <script>
+import { db } from '@/main'
+export default {
+  data: () => ({
+    today: new Date().toISOString().substr(0, 10),
+    focus: new Date().toISOString().substr(0, 10),
+    type: 'month',
+    typeToLabel: {
+      month: 'Month',
+      week: 'Week',
+      day: 'Day',
+      '4day': '4 Days',
+    },
+    name: null,
+    //details: null,
+    start: null,
+    // start: null,
+    startTime:null,
+    //endTime:null,
+    //end: null,
+    //color: '#1976D2', // default event color
+    currentlyEditing: null,
+    selectedEvent: {},
+    selectedElement: null,
+    selectedOpen: false,
+    events: [],
+    dialog: false,
+  }),
+  mounted () {
+    this.getEvents()
+  },
+  computed: {
+    title () {
+      const { start, end } = this
+      if (!start || !end) {
         return ''
       }
       const startMonth = this.monthFormatter(start)
@@ -136,12 +184,13 @@
       }
       return ''
     },
-
-
-
-
-
-
+    monthFormatter () {
+      return this.$refs.calendar.getFormatter({
+        timeZone: 'UTC', month: 'long',
+      })
+    }
+  },
+  methods: {
     async getEvents () {
       let snapshot = await db.collection('calEvent').get()
       let events = []
