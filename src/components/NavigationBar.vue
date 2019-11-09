@@ -9,9 +9,11 @@
         <v-container mt-8>
           <v-btn text color="white" @click="signIn()">Login</v-btn>
         </v-container>
+        <!--
         <v-container mt-8>
           <v-btn text color="white" @click="register()">Register</v-btn>
         </v-container>
+        -->
       </v-toolbar-items>
 
       <!--

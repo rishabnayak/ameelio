@@ -24,6 +24,7 @@ const router = new Router({
         requiresAuth: false
       }
     },
+    /*
     {
       path: "/register",
       name: "register",
@@ -32,6 +33,7 @@ const router = new Router({
         requiresAuth: false
       }
     },
+    */
   ]
 });
 

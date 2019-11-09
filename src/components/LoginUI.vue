@@ -25,6 +25,7 @@
                 <h3>Log in</h3>
               </v-card-title>
               <v-card-text>
+                <!--
                 <v-form class="mx-5 mt-5">
                   <v-text-field
                     name="username"
@@ -38,11 +39,15 @@
                     outlined
                   ></v-text-field>
                 </v-form>
+                -->
+                <div id="firebaseui-auth-container"></div>
               </v-card-text>
+              <!--
               <v-btn color="light-blue" style="padding-left:50px; padding-right:50px"><span style="color:white;">Log In</span></v-btn>
               <v-card-subtitle>
                 Forgot your password?
               </v-card-subtitle>
+              -->
             </v-card>
           </v-col>
         </v-row>
