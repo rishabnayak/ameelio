@@ -10,13 +10,28 @@ const router = new Router({
   routes: [
     {
       path: "/",
-      name: "home",
-      component: () => import("./views/Home.vue"),
+      name: "external",
+      component: () => import("./views/External.vue"),
       meta: {
         requiresAuth: false
       }
     },
-
+    {
+      path: "/external",
+      name: "external",
+      component: () => import("./views/External.vue"),
+      meta: {
+        requiresAuth: false
+      }
+    },
+    {
+      path: "/inmate",
+      name: "inmate",
+      component: () => import("./views/Inmate.vue"),
+      meta: {
+        requiresAuth: false
+      }
+    },
     {
       path: "/add-contact-form",
       name: "addContactForm",
