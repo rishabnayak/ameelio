@@ -1,5 +1,20 @@
 
+
+//import { db } from '@/main'
+var firebase = require("firebase")
+var db = firebase.database();
 var fs = require('fs');
+
+
+let data = {
+    name: 'Los Angeles',
+    state: 'CA',
+    country: 'USA'
+  };
+  
+  // Add a new document in collection "cities" with ID 'LA'
+  let setDoc = db.collection('cities').doc('LA').set(data);
+
 
 let path = '/Users/valence/Desktop/parsing experiment/sample.csv'
 let readFile = "First Name,Last Name,Age\nJohn,Smith,34\nLenny,Kaufman,22"
