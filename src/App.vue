@@ -1,6 +1,8 @@
 <template>
   <v-app>
+    <!--
     <navigationBar v-if="!['login', 'register'].includes($route.name)"/>
+    -->
     <router-view />
   </v-app>
 </template>
