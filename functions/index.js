@@ -4,6 +4,9 @@ const files = glob.sync("./**/*.function.js", {
   ignore: "./node_modules/**"
 });
 
+//Rishab I have no idea what this does and you haven't been at meetings
+//so trying to work without it. 
+/*
 files.forEach(file => {
   const functionModule = require(file);
   const functionNames = Object.keys(functionModule);
@@ -16,7 +19,7 @@ files.forEach(file => {
       exports[functionName] = functionModule[functionName];
     }
   });
-});
+});*/
 
 
 // The Cloud Functions for Firebase SDK to create Cloud Functions and setup triggers.
@@ -35,5 +38,20 @@ exports.addMessage = functions.https.onRequest(async (req, res) => {
   // Push the new message into the Realtime Database using the Firebase Admin SDK.
   //const snapshot = await admin.database().ref('/messages').push({original: original});
   // Redirect with 303 SEE OTHER to the URL of the pushed object in the Firebase console.
-  res.redirect(303, "this is a func that works" /*snapshot.ref.toString()*/);
+  res.redirect(303, "parsing_func.js" /*snapshot.ref.toString()*/);
+});
+
+exports.date = functions.https.onRequest((req, res) => {
+  // [END trigger]
+  // [START sendError]
+  // Forbidding PUT requests.
+  if (req.method === 'PUT') {
+    return res.status(403).send('Forbidden!');
+  }
+  // [END sendError]
+
+  
+    const formattedDate = "this is a nice formatted date, hopefully"
+    res.status(200).send(formattedDate);
+    // [END sendResponse]
 });
