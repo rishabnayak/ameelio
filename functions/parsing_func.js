@@ -5,6 +5,13 @@ var firebase = require("firebase")
 var db = firebase.database();
 var fs = require('fs');
 
+//messing around trying to import some stuff index.js
+module.exports = { 
+importable: function ()
+{
+    console.log("this didn't just get imported, it ran!");
+}
+}
 
 let data = {
     name: 'Los Angeles',
