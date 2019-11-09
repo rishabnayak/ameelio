@@ -192,12 +192,8 @@ export default {
     }
   },
   methods: {
-<<<<<<< Updated upstream
-=======
-
     allowedHours: v => v % 2,
 
->>>>>>> Stashed changes
     async getEvents () {
       let snapshot = await db.collection('calEvent').get()
       let events = []
