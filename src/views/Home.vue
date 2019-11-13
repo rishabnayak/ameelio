@@ -44,12 +44,12 @@
       </v-container>
 
 
-      </v-container>
+      
     </template>
   </Sidebar>
   
   </div>
-</div>
+
 </template>
 
 
