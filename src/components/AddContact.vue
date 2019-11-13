@@ -8,7 +8,7 @@
 	<label for="birthdate">Birth Date</label>
 	<div><input v-model="birthdate" type="date"></div>
 	<label for="location">Place of Incarceration</label>
-	<div><input v-model="location" type="text"></div>
+	<div><v-select  :items="prisons" v-model="location" label="Select the prison (required)"></v-select></div>
 	<label for="race">Race</label>
 	<div><input v-model="race" type="Race"></div>
 	<label for="sex">Sex</label>
@@ -26,8 +26,11 @@
 <script>
 import { db } from '@/main'
 
+
+
 	export default{
 		data: () => ({
+			prisons: getPrison(),
 			firstname: null,
 			lastname: null,
           	birthdate: null,
@@ -37,6 +40,24 @@ import { db } from '@/main'
 		}),
 	
   	methods: {
+
+	async getPrison () {
+	
+		var docRef = db.collection("prisons");
+
+		docRef.get().then(function(doc) {
+    	if (doc.exists) {
+        	console.log("Document data:", doc.data());
+    	} else {
+        // doc.data() will be undefined in this case
+       		console.log("No such document!");
+    	}
+		}).catch(function(error) {
+    	console.log("Error getting document:", error);
+		});
+		return docRef;
+	},
+
     async addCon () {
       	await db.collection('test').doc('shreya.banga@gmail.com').collection('myInmate').add({
           firstname: this.firstname,
