@@ -76,7 +76,7 @@ export default {
     this.name = this.user.displayName;
     this.photoURL = this.user.photoURL;
   },
-    methods: {
+  methods: {
     async signOut() {
       await this.$store.dispatch("logOut");
       this.$router.push("/login");
@@ -89,8 +89,8 @@ export default {
     },
     profile() {
       this.$router.push("/profile");
-    },
-  },
+    }
+  }
 };
 </script>
 

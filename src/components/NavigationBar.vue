@@ -56,7 +56,7 @@
       <v-icon v-if="user" @click="signOut()">power</v-icon>
       <v-icon v-else @click="signIn()">logout</v-icon>
     </v-btn>
-  </v-toolbar> -->
+  </v-toolbar>-->
 </template>
 
 <script>
@@ -65,7 +65,7 @@ export default {
   computed: {
     user() {
       return this.$store.state.user;
-    },
+    }
   },
   methods: {
     async signOut() {

@@ -9,32 +9,17 @@
           <v-form ref="form" v-model="valid">
             <v-layout row>
               <v-flex xs12>
-                <v-text-field
-                  v-model="name"
-                  label="Name"
-                  name="name"
-                  readonly
-                ></v-text-field>
+                <v-text-field v-model="name" label="Name" name="name" readonly></v-text-field>
               </v-flex>
             </v-layout>
             <v-layout row>
               <v-flex xs12>
-                <v-text-field
-                  v-model="email"
-                  label="Email"
-                  name="email"
-                  readonly
-                ></v-text-field>
+                <v-text-field v-model="email" label="Email" name="email" readonly></v-text-field>
               </v-flex>
             </v-layout>
             <v-layout row>
               <v-flex xs12>
-                <v-text-field
-                  v-model="role"
-                  label="Role"
-                  name="Role"
-                  :rules="roleRules"
-                ></v-text-field>
+                <v-text-field v-model="role" label="Role" name="Role" :rules="roleRules"></v-text-field>
               </v-flex>
             </v-layout>
             <v-btn @click="updateProfile" color="primary">Update</v-btn>
