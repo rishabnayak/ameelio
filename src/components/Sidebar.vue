@@ -1,17 +1,9 @@
 <template>
-  <div>
-    <v-navigation-drawer
-      id="drawer"
-      app
-      dark
-      width="20%"
-      class="blue"
-      :mini-variant.sync="mini"
-      permanent
-    >
-      <v-img v-if="!mini" src="@/assets/logo.png" height="40" contain />
-      <v-img v-else src="@/assets/logo_mini.png" height="35" contain />
-      <v-list-item>
+  <nav>
+    <v-navigation-drawer id="drawer" app dark class="blue" :mini-variant.sync="mini" permanent>
+      <v-img v-if="!mini" src="@/assets/logo.png" height="40" contain @click="home" />
+      <v-img v-else src="@/assets/logo_mini.png" height="35" contain @click="home" />
+      <v-list-item @click="profile">
         <v-list-item-avatar>
           <v-img :src="photoURL"></v-img>
         </v-list-item-avatar>
@@ -50,9 +42,10 @@
         </v-list>
       </template>
     </v-navigation-drawer>
-  </div>
+  </nav>
 </template>
 <script>
+import { log } from "util";
 export default {
   name: "Sidebar",
   computed: {
@@ -85,10 +78,18 @@ export default {
       this.$router.push("/login");
     },
     home() {
-      this.$router.push("/");
+      if (this.$route.path == "/") {
+        return;
+      } else {
+        this.$router.push("/");
+      }
     },
     profile() {
-      this.$router.push("/profile");
+      if (this.$route.path == "/profile") {
+        return;
+      } else {
+        this.$router.push("/profile");
+      }
     }
   }
 };

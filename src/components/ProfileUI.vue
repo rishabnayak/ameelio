@@ -19,7 +19,8 @@
             </v-layout>
             <v-layout row>
               <v-flex xs12>
-                <v-text-field v-model="role" label="Role" name="Role" :rules="roleRules"></v-text-field>
+                <v-select v-if="role == null" :items="roles" label="User Role" v-model="role" :rules="roleRules"></v-select>
+                <v-text-field v-else label="User Role" v-model="role" :disabled=true></v-text-field>
               </v-flex>
             </v-layout>
             <v-btn @click="updateProfile" color="primary">Update</v-btn>
@@ -45,7 +46,8 @@ export default {
       role: null,
       email: null,
       valid: false,
-      roleRules: [val => !!val || "Role Required"]
+      roleRules: [val => !!val || "Role Required"],
+      roles:["Friends and Family", "Inmate"]
     };
   },
   mounted() {

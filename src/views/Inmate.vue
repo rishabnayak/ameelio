@@ -70,11 +70,3 @@ export default {
   }
 };
 </script>
-
-
-
-<style scoped>
-* {
-  margin-left: 20px;
-}
-</style>
