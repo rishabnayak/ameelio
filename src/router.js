@@ -13,15 +13,15 @@ const router = new Router({
       name: "external",
       component: () => import("./views/External.vue"),
       meta: {
-        requiresAuth: false
+        requiresAuth: true
       }
     },
     {
-      path: "/external",
-      name: "external",
-      component: () => import("./views/External.vue"),
+      path: "/profile",
+      name: "profile",
+      component: () => import("./views/Profile.vue"),
       meta: {
-        requiresAuth: false
+        requiresAuth: true
       }
     },
     {
@@ -29,7 +29,7 @@ const router = new Router({
       name: "inmate",
       component: () => import("./views/Inmate.vue"),
       meta: {
-        requiresAuth: false
+        requiresAuth: true
       }
     },
     {
@@ -37,7 +37,7 @@ const router = new Router({
       name: "addContactForm",
       component: () => import("./views/AddContactForm.vue"),
       meta: {
-        requiresAuth: false
+        requiresAuth: true
       }
     },
 
@@ -54,12 +54,12 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some(rec => rec.meta.requiresAuth)) {
-    let user = store.state.user;
+    let user = store.state.user
     if (user) {
       if (to.name == "profile") {
         next();
       } else {
-        if (user.companyName) {
+        if (user.role) {
           next();
         } else {
           next({
@@ -67,14 +67,14 @@ router.beforeEach((to, from, next) => {
           });
         }
       }
-    } else {
-      next({
-        name: "login"
-      });
     }
-  } else {
-    next();
+    else {
+      next({ name: 'login' })
+    }
   }
-});
+  else {
+    next()
+  }
+})
 
 export default router;

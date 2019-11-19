@@ -7,6 +7,7 @@ import vuetify from './plugins/vuetify';
 import firebase from "firebase";
 import "firebase/auth";
 import "firebaseui/dist/firebaseui.css";
+
 Vue.config.productionTip = false
 var app = null;
 firebase.auth().onAuthStateChanged(async () => {

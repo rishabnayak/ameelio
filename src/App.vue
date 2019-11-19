@@ -1,18 +1,17 @@
 <template>
   <v-app>
-    <!-- <navigationBar /> -->
+    <Sidebar />
     <router-view />
   </v-app>
 </template>
 
 <script>
-import Calendar from './components/Calendar';
+import Sidebar from "@/components/Sidebar.vue";
 
-// import navigationBar from "@/components/NavigationBar.vue";
 export default {
   name: 'App',
   components: {
-    Calendar,
+    Sidebar
   },
   data: () => ({
     //
