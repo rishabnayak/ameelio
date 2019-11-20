@@ -37,6 +37,15 @@ export default new Vuex.Store({
         context.commit("setUser", raid.data());
       }
     },
+    getUser: async context => {
+      const user = firebase.auth().currentUser;
+      if (!user) {
+        return;
+      }
+      const mydb = db.collection("users").doc(user.uid);
+      var raid = await mydb.get();
+      context.commit("setUser", raid.data());
+    },
     logOut: async context => {
       await firebase.auth().signOut();
       context.commit("setUser", null);

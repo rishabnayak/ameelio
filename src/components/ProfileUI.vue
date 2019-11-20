@@ -33,6 +33,7 @@
 
 <script>
 import { db } from "../firebase/init";
+import store from '../store';
 export default {
   name: "profileUI",
   computed: {
@@ -50,7 +51,8 @@ export default {
       roles:["Friends and Family", "Inmate"]
     };
   },
-  mounted() {
+  async mounted() {
+    await store.dispatch("getUser");
     this.name = this.user.displayName;
     this.role = this.user.role;
     this.email = this.user.email;
