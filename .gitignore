@@ -3,6 +3,8 @@ node_modules
 /dist
 # /src/firebase
 /src/stripe
+firebase-debug.log
+/functions/firebase-debug.log
 
 # local env files
 .env.local
