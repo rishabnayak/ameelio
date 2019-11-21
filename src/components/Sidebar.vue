@@ -18,12 +18,17 @@
      height="35"
      contain
    />
+   <v-list-item v-if="!mini">
+     <v-list-item-avatar size="100">
+   <v-img src="@/assets/profile_placeholder.png"></v-img>
+   </v-list-item-avatar>
+   </v-list-item>
    <v-list-item>
-     <v-list-item-avatar>
-       <v-img src="@/assets/profile_placeholder.png"></v-img>
-     </v-list-item-avatar>
+       <v-list-item-avatar v-if="mini">
+   <v-img src="@/assets/profile_placeholder.png"></v-img>
+   </v-list-item-avatar>
      <v-list-item-content>
-       <v-list-item-title><h4>{{name}}</h4></v-list-item-title>
+       <v-list-item-title><h1>{{name}}</h1></v-list-item-title>
      </v-list-item-content>
      <v-btn
        icon
