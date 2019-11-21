@@ -137,8 +137,9 @@ export default {
       day: "Day",
       "4day": "4 Days"
     },
+    contacts: ['Foo', 'Bar', 'Fizz', 'Buzz'], //temporary contacts
     name: null,
-    //details: null,
+    details: null,
     start: null,
     // start: null,
     startTime: null,
@@ -188,9 +189,17 @@ export default {
     }
   },
   methods: {
+<<<<<<< HEAD
     async getEvents() {
       let snapshot = await db.collection("calEvent").get();
       let events = [];
+=======
+    allowedHours: v => v % 2,
+
+    async getEvents () {
+      let snapshot = await db.collection('calEvent').get()
+      let events = []
+>>>>>>> addingContactFirebase
       snapshot.forEach(doc => {
         let appData = doc.data();
         console.log(appData);
