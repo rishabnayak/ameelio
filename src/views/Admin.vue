@@ -16,27 +16,19 @@
 
 <script>
 import Requests from "../components/Requests";
-import modal from "../components/Modal";
-import popUp from "../components/popUp";
 import Calendar from "../components/Calendar";
-import AddContact from "../components/AddContact";
 
 export default {
   name: "admin",
   components: {
     Requests,
-    modal,
-    popUp,
     Calendar,
-    AddContact
   },
   data() {
     return {
       isExpanded: false,
       calendarDate: new Date().toISOString().substr(0, 10),
       calendarTime: null,
-      isModalVisible: false,
-      contacts: ["Louis", "Amelia", "etc."],
       mainHeadersContacts: [
         { text: "Inmate", value: "name" },
         { text: "Location", value: "location" },
@@ -56,12 +48,6 @@ export default {
     };
   },
   methods: {
-    showModal() {
-      this.isModalVisible = true;
-    },
-    closeModal() {
-      this.isModalVisible = false;
-    }
   }
 };
 </script>

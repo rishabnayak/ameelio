@@ -4,6 +4,7 @@
       <v-toolbar flat color="white">
         <div v-if="defaultMenu">
           <v-btn color="primary" dark @click.stop="dialog = true">Schedule A Call</v-btn>
+          <v-btn color="primary" dark @click="contactDialog = true">Add Contact</v-btn>
         </div>
         <v-btn outlined class="mr-4" @click="setToday">Today</v-btn>
         <v-btn fab text small @click="prev">
