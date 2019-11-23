@@ -1,112 +1,38 @@
-[debug] [2019-11-13T22:33:31.146Z] ----------------------------------------------------------------------
-[debug] [2019-11-13T22:33:31.147Z] Command:       /usr/local/bin/node /usr/local/bin/firebase serve
-[debug] [2019-11-13T22:33:31.147Z] CLI Version:   7.6.1
-[debug] [2019-11-13T22:33:31.148Z] Platform:      darwin
-[debug] [2019-11-13T22:33:31.148Z] Node Version:  v10.16.3
-[debug] [2019-11-13T22:33:31.148Z] Time:          Wed Nov 13 2019 17:33:31 GMT-0500 (Eastern Standard Time)
-[debug] [2019-11-13T22:33:31.148Z] ----------------------------------------------------------------------
-[debug] [2019-11-13T22:33:31.148Z] 
-[debug] [2019-11-13T22:33:31.156Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
-[debug] [2019-11-13T22:33:31.156Z] > authorizing via signed-in user
-[debug] [2019-11-13T22:33:31.157Z] [iam] checking project ameelio-badeb for permissions ["firebase.projects.get"]
-[debug] [2019-11-13T22:33:31.158Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/ameelio-badeb:testIamPermissions  
+[debug] [2019-11-23T16:23:13.580Z] ----------------------------------------------------------------------
+[debug] [2019-11-23T16:23:13.581Z] Command:       /usr/local/bin/node /usr/local/bin/firebase serve
+[debug] [2019-11-23T16:23:13.582Z] CLI Version:   7.6.1
+[debug] [2019-11-23T16:23:13.582Z] Platform:      darwin
+[debug] [2019-11-23T16:23:13.582Z] Node Version:  v10.16.3
+[debug] [2019-11-23T16:23:13.582Z] Time:          Sat Nov 23 2019 11:23:13 GMT-0500 (Eastern Standard Time)
+[debug] [2019-11-23T16:23:13.582Z] ----------------------------------------------------------------------
+[debug] [2019-11-23T16:23:13.583Z] 
+[debug] [2019-11-23T16:23:13.591Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2019-11-23T16:23:13.591Z] > authorizing via signed-in user
+[debug] [2019-11-23T16:23:13.591Z] [iam] checking project ameelio-badeb for permissions ["firebase.projects.get"]
+[debug] [2019-11-23T16:23:13.592Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/ameelio-badeb:testIamPermissions  
 
-[debug] [2019-11-13T22:33:31.410Z] <<< HTTP RESPONSE 200
-[debug] [2019-11-13T22:33:31.412Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/ameelio-badeb  
+[debug] [2019-11-23T16:23:13.840Z] <<< HTTP RESPONSE 200
+[debug] [2019-11-23T16:23:13.842Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/ameelio-badeb  
  
-[debug] [2019-11-13T22:33:31.649Z] <<< HTTP RESPONSE 200
+[debug] [2019-11-23T16:23:14.078Z] <<< HTTP RESPONSE 200
 [info] 
 [info] === Serving from '/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio'...
 [info] 
-[debug] [2019-11-13T22:33:31.654Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/ameelio-badeb/webApps/-/config  
+[debug] [2019-11-23T16:23:14.081Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/ameelio-badeb/webApps/-/config  
  
 [info] ✔  functions: Using node@10 from host.
 [info] ✔  functions: Emulator started at http://localhost:5001
-[debug] [2019-11-13T22:33:31.979Z] <<< HTTP RESPONSE 200
+[debug] [2019-11-23T16:23:14.531Z] <<< HTTP RESPONSE 200
 [info] i  functions: Watching "/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/functions" for Cloud Functions...
 [info] i  hosting: Serving hosting files from: dist
 [info] ✔  hosting: Local server: http://localhost:5000
-[debug] [2019-11-13T22:33:32.217Z] [runtime-status] Functions runtime initialized. {"cwd":"/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/functions","node_version":"10.16.3"}
-[debug] [2019-11-13T22:33:32.217Z] [runtime-status] Disabled runtime features: {"functions_config_helper":true,"network_filtering":true,"timeout":true,"memory_limiting":true,"admin_stubs":true} {}
-[debug] [2019-11-13T22:33:32.219Z] [runtime-status] Resolved module firebase-admin {"declared":true,"installed":true,"version":"8.7.0","resolution":"/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/node_modules/firebase-admin/lib/index.js"}
-[debug] [2019-11-13T22:33:32.220Z] [runtime-status] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/node_modules/firebase-functions/lib/index.js"}
-[debug] [2019-11-13T22:33:32.221Z] [runtime-status] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/node_modules/firebase-functions/lib/index.js"}
-[warn] ⚠  FirebaseError: Firebase: No Firebase App '[DEFAULT]' has been created - call Firebase App.initializeApp() (app/no-app).
-    at app (/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/node_modules/@firebase/app/dist/index.node.cjs.js:365:33)
-    at Object.serviceNamespace [as database] (/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/node_modules/@firebase/app/dist/index.node.cjs.js:429:47)
-    at Object.<anonymous> (/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/functions/index.js:39:19)
-    at Module._compile (internal/modules/cjs/loader.js:778:30)
-    at Object.Module._extensions..js (internal/modules/cjs/loader.js:789:10)
-    at Module.load (internal/modules/cjs/loader.js:653:32)
-    at tryModuleLoad (internal/modules/cjs/loader.js:593:12)
-    at Function.Module._load (internal/modules/cjs/loader.js:585:3)
-    at Module.require (internal/modules/cjs/loader.js:692:17)
-    at require (internal/modules/cjs/helpers.js:25:18)
-[warn] ⚠  We were unable to load your functions code. (see above)
-[debug] [2019-11-13T22:34:11.246Z] File /Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/functions/index.js changed, reloading triggers
-[debug] [2019-11-13T22:34:12.491Z] [runtime-status] Functions runtime initialized. {"cwd":"/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/functions","node_version":"10.16.3"}
-[debug] [2019-11-13T22:34:12.491Z] [runtime-status] Disabled runtime features: {"functions_config_helper":true,"network_filtering":true,"timeout":true,"memory_limiting":true,"admin_stubs":true} {}
-[debug] [2019-11-13T22:34:12.493Z] [runtime-status] Resolved module firebase-admin {"declared":true,"installed":true,"version":"8.7.0","resolution":"/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/node_modules/firebase-admin/lib/index.js"}
-[debug] [2019-11-13T22:34:12.494Z] [runtime-status] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/node_modules/firebase-functions/lib/index.js"}
-[debug] [2019-11-13T22:34:12.495Z] [runtime-status] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/node_modules/firebase-functions/lib/index.js"}
-[warn] ⚠  TypeError: Cannot read property 'databaseURL' of undefined
-    at RepoManager.databaseFromApp (/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/node_modules/@firebase/database/dist/index.node.cjs.js:14744:39)
-    at Object.instance.INTERNAL.registerService.Reference [as database] (/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/node_modules/@firebase/database/dist/index.node.cjs.js:15130:130)
-    at FirebaseAppImpl._getService (/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/node_modules/@firebase/app/dist/index.node.cjs.js:194:66)
-    at FirebaseAppImpl.firebaseAppImpl.(anonymous function) [as database] (/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/node_modules/@firebase/app/dist/index.node.cjs.js:461:35)
-    at Object.serviceNamespace [as database] (/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/node_modules/@firebase/app/dist/index.node.cjs.js:440:32)
-    at Object.<anonymous> (/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/functions/index.js:40:19)
-    at Module._compile (internal/modules/cjs/loader.js:778:30)
-    at Object.Module._extensions..js (internal/modules/cjs/loader.js:789:10)
-    at Module.load (internal/modules/cjs/loader.js:653:32)
-    at tryModuleLoad (internal/modules/cjs/loader.js:593:12)
-[warn] ⚠  We were unable to load your functions code. (see above)
-[debug] [2019-11-13T22:35:03.481Z] ----------------------------------------------------------------------
-[debug] [2019-11-13T22:35:03.482Z] Command:       /usr/local/bin/node /usr/local/bin/firebase serve
-[debug] [2019-11-13T22:35:03.482Z] CLI Version:   7.6.1
-[debug] [2019-11-13T22:35:03.482Z] Platform:      darwin
-[debug] [2019-11-13T22:35:03.482Z] Node Version:  v10.16.3
-[debug] [2019-11-13T22:35:03.483Z] Time:          Wed Nov 13 2019 17:35:03 GMT-0500 (Eastern Standard Time)
-[debug] [2019-11-13T22:35:03.483Z] ----------------------------------------------------------------------
-[debug] [2019-11-13T22:35:03.483Z] 
-[debug] [2019-11-13T22:35:03.489Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
-[debug] [2019-11-13T22:35:03.489Z] > authorizing via signed-in user
-[debug] [2019-11-13T22:35:03.489Z] [iam] checking project ameelio-badeb for permissions ["firebase.projects.get"]
-[debug] [2019-11-13T22:35:03.491Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
-[debug] [2019-11-13T22:35:03.491Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
- <request body omitted>
-[debug] [2019-11-13T22:35:03.643Z] <<< HTTP RESPONSE 200
-[debug] [2019-11-13T22:35:03.659Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/ameelio-badeb:testIamPermissions  
-
-[debug] [2019-11-13T22:35:03.876Z] <<< HTTP RESPONSE 200
-[debug] [2019-11-13T22:35:03.877Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/ameelio-badeb  
- 
-[debug] [2019-11-13T22:35:04.103Z] <<< HTTP RESPONSE 200
-[info] 
-[info] === Serving from '/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio'...
-[info] 
-[debug] [2019-11-13T22:35:04.107Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/ameelio-badeb/webApps/-/config  
- 
-[info] ✔  functions: Using node@10 from host.
-[info] ✔  functions: Emulator started at http://localhost:5001
-[debug] [2019-11-13T22:35:04.522Z] <<< HTTP RESPONSE 200
-[info] i  functions: Watching "/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/functions" for Cloud Functions...
-[info] i  hosting: Serving hosting files from: dist
-[info] ✔  hosting: Local server: http://localhost:5000
-[debug] [2019-11-13T22:35:04.763Z] [runtime-status] Functions runtime initialized. {"cwd":"/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/functions","node_version":"10.16.3"}
-[debug] [2019-11-13T22:35:04.763Z] [runtime-status] Disabled runtime features: {"functions_config_helper":true,"network_filtering":true,"timeout":true,"memory_limiting":true,"admin_stubs":true} {}
-[debug] [2019-11-13T22:35:04.765Z] [runtime-status] Resolved module firebase-admin {"declared":true,"installed":true,"version":"8.7.0","resolution":"/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/node_modules/firebase-admin/lib/index.js"}
-[debug] [2019-11-13T22:35:04.766Z] [runtime-status] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/node_modules/firebase-functions/lib/index.js"}
-[debug] [2019-11-13T22:35:04.766Z] [runtime-status] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/node_modules/firebase-functions/lib/index.js"}
-[warn] ⚠  TypeError: Cannot read property 'databaseURL' of undefined
-    at RepoManager.databaseFromApp (/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/node_modules/@firebase/database/dist/index.node.cjs.js:14744:39)
-    at Object.instance.INTERNAL.registerService.Reference [as database] (/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/node_modules/@firebase/database/dist/index.node.cjs.js:15130:130)
-    at FirebaseAppImpl._getService (/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/node_modules/@firebase/app/dist/index.node.cjs.js:194:66)
-    at FirebaseAppImpl.firebaseAppImpl.(anonymous function) [as database] (/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/node_modules/@firebase/app/dist/index.node.cjs.js:461:35)
-    at Object.serviceNamespace [as database] (/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/node_modules/@firebase/app/dist/index.node.cjs.js:440:32)
-    at Object.<anonymous> (/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/functions/index.js:40:19)
-    at Module._compile (internal/modules/cjs/loader.js:778:30)
-    at Object.Module._extensions..js (internal/modules/cjs/loader.js:789:10)
-    at Module.load (internal/modules/cjs/loader.js:653:32)
-    at tryModuleLoad (internal/modules/cjs/loader.js:593:12)
-[warn] ⚠  We were unable to load your functions code. (see above)
+[debug] [2019-11-23T16:23:14.776Z] [runtime-status] Functions runtime initialized. {"cwd":"/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/functions","node_version":"10.16.3"}
+[debug] [2019-11-23T16:23:14.777Z] [runtime-status] Disabled runtime features: {"functions_config_helper":true,"network_filtering":true,"timeout":true,"memory_limiting":true,"admin_stubs":true} {}
+[debug] [2019-11-23T16:23:14.779Z] [runtime-status] Resolved module firebase-admin {"declared":true,"installed":true,"version":"8.8.0","resolution":"/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2019-11-23T16:23:14.781Z] [runtime-status] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2019-11-23T16:23:14.781Z] [runtime-status] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/functions/node_modules/firebase-functions/lib/index.js"}
+[info] >  this ran
+[info] ✔  functions[addMessage]: http function initialized (http://localhost:5001/ameelio-badeb/us-central1/addMessage).
+[info] ✔  functions[returnSimpleValue]: http function initialized (http://localhost:5001/ameelio-badeb/us-central1/returnSimpleValue).
+[info] ✔  functions[addToDatabase]: http function initialized (http://localhost:5001/ameelio-badeb/us-central1/addToDatabase).
+[info] ✔  functions[pushTest]: http function initialized (http://localhost:5001/ameelio-badeb/us-central1/pushTest).
