@@ -67,7 +67,11 @@ export default {
           })
           .then(() => {
             this.$store.dispatch("setUser").then(() => {
-              this.$router.push("/");
+              if (this.role == "Inmate") {
+                this.$router.push("/inmate");
+              } else {
+                this.$router.push("/external");
+              }
             });
           });
       }

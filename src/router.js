@@ -13,7 +13,7 @@ const router = new Router({
       name: "home",
       component: () => import("./views/Home.vue"),
       meta: {
-        requiresAuth: false
+        requiresAuth: true
       }
     },
     {
@@ -36,14 +36,6 @@ const router = new Router({
       path: "/inmate",
       name: "inmate",
       component: () => import("./views/Inmate.vue"),
-      meta: {
-        requiresAuth: true
-      }
-    },
-    {
-      path: "/add-contact-form",
-      name: "addContactForm",
-      component: () => import("./views/AddContactForm.vue"),
       meta: {
         requiresAuth: true
       }
