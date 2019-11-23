@@ -1,7 +1,19 @@
-
 const admin = require('firebase-admin');
 const functions = require('firebase-functions');
+admin.initializeApp();
+const db = admin.firestore();
 
+module.exports.addToDatabase = functions.https.onRequest((req, res) => {
+  let data = {
+    name: 'Los Angeles',
+    state: 'CA',
+    country: 'USA'
+  };
+
+  db.collection('users').doc('LA').set(data).catch((err) => {
+    console.log(err)
+  });
+});
 
 /**
 * Begin the code where I really parse the csv and do work
@@ -90,59 +102,6 @@ function CSVToArray( strData, strDelimiter ){
  // Return the parsed data.
  return( arrData );
 }
-
-
-module.exports.addToDatabase = functions.https.onRequest((req, res) => {
- // [END trigger]
- // [START sendError]
- // Forbidding PUT requests.
- 
- /*if (req.method === 'PUT') {
-   return res.status(403).send('Forbidden!');
- }*/
- // [END sendError]
- 
- admin.initializeApp(functions.config().firebase);
- 
- let db1 = admin.firestore();
- 
- let docRef = db1.collection('test').doc('alovelace');
- 
- let setAda = docRef.set({
-   first: 'Ada',
-   last: 'Lovelace',
-   born: 1815
- });
- 
- db1.collection('users').get()
-   .then((snapshot) => {
-     snapshot.forEach((doc) => {
-       console.log(doc.id, '=>', doc.data());
-     });
-   })
-   .catch((err) => {
-     console.log('Error getting documents', err);
-   });
-
-
-
- const rawBody = req.rawBody
- let data = {
-   name: 'Los Angeles',
-   state: 'CA',
-   country: 'USA'
- };
- 
- // Add a new document in collection "cities" with ID 'LA'
- let setDoc = db1.collection('users').doc('LA').set(data).catch((err) =>  {
-   console.log(err)
- });
- 
-   const formattedDate = req.query.this;
-   res.status(200).send(formattedDate);
-   // [END sendResponse]
-});
-
 
 module.exports.pushTest = functions.https.onRequest((req, res) => {
  // [END trigger]
