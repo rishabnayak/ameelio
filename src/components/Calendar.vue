@@ -2,9 +2,8 @@
   <div>
     <v-sheet height="64">
       <v-toolbar flat color="white">
-        <v-btn color="primary" dark @click.stop="dialog = true"
-          >Schedule A Call</v-btn
-        >
+        <v-btn color="primary" dark @click.stop="dialog = true">Schedule Call</v-btn>
+        <v-btn color="primary" dark @click="contactDialog = true">Add Contact</v-btn>
         <v-btn outlined class="mr-4" @click="setToday">Today</v-btn>
         <v-btn fab text small @click="prev">
           <v-icon small>mdi-chevron-left</v-icon>
@@ -38,6 +37,13 @@
         </v-menu>
       </v-toolbar>
     </v-sheet>
+    <v-dialog v-model="contactDialog" max-width="500">
+      <v-card>
+        <v-container>
+          <AddContact />
+        </v-container>
+      </v-card>
+    </v-dialog>
     <v-dialog v-model="dialog" max-width="500">
       <v-card>
         <v-container>
@@ -47,11 +53,7 @@
               v-model="name"
               label="Select a person from your contacts (required)"
             ></v-select>
-            <v-text-field
-              v-model="start"
-              type="date"
-              label="Date (required)"
-            ></v-text-field>
+            <v-text-field v-model="start" type="date" label="Date (required)"></v-text-field>
             <v-row justify="center">
               <v-time-picker
                 v-model="startTime"
@@ -69,8 +71,7 @@
               color="primary"
               class="mr-4"
               @click.stop="dialog = false"
-              >create event</v-btn
-            >
+            >create event</v-btn>
           </v-form>
         </v-container>
       </v-card>
@@ -94,7 +95,6 @@
         v-model="selectedOpen"
         :close-on-content-click="false"
         :activator="selectedElement"
-        full-width
         offset-x
       >
         <v-card color="grey lighten-4" :width="350" flat>
@@ -106,9 +106,7 @@
             <div class="flex-grow-1"></div>
           </v-toolbar>
           <v-card-text>
-            <form v-if="currentlyEditing !== selectedEvent.id">
-              {{ selectedEvent.details }}
-            </form>
+            <form v-if="currentlyEditing !== selectedEvent.id">{{ selectedEvent.details }}</form>
             <form v-else>
               <textarea-autosize
                 v-model="selectedEvent.details"
@@ -120,22 +118,13 @@
             </form>
           </v-card-text>
           <v-card-actions>
-            <v-btn text color="secondary" @click="selectedOpen = false"
-              >close</v-btn
-            >
+            <v-btn text color="secondary" @click="selectedOpen = false">close</v-btn>
             <v-btn
               v-if="currentlyEditing !== selectedEvent.id"
               text
               @click.prevent="editEvent(selectedEvent)"
-              >edit</v-btn
-            >
-            <v-btn
-              text
-              v-else
-              type="submit"
-              @click.prevent="updateEvent(selectedEvent)"
-              >Save</v-btn
-            >
+            >edit</v-btn>
+            <v-btn text v-else type="submit" @click.prevent="updateEvent(selectedEvent)">Save</v-btn>
           </v-card-actions>
         </v-card>
       </v-menu>
@@ -144,7 +133,12 @@
 </template>
 <script>
 import { db } from "@/main";
+import AddContact from "../components/AddContact";
+
 export default {
+  components: {
+    AddContact
+  },
   data: () => ({
     today: new Date().toISOString().substr(0, 10),
     focus: new Date().toISOString().substr(0, 10),
@@ -159,17 +153,14 @@ export default {
     name: null,
     details: null,
     start: null,
-    // start: null,
     startTime: null,
-    //endTime:null,
-    //end: null,
-    //color: '#1976D2', // default event color
     currentlyEditing: null,
     selectedEvent: {},
     selectedElement: null,
     selectedOpen: false,
     events: [],
-    dialog: false
+    dialog: false,
+    contactDialog: false
   }),
   mounted() {
     this.getEvents();
@@ -305,3 +296,18 @@ export default {
   }
 };
 </script>
+
+<style>
+.popUp {
+  width: 50%;
+}
+
+button {
+  background-color: #ff6666;
+  color: white;
+  padding: 10px;
+  border-radius: 10px;
+  margin: 10px;
+  display: inline;
+}
+</style>
