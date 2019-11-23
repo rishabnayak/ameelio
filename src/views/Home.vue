@@ -43,13 +43,10 @@
 
       </v-container>
 
-
-      </v-container>
     </template>
   </Sidebar>
-  
+  <CSVParsing />
   </div>
-</div>
 </template>
 
 
@@ -61,6 +58,7 @@ import popUp from '../components/popUp'
 import Calendar from '../components/Calendar'
 import AddContact from '../components/AddContact'
 import Sidebar from '../components/Sidebar'
+import CSVParsing from '../components/CSVParsing'
 // import HelloWorld from './HelloWorld.vue'
 export default {
   name: 'home',
@@ -70,7 +68,8 @@ export default {
     popUp,
     Calendar,
     AddContact,
-    Sidebar
+    Sidebar,
+    CSVParsing
     // HelloWorld
   },
   data (){
