@@ -205,7 +205,7 @@ export default {
       let events = [];
       snapshot.forEach(doc => {
         let appData = doc.data();
-        console.log(appData);
+        // console.log(appData);
         appData.id = doc.id;
         events.push(appData);
       });
