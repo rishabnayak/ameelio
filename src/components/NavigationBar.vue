@@ -56,7 +56,11 @@
       <v-icon v-if="user" @click="signOut()">power</v-icon>
       <v-icon v-else @click="signIn()">logout</v-icon>
     </v-btn>
+<<<<<<< Updated upstream
   </v-toolbar> -->
+=======
+  </v-toolbar>-->
+>>>>>>> Stashed changes
 </template>
 
 <script>
@@ -65,7 +69,11 @@ export default {
   computed: {
     user() {
       return this.$store.state.user;
+<<<<<<< Updated upstream
     },
+=======
+    }
+>>>>>>> Stashed changes
   },
   methods: {
     async signOut() {

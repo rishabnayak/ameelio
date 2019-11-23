@@ -23,4 +23,3 @@ firebase.auth().onAuthStateChanged(async () => {
 });
 export const db = firebase.firestore();
 
-
