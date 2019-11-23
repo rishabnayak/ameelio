@@ -22,7 +22,6 @@ export default {
     Sidebar
   },
   data: () => ({
-    //
     adminItems: [
       { title: "Requests", icon: "mdi-view-list" },
       { title: "Calendar", icon: "mdi-calendar" }
