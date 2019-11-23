@@ -29,16 +29,30 @@ files.forEach(file => {
 //GK: Google code which I think initializes the database for use on the backend
 //
 
-// The Cloud Functions for Firebase SDK to create Cloud Functions and setup triggers.
+const admin = require('firebase-admin');
 const functions = require('firebase-functions');
-// The Firebase Admin SDK to access the Firebase Realtime Database.
-//const admin = require('firebase-admin');
-//admin.initializeApp();
 
-var firebase = require("firebase")
-firebase.initializeApp()
-var db = firebase.database();
+admin.initializeApp(functions.config().firebase);
 
+let db1 = admin.firestore();
+
+let docRef = db1.collection('test').doc('alovelace');
+
+let setAda = docRef.set({
+  first: 'Ada',
+  last: 'Lovelace',
+  born: 1815
+});
+
+db1.collection('users').get()
+  .then((snapshot) => {
+    snapshot.forEach((doc) => {
+      console.log(doc.id, '=>', doc.data());
+    });
+  })
+  .catch((err) => {
+    console.log('Error getting documents', err);
+  });
 
 console.log("this ran")
 
@@ -187,7 +201,7 @@ exports.addToDatabase = functions.https.onRequest((req, res) => {
   };
   
   // Add a new document in collection "cities" with ID 'LA'
-  let setDoc = db.collection('cities').doc('LA').set(data);
+  let setDoc = db1.collection('users').doc('LA').set(data);
   
     const formattedDate = req.query.this;
     res.status(200).send(formattedDate);
