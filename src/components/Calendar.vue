@@ -38,6 +38,13 @@
         </v-menu>
       </v-toolbar>
     </v-sheet>
+    <v-dialog v-model="contactDialog" max-width="500">
+      <v-card>
+        <v-container>
+          <AddContact />
+        </v-container>
+      </v-card>
+    </v-dialog>
     <v-dialog v-model="dialog" max-width="500">
       <v-card>
         <v-container>
@@ -89,7 +96,6 @@
         v-model="selectedOpen"
         :close-on-content-click="false"
         :activator="selectedElement"
-        full-width
         offset-x
       >
         <v-card color="grey lighten-4" :width="350" flat>
@@ -128,7 +134,12 @@
 </template>
 <script>
 import { db } from "@/main";
+import AddContact from "../components/AddContact";
+
 export default {
+  components: {
+    AddContact
+  },
   data: () => ({
     today: new Date().toISOString().substr(0, 10),
     focus: new Date().toISOString().substr(0, 10),
@@ -139,20 +150,18 @@ export default {
       day: "Day",
       "4day": "4 Days"
     },
+    contacts: ["Foo", "Bar", "Fizz", "Buzz"], //temporary contacts
     name: null,
-    //details: null,
+    details: null,
     start: null,
-    // start: null,
     startTime: null,
-    //endTime:null,
-    //end: null,
-    //color: '#1976D2', // default event color
     currentlyEditing: null,
     selectedEvent: {},
     selectedElement: null,
     selectedOpen: false,
     events: [],
-    dialog: false
+    dialog: false,
+    contactDialog: false
   }),
   mounted() {
     this.getEvents();
@@ -193,6 +202,8 @@ export default {
     }
   },
   methods: {
+    allowedHours: v => v % 2,
+
     async getEvents() {
       let snapshot = await db.collection("calEvent").get();
       let events = [];
@@ -289,3 +300,18 @@ export default {
   }
 };
 </script>
+
+<style>
+.popUp {
+  width: 50%;
+}
+
+button {
+  background-color: #ff6666;
+  color: white;
+  padding: 10px;
+  border-radius: 10px;
+  margin: 10px;
+  display: inline;
+}
+</style>

@@ -1,19 +1,13 @@
 <template>
   <div>
-    <Sidebar name="John Doe">
-      <!-- < -->
-      <template v-slot:body>
-        <v-container class="calendar">
-          <h1>Calendar</h1>
-          <Calendar :events="calendarEvents" :height="calendarHeight"></Calendar>
-        </v-container>
-
-        <v-container>
-          <h1>Past Calls</h1>
-          <Appointments :mainHeaders="mainHeadersContacts" :mainItems="mainItemsContacts"></Appointments>
-        </v-container>
-      </template>
-    </Sidebar>
+    <v-container class="calendar">
+      <h1>Calendar</h1>
+      <Calendar />
+    </v-container>
+    <v-container>
+      <h1>Past Calls</h1>
+      <Appointments :mainHeaders="mainHeadersContacts" :mainItems="mainItemsContacts"></Appointments>
+    </v-container>
   </div>
 </template>
 
@@ -22,22 +16,13 @@
 
 <script>
 import Appointments from "../components/Appointments";
-import modal from "../components/Modal";
-import popUp from "../components/popUp";
 import Calendar from "../components/Calendar";
-import AddContact from "../components/AddContact";
-import Sidebar from "../components/Sidebar";
-// import HelloWorld from './HelloWorld.vue'
+
 export default {
   name: "home",
   components: {
     Appointments,
-    modal,
-    popUp,
-    Calendar,
-    AddContact,
-    Sidebar
-    // HelloWorld
+    Calendar
   },
   data() {
     return {

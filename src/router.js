@@ -48,7 +48,6 @@ const router = new Router({
         requiresAuth: true
       }
     },
-
     {
       path: "/login",
       name: "login",
