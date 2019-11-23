@@ -3,7 +3,7 @@
     <v-navigation-drawer id="drawer" app dark class="blue" :mini-variant.sync="mini" permanent>
       <v-img v-if="!mini" src="@/assets/logo.png" height="40" contain @click="home" />
       <v-img v-else src="@/assets/logo_mini.png" height="35" contain @click="home" />
-      <v-divider></v-divider>
+      <v-divider v-if="!mini"></v-divider>
       <v-list-item v-if="!mini" @click="profile">
         <v-list-item-avatar size="100">
           <v-img :src="photoURL"></v-img>
@@ -23,17 +23,6 @@
           <v-icon>mdi-chevron-left</v-icon>
         </v-btn>
       </v-list-item>
-      <v-divider></v-divider>
-      <v-list dense>
-        <v-list-item v-for="item in items" :key="item.title" link>
-          <v-list-item-icon>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>{{ item.title }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
       <template v-slot:append>
         <v-list dense>
           <v-list-item>
@@ -63,10 +52,6 @@ export default {
   data() {
     return {
       drawer: true,
-      items: [
-        { title: "Home", icon: "dashboard", path: "/" },
-        { title: "About", icon: "question_answer" }
-      ],
       mini: true,
       name: null,
       photoURL: null
@@ -117,4 +102,8 @@ h4 {
 .addMargin {
   margin-left: 20%;
 }
+.v-list-item__avatar {
+  margin-left: 5%
+}
+
 </style>
