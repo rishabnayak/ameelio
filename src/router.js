@@ -33,6 +33,14 @@ const router = new Router({
       }
     },
     {
+      path: "/admin",
+      name: "admin",
+      component: () => import("./views/Admin.vue"),
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
       path: "/add-contact-form",
       name: "addContactForm",
       component: () => import("./views/AddContactForm.vue"),

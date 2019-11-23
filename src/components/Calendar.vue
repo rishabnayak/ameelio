@@ -2,7 +2,9 @@
   <div>
     <v-sheet height="64">
       <v-toolbar flat color="white">
-        <v-btn color="primary" dark @click.stop="dialog = true">Schedule A Call</v-btn>
+        <div v-if="defaultMenu">
+          <v-btn color="primary" dark @click.stop="dialog = true">Schedule A Call</v-btn>
+        </div>
         <v-btn outlined class="mr-4" @click="setToday">Today</v-btn>
         <v-btn fab text small @click="prev">
           <v-icon small>mdi-chevron-left</v-icon>
@@ -185,6 +187,9 @@ export default {
         timeZone: "UTC",
         month: "long"
       });
+    },
+    defaultMenu() {
+      return !(this.$route.name === 'admin');
     }
   },
   methods: {

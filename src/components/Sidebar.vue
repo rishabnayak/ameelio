@@ -53,13 +53,16 @@ export default {
       return this.$store.state.user;
     }
   },
+  props: {
+    items: Array,
+  },
   data() {
     return {
       drawer: true,
-      items: [
-        { title: "Home", icon: "dashboard" },
-        { title: "About", icon: "question_answer" }
-      ],
+      // items: [
+      //   { title: "Home", icon: "dashboard" },
+      //   { title: "About", icon: "question_answer" }
+      // ],
       mini: true,
       name: null,
       photoURL: null

@@ -49,7 +49,7 @@ import Calendar from "../components/Calendar";
 import AddContact from "../components/AddContact";
 
 export default {
-  name: "external",
+  name: "admin",
   components: {
     Appointments,
     modal,
