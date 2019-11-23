@@ -10,6 +10,14 @@ const router = new Router({
   routes: [
     {
       path: "/",
+      name: "home",
+      component: () => import("./views/Home.vue"),
+      meta: {
+        requiresAuth: false
+      }
+    },
+    {
+      path: "/external",
       name: "external",
       component: () => import("./views/External.vue"),
       meta: {
