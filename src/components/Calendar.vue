@@ -151,8 +151,10 @@ export default {
     },
     contacts: ["Foo", "Bar", "Fizz", "Buzz"], //temporary contacts
     name: null,
-    details: null,
     start: null,
+    details: null,
+    end: null,
+    color: '#1976D2',
     startTime: null,
     currentlyEditing: null,
     selectedEvent: {},
@@ -166,6 +168,9 @@ export default {
     this.getEvents();
   },
   computed: {
+    userID() {
+      return this.$store.state.user.uid;
+    },
     title() {
       const { start, end } = this;
       if (!start || !end) {
@@ -201,15 +206,15 @@ export default {
     allowedHours: v => v % 2,
 
     async getEvents() {
-      let snapshot = await db.collection("calEvent").get();
+      let snapshot = await db.collection("users").doc(this.userID).collection("calEvent").get();
       let events = [];
       snapshot.forEach(doc => {
         let appData = doc.data();
-        console.log(appData);
         appData.id = doc.id;
         events.push(appData);
       });
       this.events = events;
+      //console.log(this.events);
     },
     viewDay({ date }) {
       this.focus = date;
@@ -229,24 +234,20 @@ export default {
     },
     async addEvent() {
       if (this.name && this.start && this.startTime) {
-        await db.collection("calEvent").add({
-          name: "DUMMY USER",
-          details: this.details,
+        await db.collection("users").doc(this.userID).collection("calEvent").add({
+          name: this.name,
           start: this.start,
           startTime: this.startTime,
-          //endTime: this.endTime,
-          //start: this.start,
-          //end: this.end,
           color: this.color
         });
+        alert("Succeessfully added");
         this.getEvents();
+
         (this.name = ""),
-          //this.details = '',
-          (this.start = ""),
-          (this.startTime = "");
-        //this.endTime = '',
-        //this.end = '',
-        //this.color = ''
+        (this.start = ""),
+        (this.startTime = "");
+        
+        
       } else {
         alert("You must select a contact, a date, and start time");
       }
@@ -255,22 +256,20 @@ export default {
       this.currentlyEditing = ev.id;
     },
     async updateEvent(ev) {
-      await db
-        .collection("calEvent")
-        .doc(this.currentlyEditing)
-        .update({
+      await db.collection("users").doc(this.userID).collection("calEvent").doc(this.currentlyEditing).update({
           details: ev.details
         });
       (this.selectedOpen = false), (this.currentlyEditing = null);
     },
     async deleteEvent(ev) {
-      await db
-        .collection("calEvent")
+  
+      await db.collection("users").doc(this.userID).collection("calEvent")
         .doc(ev)
         .delete();
       (this.selectedOpen = false), this.getEvents();
     },
     showEvent({ nativeEvent, event }) {
+    
       const open = () => {
         this.selectedEvent = event;
         this.selectedElement = nativeEvent.target;
