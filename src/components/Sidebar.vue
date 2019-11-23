@@ -3,16 +3,23 @@
     <v-navigation-drawer id="drawer" app dark class="blue" :mini-variant.sync="mini" permanent>
       <v-img v-if="!mini" src="@/assets/logo.png" height="40" contain @click="home" />
       <v-img v-else src="@/assets/logo_mini.png" height="35" contain @click="home" />
-      <v-list-item @click="profile">
-        <v-list-item-avatar>
+      <v-divider></v-divider>
+      <v-list-item v-if="!mini" @click="profile">
+        <v-list-item-avatar size="100">
+          <v-img :src="photoURL"></v-img>
+        </v-list-item-avatar>
+      </v-list-item>
+      <v-list-item>
+        <v-list-item-avatar v-if="mini">
           <v-img :src="photoURL"></v-img>
         </v-list-item-avatar>
         <v-list-item-content>
-          <v-list-item-title>
-            <h4>{{name}}</h4>
-          </v-list-item-title>
+          <v-list-item-title><h1>{{name}}</h1></v-list-item-title>
         </v-list-item-content>
-        <v-btn icon @click.stop="mini = !mini">
+        <v-btn
+          icon
+          @click.stop="mini = !mini"
+        >
           <v-icon>mdi-chevron-left</v-icon>
         </v-btn>
       </v-list-item>
@@ -57,7 +64,7 @@ export default {
     return {
       drawer: true,
       items: [
-        { title: "Home", icon: "dashboard" },
+        { title: "Home", icon: "dashboard", path: "/" },
         { title: "About", icon: "question_answer" }
       ],
       mini: true,
