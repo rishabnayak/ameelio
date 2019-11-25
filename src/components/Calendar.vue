@@ -148,8 +148,7 @@ export default {
       week: "Week",
       day: "Day",
       "4day": "4 Days"
-    },
-    contacts: ["Foo", "Bar", "Fizz", "Buzz"], //temporary contacts
+    }, //temporary contacts
     name: null,
     start: null,
     details: null,
@@ -168,8 +167,14 @@ export default {
     this.getEvents();
   },
   computed: {
-    userID() {
-      return this.$store.state.user.uid;
+    user() {
+      return this.$store.state.user;
+    },
+    contacts(){
+      var c = this.user.displayName.toString();
+      var all = [c,c,c,c];
+      console.log(c, all);
+      return all;
     },
     title() {
       const { start, end } = this;
@@ -206,7 +211,7 @@ export default {
     allowedHours: v => v,
 
     async getEvents() {
-      let snapshot = await db.collection("users").doc(this.userID).collection("calEvent").get();
+      let snapshot = await db.collection("users").doc(this.user.uid).collection("calEvent").get();
       let events = [];
       snapshot.forEach(doc => {
         let appData = doc.data();
@@ -234,8 +239,9 @@ export default {
     },
     async addEvent() {
       if (this.name && this.start && this.startTime) {
-        await db.collection("users").doc(this.userID).collection("calEvent").add({
-          name: this.name,
+        console.log(this.user.uid)
+        await db.collection("users").doc(this.user.uid).collection("calEvent").add({
+          eventName: (this.name + " " +this.user.displayName),
           start: this.start,
           startTime: this.startTime,
           color: this.color
@@ -256,14 +262,14 @@ export default {
       this.currentlyEditing = ev.id;
     },
     async updateEvent(ev) {
-      await db.collection("users").doc(this.userID).collection("calEvent").doc(this.currentlyEditing).update({
+      await db.collection("users").doc(this.user.uid).collection("calEvent").doc(this.currentlyEditing).update({
           details: ev.details
         });
       (this.selectedOpen = false), (this.currentlyEditing = null);
     },
     async deleteEvent(ev) {
   
-      await db.collection("users").doc(this.userID).collection("calEvent")
+      await db.collection("users").doc(this.user.uid).collection("calEvent")
         .doc(ev)
         .delete();
       (this.selectedOpen = false), this.getEvents();

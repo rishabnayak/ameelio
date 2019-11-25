@@ -7,38 +7,15 @@
       <v-container class='calendar'>
 
         <h1>Calendar</h1>
-        <Calendar :events="calendarEvents" :height="calendarHeight"></Calendar>
-        <popUp>
-          <template v-slot:buttonText>Add a Contact</template>
-          <template v-slot:title><h1>Add a Contact</h1></template>
-          <template v-slot:content>
-            <AddContact />
-          </template>
-        </popUp>
-        <popUp>
-          <template v-slot:buttonText>Schedule a Call</template>
-          <template v-slot:title><h1>Schedule a Call</h1></template>
-          <template v-slot:content>
-            <v-select  :items="contacts" label="Select a person from your contacts"></v-select>
+        <Calendar :height="calendarHeight"></Calendar>
 
-            <!-- <v-row justify="center">
-                <v-date-picker v-model='calendarDate'></v-date-picker>
-            </v-row> -->
-            <v-row justify="center">
-                <v-time-picker v-model="calendarTime"></v-time-picker>
-            </v-row>
-
-          </template>
-        </popUp>
         <!-- <p>{{calendarTime}}</p> -->
       </v-container>
 
       <v-container>
         
         <h1>Past Calls</h1>
-        <Appointments :mainHeaders="mainHeadersContacts"
-                      :mainItems="mainItemsContacts"
-         ></Appointments>
+        <Appointments ></Appointments>
 
 
       </v-container>
@@ -74,34 +51,13 @@ export default {
   },
   data (){
     return{
-      isExpanded: false,
-      calendarDate: new Date().toISOString().substr(0, 10),
-      calendarTime: null,
-      isModalVisible: false,
-      contacts: ['Louis', 'Amelia', 'etc.'],
-      mainHeadersContacts: [
-          { text: 'Name', value: 'name' },
-          { text: 'Date', value: 'date' },
-          { text: 'Time', value: 'time'}
-        ],
-  
-        mainItemsContacts: [
-          { name: 'Marc Moreno', date: 'October 30', time: '3:00pm' },
-          { name: 'Wallace  Frank', date: 'October 31', time: '4:00pm' },
-          { name: 'Enrique  Sanders', date: 'October 23', time: '5:00pm' },
-        ],
      calendarHeight: 500,
 
     }
     
   },
   methods: {
-      showModal() {
-        this.isModalVisible = true;
-      },
-      closeModal() {
-        this.isModalVisible = false;
-      }
+
     },
 };
 </script>
