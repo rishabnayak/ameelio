@@ -1,24 +1,8 @@
 <template>
-<<<<<<< Updated upstream
+
   <div >
-    <!-- <p >{{msg}}</p> -->
-<!-- 
-=======
-  <div>
-    <!-- <p >{{msg}}</p> -->
-    <!-- 
->>>>>>> Stashed changes
-  <v-container>
-      <v-row>
-        <v-col>
-            <p>Hello</p>
-        </v-col>
-      </v-row>
-<<<<<<< Updated upstream
-  </v-container> -->
-=======
-    </v-container>-->
->>>>>>> Stashed changes
+
+    </v-container>
     <v-container>
       <v-data-table :headers="mainHeaders"
                      :items="mainItems"
@@ -42,11 +26,7 @@ export default {
   //         { text: 'Date', value: 'date' },
   //         { text: 'Time', value: 'time'}
   //       ],
-<<<<<<< Updated upstream
-  
-=======
 
->>>>>>> Stashed changes
   //       mainItems: [
   //         { name: 'Marc Moreno', date: 'October 30', time: '3:00pm' },
   //         { name: 'Wallace  Frank', date: 'October 31', time: '4:00pm' },
@@ -80,7 +60,7 @@ export default {
   margin: 0;
   border-radius: 10px;
 }
->>>>>>> Stashed changes
+
 
 /*  *{
     margin: 0;

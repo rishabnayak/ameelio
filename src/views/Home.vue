@@ -57,8 +57,7 @@
 
 <script>
 import Appointments from '../components/Appointments'
-import modal from '../components/Modal'
-import popUp from '../components/popUp'
+
 import Calendar from '../components/Calendar'
 import AddContact from '../components/AddContact'
 import Sidebar from '../components/Sidebar'
@@ -67,8 +66,7 @@ export default {
   name: 'home',
   components: {
     Appointments,
-    modal,
-    popUp,
+
     Calendar,
     AddContact,
     Sidebar
