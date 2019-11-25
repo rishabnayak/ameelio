@@ -55,9 +55,9 @@ module.exports.createCometChatUser = functions.auth.user().onCreate((user) => {
         }
         ]);
 
-    function httpRequest(options, description){
+    async function httpRequest(options, description){
         console.log("on track to ", description, ' with ', options);
-        var req = request(options, function (error, response, body) {
+        var req = await request(options, function (error, response, body) {
                 if (error) throw new Error(error);
                 console.log('the error for', description, ' is: ', error)
                 console.log('the message for', description, ' is: ', response)
