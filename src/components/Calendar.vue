@@ -203,7 +203,7 @@ export default {
     }
   },
   methods: {
-    allowedHours: v => v % 2,
+    allowedHours: v => v,
 
     async getEvents() {
       let snapshot = await db.collection("users").doc(this.userID).collection("calEvent").get();
