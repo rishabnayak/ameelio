@@ -15,7 +15,7 @@
             <v-img :src="photoURL"></v-img>
           </v-list-item-avatar>
           <v-list-item-content>
-            <v-list-item-title><h1>{{name}}</h1></v-list-item-title>
+            <v-list-item-title>{{name}}</v-list-item-title>
           </v-list-item-content>
           <v-btn
             icon
