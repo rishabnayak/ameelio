@@ -1,5 +1,6 @@
 const functions = require("firebase-functions");
 const request = require("request");
+const async = require("async");
 
 module.exports.createCometChatUser = functions.auth.user().onCreate((user) => {
     // user is the firebase user
@@ -35,26 +36,37 @@ module.exports.createCometChatUser = functions.auth.user().onCreate((user) => {
             accept: 'application/json'
         }
     };
-    // creating the user on cometChat
-    request(options, function (error, response, body) {
-        if (error) throw new Error(error);
-    });
+    console.log(' we are registering: ', body);
 
-    // this is creating the user's auth token
-    request(options1, function (error, response, body) {
-        if (error) throw new Error(error);
+    async.waterfall([
+        function firstStep(done){
+            console.log('we are in first step')
+            done(null, httpRequest(options, 'making user'))
 
-        console.log(body);
-    });
+        }, 
+        function secondStep(previousResult, done){
+            console.log('we are in the second step and the previousResult is: ', previousResult);
+            done(null, httpRequest(options1, 'making auth token'));
+        },
+        function thirdStep(previousResult, done){
+            console.log('we are in third step and the previousResult is: ', previousResult);
+            console.log('we are done');
+            done(null);
+        }
+        ]);
 
+    function httpRequest(options, description){
+        console.log("on track to ", description, ' with ', options);
+        var req = request(options, function (error, response, body) {
+                if (error) throw new Error(error);
+                console.log('the error for', description, ' is: ', error)
+                console.log('the message for', description, ' is: ', response)
+                console.log('the body for', description, '  is ', body);
+            });
 
-    var cometChatUser = CometChat.getUser(user.uid).then(
-      cometChatUser => {
-        console.log("User details fetched for user:", user);
-      },
-      error => {
-        console.log("User details fetching failed with error:", error);
-      }
-    );
+        console.log('we have req being: ', req)
+    }
+
+    return true;
 
 });
