@@ -5,6 +5,8 @@
     <div><input v-model="firstname" type="text" placeholder="John" /></div>
     <label for="lastname">Last Name</label>
     <div><input v-model="lastname" type="text" placeholder="Doe" /></div>
+    <label for="inmateID">Inmate ID</label>
+    <div><input v-model="inmateID" type="text" placeholder="0123456789" /></div>
     <label for="birthdate">Birth Date</label>
     <div><input v-model="birthdate" type="date" /></div>
     <label for="location">Place of Incarceration</label>
@@ -37,6 +39,7 @@ export default {
     prisons: null,
     firstname: null,
     lastname: null,
+    inmateID: null,
     birthdate: null,
     location: null,
     race: null,
@@ -62,11 +65,12 @@ export default {
     async addCon() {
       await db
         .collection("test")
-        .doc("shreya.banga@gmail.com")
+        .doc("test@test.com")
         .collection("myInmate")
         .add({
           firstname: this.firstname,
           lastname: this.lastname,
+          inmateID: this.inmateID,
           birthdate: this.birthdate,
           location: this.location,
           race: this.race,
