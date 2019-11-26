@@ -50,7 +50,8 @@ export default {
   name: "Sidebar",
   computed: {
     show() {
-      return !(this.$route.path == '/');
+      console.log(this.$route.path )
+      return !(this.$route.path == '/' || this.$route.path == '/login');
   },
     user(){
       return this.$store.state.user ;
