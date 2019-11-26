@@ -48,6 +48,14 @@ const router = new Router({
         requiresAuth: false
       }
     },
+        {
+      path: "/",
+      name: "videocall",
+      component: () => import("./views/Comet.vue"),
+      meta: {
+        requiresAuth: true
+      }
+    },
   ]
 });
 

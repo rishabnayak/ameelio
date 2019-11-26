@@ -1,6 +1,9 @@
 const functions = require("firebase-functions");
 const request = require("request");
 const async = require("async");
+const admin = require('firebase-admin');
+admin.initializeApp();
+const db = admin.firestore();
 
 module.exports.createCometChatUser = functions.auth.user().onCreate((user) => {
     // user is the firebase user
@@ -50,6 +53,9 @@ module.exports.createCometChatUser = functions.auth.user().onCreate((user) => {
         },
         function thirdStep(previousResult, done){
             console.log('we are in third step and the previousResult is: ', previousResult);
+            done(null, storeFirebase(previousResult.authToken, user.uid));
+        },
+        function fourthStep(previousResult, done){
             console.log('we are done');
             done(null);
         }
@@ -64,7 +70,13 @@ module.exports.createCometChatUser = functions.auth.user().onCreate((user) => {
                 console.log('the body for', description, '  is ', body);
             });
 
-        console.log('we have req being: ', req)
+        console.log('we have the token of the  body being: ', req.body);
+        return req.body;
+    }
+
+    async function storeFirebase(token, uid){
+        let users = await db.collection("users");
+        var specificUser = users.doc(uid).set({authToken: token});
     }
 
     return true;

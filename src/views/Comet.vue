@@ -1,13 +1,11 @@
 <template>
   <div class="home">
      <div id="nav">
-       <button class="btn btn-success" @click="getfirebaseUser()">Get User</button>  
-       <!-- The above button is actually supposed to be a log out for comet but I was debugging -->
     </div>
 
     <div class="form-group">
       <div class="form-group">
-        <p>Welcome <b>{{ this.name }}</b>, your UID is <b>{{ this.cometUsername}}</b> <br>
+        <p>Welcome <b>{{ this.name }}</b>, your comet UID is <b>{{ this.cometUsername}}</b> <br>
         Enter the receiver Id to start a chat </p>
         <p v-if="error">
           <b class="text-danger"> Receiver ID is required </b>
@@ -31,6 +29,7 @@
     </div>
 
     <div id="callScreen"></div>
+    <button class="btn btn-success" @click="logoutUser">Go Back to Home Page</button> 
   </div>
 </template>
 
@@ -44,7 +43,6 @@ export default {
   name: "home",
   data() {
     return {
-      cometUsername: "", // used to sign in to cometchat
       name: "", // for display
       uid: "", 
       session_id: "",
@@ -53,6 +51,14 @@ export default {
       showSpinner: false,
       incomingCall: false,
       ongoingCall: false
+    }
+  },
+  computed: {
+    user() {
+      return this.$store.state.user;
+    },
+    cometUsername() {
+      return this.user.uid;
     }
   },
   created() {
@@ -103,32 +109,20 @@ export default {
           // Outgoing Call Rejected
         },
         onIncomingCallCancelled(call) {
-          console.log("Incoming call calcelled:", call);
+          console.log("Incoming call cancelled:", call);
         }
       })
     );
   },
   methods: {
-    getfirebaseUser(){ // pulling user data
-        var fireUser = firebase.auth().currentUser;
-        if(fireUser != null){
-          this.cometUsername = fireUser.uid;
-          this.name = fireUser.displayName;
-          console.log("firebase user is: ", this.name)
-        } else{
-          console.log("Unable to get user");
-        }
-
-
-    },
     authLoginUser() { // this is to start a video call session
 
-      var apiKey = process.env.VUE_APP_COMMETCHAT_API_KEY;
+      var authToken = this.user.authToken;
       
       this.showSpinner = true;
 
 
-      CometChat.login(this.cometUsername, apiKey).then(
+      CometChat.login(this.cometUsername, authToken).then(
         user => {
           console.log("Login Successful:", { user });
         },
@@ -144,7 +138,7 @@ export default {
           this.uid = user.uid;
         },
         error => {
-          this.$router.push({ name: "cometsign" });
+          this.authLoginUser();
           console.log(error);
         }
       );
