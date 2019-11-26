@@ -2,6 +2,7 @@
   <div>
     <v-sheet height="64">
       <v-toolbar flat color="white">
+        <v-btn color="secondary" dark @click="checkCalls">Join a Call</v-btn>
         <v-btn color="primary" dark @click.stop="dialog = true">Schedule Call</v-btn>
         <v-btn color="primary" dark @click="contactDialog = true">Add Contact</v-btn>
         <v-btn outlined class="mr-4" @click="setToday">Today</v-btn>
@@ -203,6 +204,10 @@ export default {
     }
   },
   methods: {
+    checkCalls() {
+      //console.log("HI!")
+    },
+
     allowedHours: v => v % 2,
 
     async getEvents() {
