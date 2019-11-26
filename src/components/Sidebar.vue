@@ -1,5 +1,5 @@
 <template>
-  <div v-if="user">
+  <div v-if="show">
     <nav>
       <v-navigation-drawer id="drawer" app dark class="blue" :mini-variant.sync="mini" permanent>
         <v-img v-if="!mini" src="@/assets/logo.png" height="40" contain @click="home" />
@@ -45,20 +45,24 @@
 <script>
 import { log } from "util";
 import firebase from '../../firebase'
+
 export default {
   name: "Sidebar",
   computed: {
-    user() {
-      return this.$store.state.user;
-    }
+    show() {
+      return !(this.$route.path == '/');
+  },
+    user(){
+      return this.$store.state.user ;
+    },
   },
   data() {
     return {
       drawer: true,
       mini: true,
       name: null,
-      photoURL: null
-    };
+      photoURL: null,
+    }
   },
   beforeMount() {
     this.name = this.user.displayName;

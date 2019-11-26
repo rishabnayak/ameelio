@@ -7,7 +7,7 @@
                         <v-container>
                             <img src="../assets/logo.png">
                         </v-container>
-                        <v-container>
+                        <v-container v-if="loggedIn">
                     
                             <v-btn x-large text color="white" @click="signIn()">Login</v-btn>
                         </v-container>
@@ -22,6 +22,11 @@
 
 <script>
 export default {
+  computed: {
+    loggedIn() {
+      return !(this.$store.state.user);
+    }
+  },
     data(){
         return {
             bg: 'linear-gradient(180deg, #3DB3EE 13.54%, rgba(255, 255, 255, 0) 99.99%, rgba(64, 159, 227, 0.982353) 100%), #0AA0EA',
