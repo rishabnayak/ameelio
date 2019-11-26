@@ -2,8 +2,12 @@
   <div>
     <v-sheet height="64">
       <v-toolbar flat color="white">
-        <v-btn color="primary" dark @click.stop="dialog = true">Schedule Call</v-btn>
-        <v-btn color="primary" dark @click="contactDialog = true">Add Contact</v-btn>
+        <v-btn color="primary" dark @click.stop="dialog = true"
+          >Schedule Call</v-btn
+        >
+        <v-btn color="primary" dark @click="contactDialog = true"
+          >Add Contact</v-btn
+        >
         <v-btn outlined class="mr-4" @click="setToday">Today</v-btn>
         <v-btn fab text small @click="prev">
           <v-icon small>mdi-chevron-left</v-icon>
@@ -53,7 +57,11 @@
               v-model="name"
               label="Select a person from your contacts (required)"
             ></v-select>
-            <v-text-field v-model="start" type="date" label="Date (required)"></v-text-field>
+            <v-text-field
+              v-model="start"
+              type="date"
+              label="Date (required)"
+            ></v-text-field>
             <v-row justify="center">
               <v-time-picker
                 v-model="startTime"
@@ -71,7 +79,8 @@
               color="primary"
               class="mr-4"
               @click.stop="dialog = false"
-            >create event</v-btn>
+              >create event</v-btn
+            >
           </v-form>
         </v-container>
       </v-card>
@@ -106,7 +115,9 @@
             <div class="flex-grow-1"></div>
           </v-toolbar>
           <v-card-text>
-            <form v-if="currentlyEditing !== selectedEvent.id">{{ selectedEvent.details }}</form>
+            <form v-if="currentlyEditing !== selectedEvent.id">
+              {{ selectedEvent.details }}
+            </form>
             <form v-else>
               <textarea-autosize
                 v-model="selectedEvent.details"
@@ -118,13 +129,22 @@
             </form>
           </v-card-text>
           <v-card-actions>
-            <v-btn text color="secondary" @click="selectedOpen = false">close</v-btn>
+            <v-btn text color="secondary" @click="selectedOpen = false"
+              >close</v-btn
+            >
             <v-btn
               v-if="currentlyEditing !== selectedEvent.id"
               text
               @click.prevent="editEvent(selectedEvent)"
-            >edit</v-btn>
-            <v-btn text v-else type="submit" @click.prevent="updateEvent(selectedEvent)">Save</v-btn>
+              >edit</v-btn
+            >
+            <v-btn
+              text
+              v-else
+              type="submit"
+              @click.prevent="updateEvent(selectedEvent)"
+              >Save</v-btn
+            >
           </v-card-actions>
         </v-card>
       </v-menu>
@@ -153,7 +173,7 @@ export default {
     start: null,
     details: null,
     end: null,
-    color: '#1976D2',
+    color: "#1976D2",
     startTime: null,
     currentlyEditing: null,
     selectedEvent: {},
@@ -170,9 +190,9 @@ export default {
     user() {
       return this.$store.state.user;
     },
-    contacts(){
+    contacts() {
       var c = this.user.displayName.toString();
-      var all = [c,c,c,c];
+      var all = [c, c, c, c];
       console.log(c, all);
       return all;
     },
@@ -211,7 +231,11 @@ export default {
     allowedHours: v => v,
 
     async getEvents() {
-      let snapshot = await db.collection("users").doc(this.user.uid).collection("calEvent").get();
+      let snapshot = await db
+        .collection("users")
+        .doc(this.user.uid)
+        .collection("calEvent")
+        .get();
       let events = [];
       snapshot.forEach(doc => {
         let appData = doc.data();
@@ -239,21 +263,21 @@ export default {
     },
     async addEvent() {
       if (this.name && this.start && this.startTime) {
-        console.log(this.user.uid)
-        await db.collection("users").doc(this.user.uid).collection("calEvent").add({
-          eventName: (this.name + " " +this.user.displayName),
-          start: this.start,
-          startTime: this.startTime,
-          color: this.color
-        });
+        console.log(this.user.uid);
+        await db
+          .collection("users")
+          .doc(this.user.uid)
+          .collection("calEvent")
+          .add({
+            eventName: this.name + " " + this.user.displayName,
+            start: this.start,
+            startTime: this.startTime,
+            color: this.color
+          });
         alert("Succeessfully added");
         this.getEvents();
 
-        (this.name = ""),
-        (this.start = ""),
-        (this.startTime = "");
-        
-        
+        (this.name = ""), (this.start = ""), (this.startTime = "");
       } else {
         alert("You must select a contact, a date, and start time");
       }
@@ -262,20 +286,26 @@ export default {
       this.currentlyEditing = ev.id;
     },
     async updateEvent(ev) {
-      await db.collection("users").doc(this.user.uid).collection("calEvent").doc(this.currentlyEditing).update({
+      await db
+        .collection("users")
+        .doc(this.user.uid)
+        .collection("calEvent")
+        .doc(this.currentlyEditing)
+        .update({
           details: ev.details
         });
       (this.selectedOpen = false), (this.currentlyEditing = null);
     },
     async deleteEvent(ev) {
-  
-      await db.collection("users").doc(this.user.uid).collection("calEvent")
+      await db
+        .collection("users")
+        .doc(this.user.uid)
+        .collection("calEvent")
         .doc(ev)
         .delete();
       (this.selectedOpen = false), this.getEvents();
     },
     showEvent({ nativeEvent, event }) {
-    
       const open = () => {
         this.selectedEvent = event;
         this.selectedElement = nativeEvent.target;

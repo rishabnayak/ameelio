@@ -50,31 +50,60 @@ export default {
     this.getPrison();
   },
 
+  computed: {
+    user() {
+      return this.$store.state.user;
+    }
+  },
   methods: {
+    // async getPrison() {
+    //   let snapshot = await db.collection("prisons").get();
+    //   let prisons = [];
+    //   snapshot.forEach(doc => {
+    //     console.log(doc.id);
+    //     prisons.push(doc.id);
+    //   });
+
     async getPrison() {
-      let snapshot = await db.collection("prisons").get();
+      let snapshot = await db.collection("user").get();
+      //console.log(this.user).get();
       let prisons = [];
       snapshot.forEach(doc => {
-        console.log(doc.id);
+        let appData = doc.data();
+        appData.id = doc.id;
         prisons.push(doc.id);
       });
-
       this.prisons = prisons;
+      // console.log(this.prisons);
     },
 
     async addCon() {
       await db
-        .collection("test")
-        .doc("test@test.com")
-        .collection("myInmate")
+        .collection("user")
+        .doc(this.user.uid)
         .add({
-          firstname: this.firstname,
-          lastname: this.lastname,
-          inmateID: this.inmateID,
-          birthdate: this.birthdate,
-          location: this.location,
-          race: this.race,
-          sex: this.sex
+          // companyName:
+          // this.firstname,
+          // this.lastname,
+          // this.inmateID,
+          // this.birthdate,
+          // this.location,
+          // this.race,
+          // this.sex
+          // "bla"
+
+          contacts: [
+            this.firstname,
+            this.lastname,
+            this.inmateID,
+            this.birthdate,
+            this.location,
+            this.race,
+            this.sex
+          ]
+        })
+        .catch(function(error) {
+          console.log(error);
         });
 
       (this.firstname = ""),
@@ -83,7 +112,9 @@ export default {
         (this.location = ""),
         (this.race = ""),
         (this.sex = ""),
+        (this.companyName = "bla"),
         alert("Succeessfully added");
+      this.getPrison();
     }
   }
 };
