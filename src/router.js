@@ -17,11 +17,28 @@ const router = new Router({
       }
     },
     {
+      path: "/admin",
+      name: "admin",
+      component: ()=> import ("./views/Admin.vue"),
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
       path: "/external",
       name: "external",
       component: () => import("./views/External.vue"),
       meta: {
         requiresAuth: true
+      }
+    },
+    {
+      path: '/profile/:uid',
+      name: 'otherprofile',
+      component: () => import("./views/OtherProfile.vue"),
+      meta: {
+        requiresAuth: true,
+        isAdmin: true
       }
     },
     {
@@ -65,6 +82,27 @@ router.beforeEach((to, from, next) => {
             name: "profile"
           });
         }
+      }
+    }
+    else {
+      next({ name: 'login' })
+    }
+  }
+  else {
+    next()
+  }
+})
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(rec => rec.meta.isAdmin)) {
+    let user = store.state.user
+    if (user) {
+      if (user.role == "Admin") {
+        next();
+      } else {
+        next({
+          name: "profile"
+        });
       }
     }
     else {
