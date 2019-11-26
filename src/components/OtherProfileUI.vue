@@ -23,7 +23,6 @@
                 <v-text-field v-else label="User Role" v-model="role" :disabled=true></v-text-field>
               </v-flex>
             </v-layout>
-            <v-btn @click="updateProfile" color="primary">Update</v-btn>
           </v-form>
         </v-card-text>
       </v-card>
@@ -52,30 +51,16 @@ export default {
       roles:["Friends and Family", "Inmate"]
     };
   },
-  async mounted() {
-    await store.dispatch("getUser");
-    this.name = this.user.displayName;
-    this.role = this.user.role;
-    this.email = this.user.email;
-  },
-  methods: {
-    async updateProfile() {
-      if (this.$refs.form.validate()) {
-        const ref = db.collection("users").doc(this.user.uid);
-        await ref
-          .update({
-            role: this.role
-          })
-          .then(() => {
-            this.$store.dispatch("setUser").then(() => {
-              if (this.role == "Inmate") {
-                this.$router.push("/inmate");
-              } else {
-                this.$router.push("/external");
-              }
-            });
-          });
-      }
+  async created() {
+    let finduser = await db.collection('users').doc(this.uid).get()
+    if (finduser.empty) {
+      this.$router.push({
+        name: "profile"
+      })
+    } else {
+      this.name = finduser.data().displayName
+      this.role = finduser.data().role
+      this.email = finduser.data().email
     }
   }
 };

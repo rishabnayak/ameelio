@@ -7,13 +7,15 @@
     <v-container>
       <h1>Connection Requests</h1>
       <div v-for="request in requests" v-bind:key="request.id">
-        <router-link :to="{ name: 'profile', params: {uid:request.familyUID} }">
+        <router-link :to="{ name: 'otherprofile', params: {uid:request.familyUID} }">
           <p>FamilyUser</p>
         </router-link>
         <p>would like to connect to</p>
-        <router-link :to="{ name: 'profile', params: {uid:request.inmateUID} }">
+        <router-link :to="{ name: 'otherprofile', params: {uid:request.inmateUID} }">
           <p>Inmate</p>
         </router-link>
+        <v-btn @click="approveRequest(request)" color="primary">Approve</v-btn>
+        <v-btn @click="denyRequest(request)" color="primary">Deny</v-btn>
       </div>
     </v-container>
   </div>
@@ -23,6 +25,8 @@
 
 
 <script>
+import { db } from "@/main";
+import firebase from "firebase/app";
 import Calendar from "../components/Calendar";
 
 export default {
@@ -56,7 +60,7 @@ export default {
     };
   },
   mounted() {
-    this.requests = this.user.contactRequest;
+    this.requests = this.user.contactRequests;
   },
   methods: {
     showModal() {
@@ -64,6 +68,46 @@ export default {
     },
     closeModal() {
       this.isModalVisible = false;
+    },
+    async approveRequest(request) {
+      await db
+        .collection("users")
+        .doc(request.familyUID)
+        .update({
+          contactList: firebase.firestore.FieldValue.arrayUnion(
+            request.inmateUID
+          )
+        });
+      await db
+        .collection("users")
+        .doc(request.inmateUID)
+        .update({
+          contactList: firebase.firestore.FieldValue.arrayUnion(
+            request.familyUID
+          )
+        });
+      await db
+        .collection("users")
+        .doc(this.user.uid)
+        .update({
+          contactRequests: firebase.firestore.FieldValue.arrayRemove({
+            inmateUID: request.inmateUID,
+            familyUID: request.familyUID
+          })
+        });
+      location.reload();
+    },
+    async denyRequest(request) {
+      await db
+        .collection("users")
+        .doc(this.user.uid)
+        .update({
+          contactRequests: firebase.firestore.FieldValue.arrayRemove({
+            inmateUID: request.inmateUID,
+            familyUID: request.familyUID
+          })
+        });
+      location.reload();
     }
   }
 };

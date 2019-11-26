@@ -105,11 +105,12 @@ export default {
             db.collection("users")
               .doc(adminDetails.docs[0].data().uid)
               .update({
-                contactRequest: firebase.firestore.FieldValue.arrayUnion({
+                contactRequests: firebase.firestore.FieldValue.arrayUnion({
                   inmateUID: inmateDetails.docs[0].data().uid,
                   familyUID: this.user.uid
                 })
               });
+            return;
           }
         }
       }
