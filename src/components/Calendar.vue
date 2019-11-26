@@ -2,9 +2,9 @@
   <div>
     <v-sheet height="64">
       <v-toolbar flat color="white">
-        <v-btn color="secondary" dark @click="checkCalls">Join a Call</v-btn>
-        <v-btn color="primary" dark @click.stop="dialog = true">Schedule Call</v-btn>
-        <v-btn color="primary" dark @click="contactDialog = true">Add Contact</v-btn>
+        <v-btn v-if="needsCall" color="error" dark @click="checkCalls">Join a Call</v-btn>
+        <v-btn v-if="isExternal" color="primary" dark @click.stop="dialog = true">Schedule Call</v-btn>
+        <v-btn v-if="isExternal"  color="primary" dark @click="contactDialog = true">Add Contact</v-btn>
         <v-btn outlined class="mr-4" @click="setToday">Today</v-btn>
         <v-btn fab text small @click="prev">
           <v-icon small>mdi-chevron-left</v-icon>
@@ -169,8 +169,15 @@ export default {
     this.getEvents();
   },
   computed: {
-    userID() {
-      return this.$store.state.user.uid;
+    user() {
+      return this.$store.state.user;
+    },
+    isExternal(){
+      console.log(this.$route.path);
+      return (this.$route.path == '/external' ) ;
+    },
+    needsCall(){
+      return this.$route.path != '/admin';
     },
     title() {
       const { start, end } = this;
@@ -211,7 +218,7 @@ export default {
     allowedHours: v => v % 2,
 
     async getEvents() {
-      let snapshot = await db.collection("users").doc(this.userID).collection("calEvent").get();
+      let snapshot = await db.collection("users").doc(this.user.uid).collection("calEvent").get();
       let events = [];
       snapshot.forEach(doc => {
         let appData = doc.data();
@@ -239,7 +246,7 @@ export default {
     },
     async addEvent() {
       if (this.name && this.start && this.startTime) {
-        await db.collection("users").doc(this.userID).collection("calEvent").add({
+        await db.collection("users").doc(this.user.uid).collection("calEvent").add({
           name: this.name,
           start: this.start,
           startTime: this.startTime,
@@ -261,14 +268,14 @@ export default {
       this.currentlyEditing = ev.id;
     },
     async updateEvent(ev) {
-      await db.collection("users").doc(this.userID).collection("calEvent").doc(this.currentlyEditing).update({
+      await db.collection("users").doc(this.user.uid).collection("calEvent").doc(this.currentlyEditing).update({
           details: ev.details
         });
       (this.selectedOpen = false), (this.currentlyEditing = null);
     },
     async deleteEvent(ev) {
   
-      await db.collection("users").doc(this.userID).collection("calEvent")
+      await db.collection("users").doc(this.user.uid).collection("calEvent")
         .doc(ev)
         .delete();
       (this.selectedOpen = false), this.getEvents();
