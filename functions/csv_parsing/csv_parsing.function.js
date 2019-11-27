@@ -115,7 +115,38 @@ module.exports.pushTest = functions.https.onRequest((req, res) => {
  const rawBody = req.rawBody
  console.log("raw body:\n" + rawBody)
  let result = CSVToArray(rawBody, undefined)
- console.log(result)
+ console.log("starting parsed")
+ console.log("result was \n" + result)
+
+ if(!Array.isArray(result))
+ {
+   console.log("The csv file could not be parsed")
+ }
+ else if (result.length < 2)
+ {
+   console.log("The csv file could not be parsed or appeared to be empty")
+ }
+ else
+ {
+   //Skipping how we identify what the columns are and assuming a standard order
+  for (i = 1; i < result.length; i++)
+  {
+    const eachField = result[i];
+
+    let inmate = {
+      birthdate: eachField[2],
+      firstname: eachField[0],
+      lastname: eachField[1],
+      race: eachField[3],
+      sex: eachField[4],
+    };
+    console.log("first name:")
+    console.log(inmate.firstname)
+    let added = db.collection("prisons").add(inmate).catch(function(error) {
+      console.log("\n the error was \n" + error + "\n\n")
+    });
+  }
+ }
 
    const formattedDate = req.query.this;
    res.status(200).send(formattedDate);
