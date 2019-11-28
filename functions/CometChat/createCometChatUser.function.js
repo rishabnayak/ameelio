@@ -1,7 +1,7 @@
 const functions = require("firebase-functions");
 const admin = require('firebase-admin');
 const rp = require('request-promise');
-serviceAccount = require('./serviceAccount.json');
+serviceAccount = require('./serviceAccountKey.json');
 
 const adminConfig = JSON.parse(process.env.FIREBASE_CONFIG);
 adminConfig.credential = admin.credential.cert(serviceAccount);

@@ -3,7 +3,7 @@ node_modules
 /dist
 # /src/firebase
 /src/stripe
-/functions/ameelio-badeb-firebase-adminsdk-6j0x9-f8372b31a1.json
+/functions/CometChat/serviceAccountKey.json
 
 # local env files
 .env.local
