@@ -1,8 +1,11 @@
 const functions = require("firebase-functions");
-const request = require("request");
-const async = require("async");
 const admin = require('firebase-admin');
-admin.initializeApp();
+const rp = require('request-promise');
+serviceAccount = require('./serviceAccount.json');
+
+const adminConfig = JSON.parse(process.env.FIREBASE_CONFIG);
+adminConfig.credential = admin.credential.cert(serviceAccount);
+admin.initializeApp(adminConfig);
 const db = admin.firestore();
 
 module.exports.createCometChatUser = functions.auth.user().onCreate((user) => {
@@ -39,46 +42,12 @@ module.exports.createCometChatUser = functions.auth.user().onCreate((user) => {
             accept: 'application/json'
         }
     };
-    console.log(' we are registering: ', body);
 
-    async.waterfall([
-        function firstStep(done){
-            console.log('we are in first step')
-            done(null, httpRequest(options, 'making user'))
-
-        }, 
-        function secondStep(previousResult, done){
-            console.log('we are in the second step and the previousResult is: ', previousResult);
-            done(null, httpRequest(options1, 'making auth token'));
-        },
-        function thirdStep(previousResult, done){
-            console.log('we are in third step and the previousResult is: ', previousResult);
-            done(null, storeFirebase(previousResult.authToken, user.uid));
-        },
-        function fourthStep(previousResult, done){
-            console.log('we are done');
-            done(null);
-        }
-        ]);
-
-    async function httpRequest(options, description){
-        console.log("on track to ", description, ' with ', options);
-        var req = await request(options, function (error, response, body) {
-                if (error) throw new Error(error);
-                console.log('the error for', description, ' is: ', error)
-                console.log('the message for', description, ' is: ', response)
-                console.log('the body for', description, '  is ', body);
-            });
-
-        console.log('we have the token of the  body being: ', req.body);
-        return req.body;
-    }
-
-    async function storeFirebase(token, uid){
-        let users = await db.collection("users");
-        var specificUser = users.doc(uid).set({authToken: token});
-    }
+    rp(options).then(() => {
+        rp(options1).then((data) => {
+            db.collection("users").doc(user.uid).update({ authToken: JSON.parse(data).data.authToken })
+        });
+    });
 
     return true;
-
 });
