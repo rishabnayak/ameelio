@@ -1,6 +1,10 @@
 const admin = require('firebase-admin');
 const functions = require('firebase-functions');
-admin.initializeApp();
+serviceAccount = require('./serviceAccountKey.json');
+
+const adminConfig = JSON.parse(process.env.FIREBASE_CONFIG);
+adminConfig.credential = admin.credential.cert(serviceAccount);
+admin.initializeApp(adminConfig);
 const db = admin.firestore();
 
 module.exports.addToDatabase = functions.https.onRequest((req, res) => {

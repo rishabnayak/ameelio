@@ -5,6 +5,7 @@ node_modules
 /src/stripe
 firebase-debug.log
 /functions/firebase-debug.log
+/functions/*/serviceAccountKey.json
 
 # local env files
 .env.local
