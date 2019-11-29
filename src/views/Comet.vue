@@ -5,12 +5,8 @@
 
     <div class="form-group">
       <div class="form-group">
-        <p>Welcome <b>{{ this.name }}</b>, your comet UID is <b>{{ this.cometUsername}}</b> <br>
-        Enter the receiver Id to start a chat </p>
-        <p v-if="error">
-          <b class="text-danger"> Receiver ID is required </b>
-        </p>
-        <input type="text" class="form-control" placeholder="Enter receiver UID" v-model="receiver_id">
+        <h2>Welcome {{ this.username}}</h2>
+ 
       </div>
       
         <div v-if="incomingCall">
@@ -29,39 +25,47 @@
     </div>
 
     <div id="callScreen"></div>
-    <button class="btn btn-success" @click="logoutUser">Go Back to Home Page</button> 
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import { CometChat } from "@cometchat-pro/chat"; // API is cometchat pro
-import firebase from "firebase";
-
-
+import { CometChat } from "@cometchat-pro/chat";
 export default {
-  name: "home",
+  name: "videocall",
   data() {
     return {
-      name: "", // for display
-      uid: "", 
+      username: "",
+      uid: "",
       session_id: "",
       receiver_id: null,
       error: false,
       showSpinner: false,
       incomingCall: false,
-      ongoingCall: false
+      ongoingCall: false,
+      appID: '11033fd257dda26'
     }
   },
   computed: {
     user() {
       return this.$store.state.user;
-    },
-    cometUsername() {
-      return this.user.uid;
     }
   },
   created() {
+    let cometChatSettings = new CometChat.AppSettingsBuilder().subscribePresenceForAllUsers().setRegion('us').build();
+      CometChat.init('11033fd257dda26',cometChatSettings)
+        .then(
+          () => {
+            console.log("Initialization completed successfully");
+            //You can now call login function.
+           },
+           error => {
+            console.log("Initialization failed with error:", error);
+            //Check the reason for error and take apppropriate action.
+          }
+        );
+     
+    this.logInUser();
     this.getLoggedInUser();
     let globalContext = this;
     var listnerID = "UNIQUE_LISTENER_ID";
@@ -109,36 +113,34 @@ export default {
           // Outgoing Call Rejected
         },
         onIncomingCallCancelled(call) {
-          console.log("Incoming call cancelled:", call);
+          console.log("Incoming call calcelled:", call);
         }
       })
     );
   },
   methods: {
-    authLoginUser() { // this is to start a video call session
-
+    logInUser(){
       var authToken = this.user.authToken;
-      
-      this.showSpinner = true;
 
-
-      CometChat.login(this.cometUsername, authToken).then(
-        user => {
-          console.log("Login Successful:", { user });
+      CometChat.login(authToken).then(
+        User => {
+          console.log("Login successfully:", { User });
+          // User loged in successfully.
         },
         error => {
-          console.log("Login failed with exception:", { error });    
+          console.log("Login failed with exception:", { error });
+          // User login failed, check error and take appropriate action.
         }
       );
     },
-    getLoggedInUser() { // this is kind of outdated. It used to reroute to cometsign so people could sign into service 
+    getLoggedInUser() {
       CometChat.getLoggedinUser().then(
         user => {
           this.username = user.name;
           this.uid = user.uid;
         },
         error => {
-          this.authLoginUser();
+
           console.log(error);
         }
       );
@@ -147,7 +149,6 @@ export default {
       CometChat.logout().then(
         success => {
           console.log("Logout completed successfully");
-          this.$router.push({ name: "homepage" });
           console.log(success);
         },
         error => {
@@ -198,6 +199,7 @@ export default {
                 /* Notification received here if another user left the call. */
                 console.log("User left call:", user);
                 /* this method can be use to display message or perform any actions if someone leaving the call */
+
               },
               onCallEnded: call => {
                 /* Notification received here if current ongoing call is ended. */
@@ -205,6 +207,7 @@ export default {
                 globalContext.ongoingCall = false;
                 globalContext.incomingCall = false;
                 /* hiding/closing the call screen can be done here. */
+                this.logOutUser();
               }
             })
           );
