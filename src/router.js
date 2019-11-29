@@ -8,14 +8,14 @@ const router = new Router({
   mode: "history",
   base: process.env.BASE_URL,
   routes: [
-    {
-      path: "/",
-      name: "external",
-      component: () => import("./views/External.vue"),
-      meta: {
-        requiresAuth: true
-      }
-    },
+    // {
+    //   path: "/",
+    //   name: "external",
+    //   component: () => import("./views/External.vue"),
+    //   meta: {
+    //     requiresAuth: true
+    //   }
+    // },
     {
       path: "/profile",
       name: "profile",
@@ -53,7 +53,7 @@ const router = new Router({
       name: "videocall",
       component: () => import("./views/Comet.vue"),
       meta: {
-        requiresAuth: true
+        requiresAuth: false
       }
     },
   ]
