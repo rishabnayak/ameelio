@@ -32,9 +32,9 @@
 // @ is an alias to /src
 import { CometChat } from "@cometchat-pro/chat";
 export default {
-  name: "CometVideo",
+  name: "Video",
   props:{
-    name: String,
+    name: String
   },
   data() {
     return {
@@ -44,7 +44,8 @@ export default {
       showSpinner: false,
       incomingCall: false,
       ongoingCall: false,
-      appID: '11033fd257dda26'
+      appID: '11033fd257dda26',
+      onCall: false
     }
   },
   computed: {
@@ -62,6 +63,7 @@ export default {
           console.log("Incoming call:", call);
           globalContext.incomingCall = true;
           globalContext.session_id = call.sessionId;
+          this.onCall = true;
         },
         onOutgoingCallAccepted(call) {
           console.log("Outgoing call accepted:", call);
@@ -89,6 +91,7 @@ export default {
               }
             })
           );
+          this.onCall = true;
           // Outgoing Call Accepted
         },
         onOutgoingCallRejected(call) {
@@ -97,9 +100,11 @@ export default {
           this.ongoingCall = false;
           this.receiver_id = "";
           // Outgoing Call Rejected
+          this.onCall = false;
         },
         onIncomingCallCancelled(call) {
           console.log("Incoming call calcelled:", call);
+          this.onCall = false;
         }
       })
     );
@@ -155,6 +160,7 @@ export default {
                 globalContext.ongoingCall = false;
                 globalContext.incomingCall = false;
                 /* hiding/closing the call screen can be done here. */
+                this.onCall = false;
               }
             })
           );
@@ -184,3 +190,11 @@ export default {
   }
 };
 </script>
+<style scoped> 
+  
+  #callScreen {
+    width: 100%;
+    height: 100%;
+
+  }
+</style>

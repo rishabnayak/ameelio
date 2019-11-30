@@ -1,7 +1,9 @@
 <template>
   <v-container>
-  <CometVideo :name=this.user.displayName />
-  <Chat :user=user />
+    <v-row>
+      <v-col><CometVideo :name=user.displayName /></v-col>
+      <v-col><Chat /></v-col>
+    </v-row>
 </v-container>
 </template>
 
@@ -35,6 +37,7 @@ export default {
     }
   },
   created() {
+
     let cometChatSettings = new CometChat.AppSettingsBuilder().subscribePresenceForAllUsers().setRegion('us').build();
       CometChat.init('11033fd257dda26',cometChatSettings)
         .then(
@@ -46,7 +49,7 @@ export default {
             console.log("Initialization failed with error:", error);
             //Check the reason for error and take apppropriate action.
           }
-        ).then(this.logInUser);
+        ).then(this.logInUser).then(this.getLoggedinUser);
     
   },
   methods: {
@@ -69,9 +72,9 @@ export default {
         user => {
           this.username = user.name;
           this.uid = user.uid;
+          console.log('the user is: ', user)
         },
         error => {
-
           console.log(error);
         }
       );
