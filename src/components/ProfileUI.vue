@@ -46,6 +46,8 @@ export default {
       name: null,
       role: null,
       email: null,
+      calEvents: null,
+      contacts: null,
       valid: false,
       roleRules: [val => !!val || "Role Required"],
       roles:["Friends and Family", "Inmate"]
@@ -56,6 +58,8 @@ export default {
     this.name = this.user.displayName;
     this.role = this.user.role;
     this.email = this.user.email;
+    this.calEvents = this.user.calEvents;
+    this.contacts = this.user.contacts;
   },
   methods: {
     async updateProfile() {

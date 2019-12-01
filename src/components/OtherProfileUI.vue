@@ -46,6 +46,8 @@ export default {
       name: null,
       role: null,
       email: null,
+      calEvents: null,
+      contacts: null,
       valid: false,
       roleRules: [val => !!val || "Role Required"],
       roles:["Friends and Family", "Inmate"]
@@ -61,6 +63,8 @@ export default {
       this.name = finduser.data().displayName
       this.role = finduser.data().role
       this.email = finduser.data().email
+      this.calEvents = finduser.data().calEvents
+      this.contacts = finduser.data().contacts
     }
   }
 };
