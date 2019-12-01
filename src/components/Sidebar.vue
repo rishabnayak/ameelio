@@ -57,6 +57,9 @@ export default {
       return this.$store.state.user ;
     },
   },
+  props: {
+    items: Array,
+  },
   data() {
     return {
       drawer: true,

@@ -19,7 +19,7 @@ const router = new Router({
     {
       path: "/admin",
       name: "admin",
-      component: ()=> import ("./views/Admin.vue"),
+      component: () => import("./views/Admin.vue"),
       meta: {
         requiresAuth: true
       }
@@ -33,8 +33,8 @@ const router = new Router({
       }
     },
     {
-      path: '/profile/:uid',
-      name: 'otherprofile',
+      path: "/profile/:uid",
+      name: "otherprofile",
       component: () => import("./views/OtherProfile.vue"),
       meta: {
         requiresAuth: true,
@@ -58,19 +58,35 @@ const router = new Router({
       }
     },
     {
+      path: "/admin",
+      name: "admin",
+      component: () => import("./views/Admin.vue"),
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: "/add-contact-form",
+      name: "addContactForm",
+      component: () => import("./views/AddContactForm.vue"),
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
       path: "/login",
       name: "login",
       component: () => import("./views/Login.vue"),
       meta: {
         requiresAuth: false
       }
-    },
+    }
   ]
 });
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some(rec => rec.meta.requiresAuth)) {
-    let user = store.state.user
+    let user = store.state.user;
     if (user) {
       if (to.name == "profile") {
         next();
@@ -83,19 +99,17 @@ router.beforeEach((to, from, next) => {
           });
         }
       }
+    } else {
+      next({ name: "login" });
     }
-    else {
-      next({ name: 'login' })
-    }
+  } else {
+    next();
   }
-  else {
-    next()
-  }
-})
+});
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some(rec => rec.meta.isAdmin)) {
-    let user = store.state.user
+    let user = store.state.user;
     if (user) {
       if (user.role == "Admin") {
         next();
@@ -104,14 +118,12 @@ router.beforeEach((to, from, next) => {
           name: "profile"
         });
       }
+    } else {
+      next({ name: "login" });
     }
-    else {
-      next({ name: 'login' })
-    }
+  } else {
+    next();
   }
-  else {
-    next()
-  }
-})
+});
 
 export default router;
