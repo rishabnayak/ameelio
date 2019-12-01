@@ -215,7 +215,7 @@ export default {
       //console.log("HI!")
     },
 
-    allowedHours: v => v % 2,
+    allowedHours: v => v,
 
     async getEvents() {
       let snapshot = await db.collection("users").doc(this.user.uid).collection("calEvent").get();
@@ -246,11 +246,15 @@ export default {
     },
     async addEvent() {
       if (this.name && this.start && this.startTime) {
-        await db.collection("users").doc(this.user.uid).collection("calEvent").add({
+        
+        let newEvent = {
           name: this.name,
           start: this.start,
-          startTime: this.startTime,
-          color: this.color
+          startTime: this.startTime
+        }
+        
+        await db.collection("users").doc(this.user.uid).update({
+          calEvent: newEvent
         });
         alert("Succeessfully added");
         this.getEvents();
