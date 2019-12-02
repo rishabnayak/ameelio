@@ -49,7 +49,7 @@ import firebase from "firebase/app";
 
 export default {
   data: () => ({
-    prisons: null,
+    prisons: [],
     firstname: null,
     lastname: null,
     inmateID: null,
@@ -67,24 +67,13 @@ export default {
     }
   },
   methods: {
-    // async getPrison() {
-    //   let snapshot = await db.collection("prisons").get();
-    //   let prisons = [];
-    //   snapshot.forEach(doc => {
-    //     console.log(doc.id);
-    //     prisons.push(doc.id);
-    //   });
-
     async getPrison() {
-      let snapshot = await db.collection("user").get();
-      let prisons = [];
+      let snapshot = await db.collection("users").get();
       snapshot.forEach(doc => {
-        let appData = doc.data();
-        appData.id = doc.id;
-        prisons.push(doc.id);
+        if (doc.data().location) {
+          this.prisons.push(doc.data().location);
+        }
       });
-      this.prisons = prisons;
-      // console.log(this.prisons);
     },
     async addCon() {
       if (

@@ -8,11 +8,11 @@
       <h1>Connection Requests</h1>
       <div v-for="request in requests" v-bind:key="request.id">
         <router-link :to="{ name: 'otherprofile', params: {uid:request.familyUID} }">
-          <p>FamilyUser</p>
+          <p>{{request.familyName}}</p>
         </router-link>
         <p>would like to connect to</p>
         <router-link :to="{ name: 'otherprofile', params: {uid:request.inmateUID} }">
-          <p>Inmate</p>
+          <p>{{request.inmateName}}</p>
         </router-link>
         <v-btn @click="approveRequest(request)" color="primary">Approve</v-btn>
         <v-btn @click="denyRequest(request)" color="primary">Deny</v-btn>
@@ -60,7 +60,25 @@ export default {
     };
   },
   mounted() {
-    this.requests = this.user.contactRequests;
+    for (let index = 0; index < this.user.contactRequests.length; index++) {
+      const element = this.user.contactRequests[index];
+      db.collection("users")
+        .doc(element.familyUID)
+        .get()
+        .then(familyName => {
+          db.collection("users")
+            .doc(element.inmateUID)
+            .get()
+            .then(inmateName => {
+              this.requests.push({
+                "familyName": familyName.data().displayName,
+                "inmateName": inmateName.data().displayName,
+                "familyUID": element.familyUID,
+                "inmateUID": element.inmateUID
+              });
+            });
+        });
+    }
   },
   methods: {
     showModal() {
