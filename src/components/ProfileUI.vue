@@ -19,8 +19,14 @@
             </v-layout>
             <v-layout row>
               <v-flex xs12>
-                <v-select v-if="role == null" :items="roles" label="User Role" v-model="role" :rules="roleRules"></v-select>
-                <v-text-field v-else label="User Role" v-model="role" :disabled=true></v-text-field>
+                <v-select
+                  v-if="role == null"
+                  :items="roles"
+                  label="User Role"
+                  v-model="role"
+                  :rules="roleRules"
+                ></v-select>
+                <v-text-field v-else label="User Role" v-model="role" :disabled="true"></v-text-field>
               </v-flex>
             </v-layout>
             <v-btn @click="updateProfile" color="primary">Update</v-btn>
@@ -33,7 +39,7 @@
 
 <script>
 import { db } from "../firebase/init";
-import store from '../store';
+import store from "../store";
 export default {
   name: "profileUI",
   computed: {
@@ -50,7 +56,7 @@ export default {
       contacts: null,
       valid: false,
       roleRules: [val => !!val || "Role Required"],
-      roles:["Friends and Family", "Inmate"]
+      roles: ["Friends and Family", "Inmate"]
     };
   },
   async mounted() {
@@ -72,9 +78,9 @@ export default {
           .then(() => {
             this.$store.dispatch("setUser").then(() => {
               if (this.role == "Inmate") {
-                this.$router.push("/inmate");
+                this.$router.push("/user");
               } else {
-                this.$router.push("/external");
+                this.$router.push("/user");
               }
             });
           });

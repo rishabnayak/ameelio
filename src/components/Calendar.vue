@@ -187,7 +187,10 @@ export default {
         .doc(element)
         .get()
         .then(doc => {
-          this.contacts.push({name: doc.data().displayName, uid: doc.data().uid});
+          this.contacts.push({
+            name: doc.data().displayName,
+            uid: doc.data().uid
+          });
         });
     }
   },
@@ -197,7 +200,7 @@ export default {
     },
     isExternal() {
       console.log(this.$route.path);
-      return this.$route.path == "/external";
+      return this.$route.path == "/user";
     },
     needsCall() {
       return this.$route.path != "/admin";
@@ -244,7 +247,7 @@ export default {
     allowedHours: v => v,
 
     async getEvents() {
-      this.events = this.user.calEvent
+      this.events = this.user.calEvent;
     },
     viewDay({ date }) {
       this.focus = date;
@@ -271,11 +274,10 @@ export default {
         };
 
         db.collection("users")
-          .doc(this.user.uid).update({
-            calEvent: firebase.firestore.FieldValue.arrayUnion(
-              newEvent
-            )
-          })
+          .doc(this.user.uid)
+          .update({
+            calEvent: firebase.firestore.FieldValue.arrayUnion(newEvent)
+          });
         alert("Succeessfully added");
         this.getEvents();
         (this.name = ""), (this.start = ""), (this.startTime = "");
