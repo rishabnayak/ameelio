@@ -54,7 +54,24 @@
     <v-dialog v-model="contactDialog" max-width="500">
       <v-card>
         <v-container>
-          <AddContact />
+          <v-form @submit.prevent="addCon">
+            <div>
+              <h2 id="addContactTitle">Inmate Information</h2>
+            </div>
+            <v-text-field v-model="firstname" type="text" label="First Name" placeholder="John"></v-text-field>
+            <v-text-field v-model="lastname" type="text" label="Last Name" placeholder="Doe"></v-text-field>
+            <v-text-field v-model="inmateID" type="text" label="Inmate ID" placeholder="123456789"></v-text-field>
+            <v-text-field v-model="birthdate" type="date" label="Birth Date"></v-text-field>
+            <label>Place of Incarceration</label>
+            <v-select :items="prisons" v-model="location" label="Select the prison (required)"></v-select>
+            <v-text-field v-model="race" type="text" label="Race"></v-text-field>
+            <label for="sex">Sex</label>
+            <v-radio-group v-model="sex" row>
+              <v-radio label="Female" value="fem"></v-radio>
+              <v-radio label="Male" value="mal"></v-radio>
+            </v-radio-group>
+            <button type="submit" @click.stop="contactDialog = false">Submit</button>
+          </v-form>
         </v-container>
       </v-card>
     </v-dialog>
@@ -149,13 +166,9 @@
 </template>
 <script>
 import { db } from "@/main";
-import AddContact from "../components/AddContact";
 import firebase from "firebase/app";
 
 export default {
-  components: {
-    AddContact
-  },
   data: () => ({
     today: new Date().toISOString().substr(0, 10),
     focus: new Date().toISOString().substr(0, 10),
@@ -177,10 +190,19 @@ export default {
     selectedOpen: false,
     events: [],
     dialog: false,
-    contactDialog: false
+    contactDialog: false,
+    prisons: [],
+    firstname: null,
+    lastname: null,
+    inmateID: null,
+    birthdate: null,
+    location: null,
+    race: null,
+    sex: null
   }),
   mounted() {
     this.getEvents();
+    this.getPrison();
     for (let index = 0; index < this.user.contactList.length; index++) {
       const element = this.user.contactList[index];
       db.collection("users")
@@ -200,7 +222,7 @@ export default {
     },
     isExternal() {
       console.log(this.$route.path);
-      return this.$route.path == "/user";
+      return this.$route.path == "/external";
     },
     needsCall() {
       return this.$route.path != "/admin";
@@ -240,6 +262,54 @@ export default {
     }
   },
   methods: {
+    async getPrison() {
+      let snapshot = await db.collection("users").get();
+      snapshot.forEach(doc => {
+        if (doc.data().location) {
+          this.prisons.push(doc.data().location);
+        }
+      });
+    },
+    async addCon() {
+      if (
+        this.firstname &&
+        this.lastname &&
+        this.inmateID &&
+        this.birthdate &&
+        this.location &&
+        this.race &&
+        this.sex
+      ) {
+        let inmateDetails = await db
+          .collection("users")
+          .where("inmateID", "==", this.inmateID)
+          .get();
+        if (inmateDetails.empty) {
+          return;
+        } else {
+          let adminDetails = await db
+            .collection("users")
+            .where("location", "==", inmateDetails.docs[0].data().location)
+            .where("role", "==", "Admin")
+            .get();
+          if (adminDetails.empty) {
+            return;
+          } else {
+            db.collection("users")
+              .doc(adminDetails.docs[0].data().uid)
+              .update({
+                contactRequests: firebase.firestore.FieldValue.arrayUnion({
+                  inmateUID: inmateDetails.docs[0].data().uid,
+                  familyUID: this.user.uid
+                })
+              });
+            return;
+          }
+        }
+      }
+      return;
+    },
+
     checkCalls() {
       //console.log("HI!")
     },
@@ -316,6 +386,9 @@ export default {
 </script>
 
 <style>
+#addContactTitle {
+  margin-bottom: 30px;
+}
 .popUp {
   width: 50%;
 }
