@@ -19,7 +19,7 @@ import Appointments from "../components/Appointments";
 import Calendar from "../components/Calendar";
 
 export default {
-  name: "admin",
+  name: "user",
   components: {
     Appointments,
     Calendar,

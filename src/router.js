@@ -23,9 +23,9 @@ const router = new Router({
       }
     },
     {
-      path: "/external",
-      name: "external",
-      component: () => import("./views/External.vue"),
+      path: "/user",
+      name: "user",
+      component: () => import("./views/User.vue"),
       meta: {
         requiresAuth: true
       }
@@ -43,14 +43,6 @@ const router = new Router({
       path: "/profile",
       name: "profile",
       component: () => import("./views/Profile.vue"),
-      meta: {
-        requiresAuth: true
-      }
-    },
-    {
-      path: "/inmate",
-      name: "inmate",
-      component: () => import("./views/Inmate.vue"),
       meta: {
         requiresAuth: true
       }
