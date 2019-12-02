@@ -128,11 +128,7 @@ input {
   border-bottom-style: solid;
   height: 45px;
   margin-bottom: 25px;
-  color: #a9a9a9;
   width: 80%;
-}
-input:focus {
-  outline: none;
 }
 #addContactTitle {
   margin-bottom: 30px;
