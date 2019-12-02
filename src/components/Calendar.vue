@@ -55,7 +55,11 @@
               v-model="name"
               label="Select a person from your contacts (required)"
             ></v-select>
-            <v-text-field v-model="start" type="date" label="Date (required)"></v-text-field>
+            <v-text-field
+              v-model="start"
+              type="date"
+              label="Date (required)"
+            ></v-text-field>
             <v-row justify="center">
               <v-time-picker
                 v-model="startTime"
@@ -73,7 +77,8 @@
               color="primary"
               class="mr-4"
               @click.stop="dialog = false"
-            >create event</v-btn>
+              >create event</v-btn
+            >
           </v-form>
         </v-container>
       </v-card>
@@ -108,7 +113,9 @@
             <div class="flex-grow-1"></div>
           </v-toolbar>
           <v-card-text>
-            <form v-if="currentlyEditing !== selectedEvent.id">{{ selectedEvent.details }}</form>
+            <form v-if="currentlyEditing !== selectedEvent.id">
+              {{ selectedEvent.details }}
+            </form>
             <form v-else>
               <textarea-autosize
                 v-model="selectedEvent.details"
@@ -120,13 +127,22 @@
             </form>
           </v-card-text>
           <v-card-actions>
-            <v-btn text color="secondary" @click="selectedOpen = false">close</v-btn>
+            <v-btn text color="secondary" @click="selectedOpen = false"
+              >close</v-btn
+            >
             <v-btn
               v-if="currentlyEditing !== selectedEvent.id"
               text
               @click.prevent="editEvent(selectedEvent)"
-            >edit</v-btn>
-            <v-btn text v-else type="submit" @click.prevent="updateEvent(selectedEvent)">Save</v-btn>
+              >edit</v-btn
+            >
+            <v-btn
+              text
+              v-else
+              type="submit"
+              @click.prevent="updateEvent(selectedEvent)"
+              >Save</v-btn
+            >
           </v-card-actions>
         </v-card>
       </v-menu>

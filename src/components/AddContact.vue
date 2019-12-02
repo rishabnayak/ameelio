@@ -67,6 +67,14 @@ export default {
     }
   },
   methods: {
+    // async getPrison() {
+    //   let snapshot = await db.collection("prisons").get();
+    //   let prisons = [];
+    //   snapshot.forEach(doc => {
+    //     console.log(doc.id);
+    //     prisons.push(doc.id);
+    //   });
+
     async getPrison() {
       let snapshot = await db.collection("user").get();
       let prisons = [];
@@ -76,6 +84,7 @@ export default {
         prisons.push(doc.id);
       });
       this.prisons = prisons;
+      // console.log(this.prisons);
     },
     async addCon() {
       if (
