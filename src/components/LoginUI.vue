@@ -1,6 +1,6 @@
 <template>
   <div v-bind:style="{ background: bg, width: bgWidth, height: bgHeight }">
-    <v-container fill-height text-center>
+    <v-container class="my-12">
       <v-layout
             text-center
             wrap
@@ -8,7 +8,7 @@
         <v-row>
           <v-col>
             <v-img
-              :src="require('../assets/logo.png')"
+              :src="require('../assets/the-logo.png')"
               class="mx-auto my-4"
               contain
               height="35"
@@ -24,7 +24,6 @@
               <v-card-text>
                 <div id="firebaseui-auth-container"></div>
               </v-card-text>
-
             </v-card>
           </v-col>
         </v-row>
