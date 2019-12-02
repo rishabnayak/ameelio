@@ -1,3 +1,4 @@
+
 <template>
   <div>
     <v-sheet height="64">
@@ -170,6 +171,7 @@ export default {
     contacts: ["Foo", "Bar", "Fizz", "Buzz"], //temporary contacts
     name: null,
     color: "#1976D2",
+    start: null,
     startTime: null,
     currentlyEditing: null,
     selectedEvent: {},
@@ -241,18 +243,19 @@ export default {
     allowedHours: v => v,
 
     async getEvents() {
-      let snapshot = await db
-        .collection("users")
-        .doc(this.user.uid)
-        .collection("calEvent")
-        .get();
-      let events = [];
-      snapshot.forEach(doc => {
-        let appData = doc.data();
-        appData.id = doc.id;
-        events.push(appData);
-      });
+      db.collection("users").doc(this.user.uid).get().then(function(doc){
+        let events = [];
+        console.log("HAROOO", Object.values(doc.data())[1])
+
+        for (let i = 0;  i < Object.values(doc.data())[1].length();i++)  {
+          console.log("i is", i)
+          events.push(i);
+        }
+        this.events = events;
+        //console.log("Document data:", Object.values(doc.data())[1][0]);
+      })
       this.events = events;
+
       //console.log(this.events);
     },
     viewDay({ date }) {
@@ -276,15 +279,20 @@ export default {
         let newEvent = {
           name: this.name,
           start: this.start,
-          startTime: this.startTime
-        };
-
-        await db
-          .collection("users")
-          .doc(this.user.uid)
-          .update({
-            calEvent: newEvent
+          startTime: this.startTime}
+        
+        db.collection("users").doc(this.user.uid).get().then(function(doc){
+          let prevEvent = Object.values(doc.data())[1]
+          let combinedEvents = prevEvent.push(newEvent)
+          console.log("prev event is", prevEvent)
+          console.log("new event is", newEvent)
+          console.log("combined event is", combinedEvents)
+          db.collection("users").doc(this.user.uid).update({
+            calEvent : [combinedEvents]
           });
+        })
+
+
         alert("Succeessfully added");
         this.getEvents();
 

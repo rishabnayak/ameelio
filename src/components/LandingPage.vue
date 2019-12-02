@@ -7,16 +7,13 @@
                         <v-container>
                             <img src="../assets/logo.png">
                         </v-container>
-                        <v-container v-if="loggedIn">
-                    
+                        <v-container v-if="signIn">
                             <v-btn x-large text color="white" @click="signIn()">Login</v-btn>
                         </v-container>
                     </v-row>
                 </v-layout>
 
             </v-container>
-
-        
     </div>
 </template>
 
