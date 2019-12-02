@@ -5,8 +5,18 @@
       <v-toolbar flat color="white">
         <div v-if="defaultMenu">
           <v-btn v-if="needsCall" color="secondary" dark @click="checkCalls">Join a Call</v-btn>
-          <v-btn color="primary" dark @click.stop="dialog = true">Schedule A Call</v-btn>
-          <v-btn color="primary" dark v-if="user.role == 'Friends and Family'" @click="contactDialog = true">Add Contact</v-btn>
+          <v-btn
+            color="primary"
+            dark
+            v-if="user.role == 'Friends and Family'"
+            @click.stop="dialog = true"
+          >Schedule A Call</v-btn>
+          <v-btn
+            color="primary"
+            dark
+            v-if="user.role == 'Friends and Family'"
+            @click="contactDialog = true"
+          >Add Contact</v-btn>
         </div>
         <v-btn outlined class="mr-4" @click="setToday">Today</v-btn>
         <v-btn fab text small @click="prev">
@@ -54,14 +64,12 @@
           <v-form @submit.prevent="addEvent">
             <v-select
               :items="contacts"
+              item-text="name"
+              item-value="uid"
               v-model="name"
               label="Select a person from your contacts (required)"
             ></v-select>
-            <v-text-field
-              v-model="start"
-              type="date"
-              label="Date (required)"
-            ></v-text-field>
+            <v-text-field v-model="start" type="date" label="Date (required)"></v-text-field>
             <v-row justify="center">
               <v-time-picker
                 v-model="startTime"
@@ -79,8 +87,7 @@
               color="primary"
               class="mr-4"
               @click.stop="dialog = false"
-              >create event</v-btn
-            >
+            >create event</v-btn>
           </v-form>
         </v-container>
       </v-card>
@@ -115,9 +122,7 @@
             <div class="flex-grow-1"></div>
           </v-toolbar>
           <v-card-text>
-            <form v-if="currentlyEditing !== selectedEvent.id">
-              {{ selectedEvent.details }}
-            </form>
+            <form v-if="currentlyEditing !== selectedEvent.id">{{ selectedEvent.details }}</form>
             <form v-else>
               <textarea-autosize
                 v-model="selectedEvent.details"
@@ -129,22 +134,13 @@
             </form>
           </v-card-text>
           <v-card-actions>
-            <v-btn text color="secondary" @click="selectedOpen = false"
-              >close</v-btn
-            >
+            <v-btn text color="secondary" @click="selectedOpen = false">close</v-btn>
             <v-btn
               v-if="currentlyEditing !== selectedEvent.id"
               text
               @click.prevent="editEvent(selectedEvent)"
-              >edit</v-btn
-            >
-            <v-btn
-              text
-              v-else
-              type="submit"
-              @click.prevent="updateEvent(selectedEvent)"
-              >Save</v-btn
-            >
+            >edit</v-btn>
+            <v-btn text v-else type="submit" @click.prevent="updateEvent(selectedEvent)">Save</v-btn>
           </v-card-actions>
         </v-card>
       </v-menu>
@@ -154,6 +150,7 @@
 <script>
 import { db } from "@/main";
 import AddContact from "../components/AddContact";
+import firebase from "firebase/app";
 
 export default {
   components: {
@@ -169,7 +166,7 @@ export default {
       day: "Day",
       "4day": "4 Days"
     },
-    contacts: ["Foo", "Bar", "Fizz", "Buzz"], //temporary contacts
+    contacts: [],
     name: null,
     color: "#1976D2",
     start: null,
@@ -184,6 +181,15 @@ export default {
   }),
   mounted() {
     this.getEvents();
+    for (let index = 0; index < this.user.contactList.length; index++) {
+      const element = this.user.contactList[index];
+      db.collection("users")
+        .doc(element)
+        .get()
+        .then(doc => {
+          this.contacts.push({name: doc.data().displayName, uid: doc.data().uid});
+        });
+    }
   },
   computed: {
     user() {
@@ -196,12 +202,6 @@ export default {
     needsCall() {
       return this.$route.path != "/admin";
     },
-    // contacts(){
-    //   var c = this.user.displayName.toString();
-    //   var all = [c,c,c,c];
-    //   console.log(c, all);
-    //   return all;
-    // },
     title() {
       const { start, end } = this;
       if (!start || !end) {
@@ -244,20 +244,7 @@ export default {
     allowedHours: v => v,
 
     async getEvents() {
-      db.collection("users").doc(this.user.uid).get().then(function(doc){
-        let events = [];
-        console.log("HAROOO", Object.values(doc.data())[1])
-
-        for (let i = 0;  i < Object.values(doc.data())[1].length();i++)  {
-          console.log("i is", i)
-          events.push(i);
-        }
-        this.events = events;
-        //console.log("Document data:", Object.values(doc.data())[1][0]);
-      })
-      this.events = events;
-
-      //console.log(this.events);
+      this.events = this.user.calEvent
     },
     viewDay({ date }) {
       this.focus = date;
@@ -280,23 +267,17 @@ export default {
         let newEvent = {
           name: this.name,
           start: this.start,
-          startTime: this.startTime}
-        
-        db.collection("users").doc(this.user.uid).get().then(function(doc){
-          let prevEvent = Object.values(doc.data())[1]
-          let combinedEvents = prevEvent.push(newEvent)
-          console.log("prev event is", prevEvent)
-          console.log("new event is", newEvent)
-          console.log("combined event is", combinedEvents)
-          db.collection("users").doc(this.user.uid).update({
-            calEvent : [combinedEvents]
-          });
-        })
+          startTime: this.startTime
+        };
 
-
+        db.collection("users")
+          .doc(this.user.uid).update({
+            calEvent: firebase.firestore.FieldValue.arrayUnion(
+              newEvent
+            )
+          })
         alert("Succeessfully added");
         this.getEvents();
-
         (this.name = ""), (this.start = ""), (this.startTime = "");
       } else {
         alert("You must select a contact, a date, and start time");
@@ -304,26 +285,6 @@ export default {
     },
     editEvent(ev) {
       this.currentlyEditing = ev.id;
-    },
-    async updateEvent(ev) {
-      await db
-        .collection("users")
-        .doc(this.user.uid)
-        .collection("calEvent")
-        .doc(this.currentlyEditing)
-        .update({
-          details: ev.details
-        });
-      (this.selectedOpen = false), (this.currentlyEditing = null);
-    },
-    async deleteEvent(ev) {
-      await db
-        .collection("users")
-        .doc(this.user.uid)
-        .collection("calEvent")
-        .doc(ev)
-        .delete();
-      (this.selectedOpen = false), this.getEvents();
     },
     showEvent({ nativeEvent, event }) {
       const open = () => {
