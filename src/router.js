@@ -80,6 +80,11 @@ const router = new Router({
       meta: {
         requiresAuth: false
       }
+    },
+    {
+      path: "/csvparsing",
+      name: "csvparsing",
+      component: () => import("./views/CSVParsing.vue")
     }
   ]
 });
