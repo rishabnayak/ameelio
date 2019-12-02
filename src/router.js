@@ -12,6 +12,9 @@ const router = new Router({
       path: "/",
       name: "home",
       component: () => import("./views/Home.vue"),
+      meta: {
+        requiresAuth: true,
+      }
     },
     {
       path: "/admin",
