@@ -87,6 +87,7 @@
               color="primary"
               class="mr-4"
               @click.stop="dialog = false"
+              :disabled="name == null || start == null || startTime == null"
             >create event</v-btn>
           </v-form>
         </v-container>
@@ -281,9 +282,10 @@ export default {
         alert("Succeessfully added");
         this.getEvents();
         (this.name = ""), (this.start = ""), (this.startTime = "");
-      } else {
-        alert("You must select a contact, a date, and start time");
       }
+      // } else {
+      //   alert("You must select a contact, a date, and start time");
+      // }
     },
     editEvent(ev) {
       this.currentlyEditing = ev.id;
