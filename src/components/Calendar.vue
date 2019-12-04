@@ -70,7 +70,14 @@
               <v-radio label="Female" value="fem"></v-radio>
               <v-radio label="Male" value="mal"></v-radio>
             </v-radio-group>
-            <button type="submit" @click.stop="contactDialog = false">Submit</button>
+            <v-btn
+              type="submit"
+              color="primary"
+              class="mr-4"
+              @click.stop="contactDialog = false"
+              :disabled="firstname == null || lastname == null || inmateID == null || birthdate == null || location == null || race== null || sex == null"
+            >Submit</v-btn>
+            <!-- <v-btn type="submit" @click.stop="contactDialog = false" :disabled= "firstname == null || ">Submit</v-btn> -->
           </v-form>
         </v-container>
       </v-card>
@@ -304,6 +311,8 @@ export default {
                   familyUID: this.user.uid
                 })
               });
+            alert("Succeessfully added");
+
             return;
           }
         }
