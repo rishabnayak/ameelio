@@ -1,6 +1,5 @@
 <template>
   <div v-bind:style="{ background: bg, width: bgWidth, height: bgHeight }">
-    <v-container class="my-12" v-bind:style="{ background: bg, width: bgWidth, height: bgHeight }">
       <v-layout
             text-center
             wrap
@@ -28,7 +27,6 @@
           </v-col>
         </v-row>
       </v-layout>
-    </v-container>
   </div>
 </template>
 
