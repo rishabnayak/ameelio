@@ -35,17 +35,8 @@
             </v-btn>
           </template>
           <v-list>
-            <v-list-item @click="type = 'day'">
-              <v-list-item-title>Day</v-list-item-title>
-            </v-list-item>
-            <v-list-item @click="type = 'week'">
-              <v-list-item-title>Week</v-list-item-title>
-            </v-list-item>
             <v-list-item @click="type = 'month'">
               <v-list-item-title>Month</v-list-item-title>
-            </v-list-item>
-            <v-list-item @click="type = '4day'">
-              <v-list-item-title>4 days</v-list-item-title>
             </v-list-item>
           </v-list>
         </v-menu>
@@ -183,9 +174,6 @@ export default {
     type: "month",
     typeToLabel: {
       month: "Month",
-      week: "Week",
-      day: "Day",
-      "4day": "4 Days"
     },
     contacts: [],
     name: null,
