@@ -28,14 +28,23 @@ export default new Vuex.Store({
           displayName: user.displayName,
           uid: user.uid,
           email: user.email,
-          companyName: null,
-          role: "user"
+          photoURL: user.photoURL,
+          role: null
         });
         raid = await mydb.get();
         context.commit("setUser", raid.data());
       } else {
         context.commit("setUser", raid.data());
       }
+    },
+    getUser: async context => {
+      const user = firebase.auth().currentUser;
+      if (!user) {
+        return;
+      }
+      const mydb = db.collection("users").doc(user.uid);
+      var raid = await mydb.get();
+      context.commit("setUser", raid.data());
     },
     logOut: async context => {
       await firebase.auth().signOut();

@@ -12,20 +12,41 @@ const router = new Router({
       path: "/",
       name: "home",
       component: () => import("./views/Home.vue"),
-      meta: {
-        requiresAuth: false
-      }
     },
-
     {
-      path: "/add-contact-form",
-      name: "addContactForm",
-      component: () => import("./views/AddContactForm.vue"),
+      path: "/admin",
+      name: "admin",
+      component: () => import("./views/Admin.vue"),
       meta: {
-        requiresAuth: false
+        requiresAuth: true,
+        isAdmin: true
       }
     },
-
+    {
+      path: "/user",
+      name: "user",
+      component: () => import("./views/User.vue"),
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: "/profile/:uid",
+      name: "otherprofile",
+      component: () => import("./views/OtherProfile.vue"),
+      meta: {
+        requiresAuth: true,
+        isAdmin: true
+      }
+    },
+    {
+      path: "/profile",
+      name: "profile",
+      component: () => import("./views/Profile.vue"),
+      meta: {
+        requiresAuth: true
+      }
+    },
     {
       path: "/login",
       name: "login",
@@ -62,6 +83,14 @@ const router = new Router({
       path:"/manage-prisons",
       name: "manage-prisons",
       component: () => import("./views/ManagePrisons.vue"),
+      path: "/csvparsing",
+      name: "csvparsing",
+      component: () => import("./views/CSVParsing.vue")
+    },
+    {
+      path: "/videocall",
+      name: "videocall",
+      component: () => import("./views/Comet.vue"),
       meta: {
         requiresAuth: false
       }
@@ -92,7 +121,7 @@ router.beforeEach((to, from, next) => {
       if (to.name == "profile") {
         next();
       } else {
-        if (user.companyName) {
+        if (user.role) {
           next();
         } else {
           next({
@@ -101,9 +130,26 @@ router.beforeEach((to, from, next) => {
         }
       }
     } else {
-      next({
-        name: "login"
-      });
+      next({ name: "login" });
+    }
+  } else {
+    next();
+  }
+});
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(rec => rec.meta.isAdmin)) {
+    let user = store.state.user;
+    if (user) {
+      if (user.role == "Admin") {
+        next();
+      } else {
+        next({
+          name: "profile"
+        });
+      }
+    } else {
+      next({ name: "login" });
     }
   } else {
     next();

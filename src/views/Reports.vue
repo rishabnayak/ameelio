@@ -7,7 +7,7 @@
                  <v-card-title>
                 Reports
               </v-card-title>
-                <v-toolbar dense elevation=1> <v-text-field placeholder="Search Requests" prepend-icon="search" full-width=true single-line hide-details></v-text-field></v-toolbar>  
+                <v-toolbar dense elevation=1> <v-text-field v-model="search" placeholder="Search Requests" prepend-icon="search" full-width=true single-line hide-details></v-text-field></v-toolbar>  
               <v-alert type="warning" icon="warning">
                         Unread Bug Reports
               </v-alert>
