@@ -60,20 +60,25 @@
         This is the body
       </slot>
   </div>
-  </div></template>
+  </div>
+  </template>
+
+
 <script>
- export default {
-  name: "Sidebar",
+
+export default {
+  name: "SideBarSuperUser",
   props: {
     name: String
   },
-   data () {
+   data() {
      return {
        drawer: true,
        items: [
-         { title: 'Home', icon: 'dashboard' },
-         { title: 'About', icon: 'question_answer' },
-         { title: 'Calendar', icon: 'event'}
+         { href: '/', title: 'Admin Requests', icon: 'folder_open' },
+         { title: 'Calendar', icon: 'event' },
+         { title: 'Manage Prison', icon: 'widgets'},
+         { title: 'Reports', icon: 'info'}
        ],
        mini: true,
      }

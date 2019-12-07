@@ -9,7 +9,7 @@
         <h1>Calendar</h1>
         <Calendar :events="calendarEvents" :height="calendarHeight"></Calendar>
         <popUp>
-          <template v-slot:buttonText>Add a Contact</template>
+          <template v-slot:buttonText>Add a Contact </template>
           <template v-slot:title><h1>Add a Contact</h1></template>
           <template v-slot:content>
             <AddContact />

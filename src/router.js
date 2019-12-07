@@ -34,6 +34,22 @@ const router = new Router({
         requiresAuth: false
       }
     },
+    {
+      path:"/super-user",
+      name: "superUserView",
+      component: () => import("./views/superUser.vue"),
+      meta: {
+        requiresAuth: false
+      }
+    },
+    {
+      path:"/admin-requests",
+      name: "admin-requests",
+      component: () => import("./views/AdminRequests.vue"),
+      meta: {
+        requiresAuth: false
+      }
+    }
   ]
 });
 
