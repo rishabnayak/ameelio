@@ -4,7 +4,6 @@
     <v-sheet height="64">
       <v-toolbar flat color="white">
         <div v-if="defaultMenu">
-          <v-btn v-if="needsCall" color="secondary" dark @click="checkCalls">Join a Call</v-btn>
           <v-btn
             color="primary"
             dark
@@ -131,33 +130,10 @@
       >
         <v-card color="grey lighten-4" :width="350" flat>
           <v-toolbar :color="selectedEvent.color" dark>
-            <v-btn @click="deleteEvent(selectedEvent.id)" icon>
-              <v-icon>mdi-delete</v-icon>
-            </v-btn>
+            <v-btn v-if="needsCall" color="secondary" dark @click="checkCalls(selectedEvent)">Join a Call</v-btn>
             <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
             <div class="flex-grow-1"></div>
           </v-toolbar>
-          <v-card-text>
-            <form v-if="currentlyEditing !== selectedEvent.id">{{ selectedEvent.details }}</form>
-            <form v-else>
-              <textarea-autosize
-                v-model="selectedEvent.details"
-                type="text"
-                style="width: 100%"
-                :min-height="100"
-                placeholder="add note"
-              ></textarea-autosize>
-            </form>
-          </v-card-text>
-          <v-card-actions>
-            <v-btn text color="secondary" @click="selectedOpen = false">close</v-btn>
-            <v-btn
-              v-if="currentlyEditing !== selectedEvent.id"
-              text
-              @click.prevent="editEvent(selectedEvent)"
-            >edit</v-btn>
-            <v-btn text v-else type="submit" @click.prevent="updateEvent(selectedEvent)">Save</v-btn>
-          </v-card-actions>
         </v-card>
       </v-menu>
     </v-sheet>
@@ -166,6 +142,7 @@
 <script>
 import { db } from "@/main";
 import firebase from "firebase/app";
+import { log } from 'util';
 
 export default {
   data: () => ({
@@ -173,7 +150,7 @@ export default {
     focus: new Date().toISOString().substr(0, 10),
     type: "month",
     typeToLabel: {
-      month: "Month",
+      month: "Month"
     },
     contacts: [],
     name: null,
@@ -308,8 +285,8 @@ export default {
       return;
     },
 
-    checkCalls() {
-      //console.log("HI!")
+    checkCalls(selectedEvent) {
+      this.$router.push({ name: 'videocall', params: { uid: selectedEvent.uid } })
     },
 
     allowedHours: v => v,
@@ -335,24 +312,45 @@ export default {
     },
     async addEvent() {
       if (this.name && this.start && this.startTime) {
-        let newEvent = {
-          name: this.name,
-          start: this.start,
-          startTime: this.startTime
-        };
 
         db.collection("users")
-          .doc(this.user.uid)
-          .update({
-            calEvent: firebase.firestore.FieldValue.arrayUnion(newEvent)
+          .doc(this.name)
+          .get()
+          .then(doc => {
+            let userEvent = {
+              name: doc.data().displayName,
+              uid: this.name,
+              start: this.start,
+              startTime: this.startTime,
+              color: "blue"
+            };
+
+            let inmateEvent = {
+              name: this.user.displayName,
+              uid: this.user.uid,
+              start: this.start,
+              startTime: this.startTime,
+              color: "blue"
+            };
+
+            db.collection("users")
+              .doc(this.user.uid)
+              .update({
+                calEvent: firebase.firestore.FieldValue.arrayUnion(userEvent)
+              });
+
+            db.collection("users")
+              .doc(this.name)
+              .update({
+                calEvent: firebase.firestore.FieldValue.arrayUnion(inmateEvent)
+              });
+
+            this.getEvents();
+            (this.name = ""), (this.start = ""), (this.startTime = "");
+
+            alert("Succeessfully added");
           });
-        alert("Succeessfully added");
-        this.getEvents();
-        (this.name = ""), (this.start = ""), (this.startTime = "");
       }
-      // } else {
-      //   alert("You must select a contact, a date, and start time");
-      // }
     },
     editEvent(ev) {
       this.currentlyEditing = ev.id;

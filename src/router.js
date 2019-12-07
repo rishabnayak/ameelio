@@ -61,7 +61,7 @@ const router = new Router({
       component: () => import("./views/CSVParsing.vue")
     },
     {
-      path: "/videocall",
+      path: "/videocall/:uid",
       name: "videocall",
       component: () => import("./views/Comet.vue"),
       meta: {
