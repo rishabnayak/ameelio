@@ -49,6 +49,30 @@ const router = new Router({
       meta: {
         requiresAuth: false
       }
+    },
+    {
+      path:"/admin-calendar",
+      name: "admin-calendar",
+      component: () => import("./views/AdminCalendar.vue"),
+      meta: {
+        requiresAuth: false
+      }
+    },
+    {
+      path:"/manage-prisons",
+      name: "manage-prisons",
+      component: () => import("./views/ManagePrisons.vue"),
+      meta: {
+        requiresAuth: false
+      }
+    },
+    {
+      path:"/reports",
+      name: "reports",
+      component: () => import("./views/Reports.vue"),
+      meta: {
+        requiresAuth: false
+      }
     }
   ]
 });

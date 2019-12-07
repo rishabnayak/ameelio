@@ -4,7 +4,7 @@
    name="Sarah Smith" >
         <template v-slot:body>
             <v-container>
-                <p> Admin Requests </p>
+                <p> Manage Prisons </p>
                 
             </v-container>
 
@@ -16,7 +16,7 @@
 <script>
 import SideBarSuperUser from '../components/SideBarSuperUser'
 export default {
-    name: 'admin-requests',
+    name: 'manage-prisons',
     components: {
       SideBarSuperUser
   },

@@ -43,7 +43,7 @@
          <v-icon>{{ item.icon }}</v-icon>
        </v-list-item-icon>
        <v-list-item-content>
-         <v-list-item-title>{{ item.title }}</v-list-item-title>
+        <v-list-item-title >{{ item.title }}</v-list-item-title>
        </v-list-item-content>
      </v-list-item>
    </v-list>
@@ -75,7 +75,7 @@ export default {
      return {
        drawer: true,
        items: [
-         { href: '/', title: 'Admin Requests', icon: 'folder_open' },
+         { title: 'Admin Requests', icon: 'folder_open' },
          { title: 'Calendar', icon: 'event' },
          { title: 'Manage Prison', icon: 'widgets'},
          { title: 'Reports', icon: 'info'}
