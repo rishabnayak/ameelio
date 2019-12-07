@@ -10,7 +10,7 @@
                 <v-container>
                     <v-app-bar>
                          <v-app-bar-nav-icon></v-app-bar-nav-icon>
-                        <v-icon> fa-check </v-icon>
+                        <v-icon> fa-redo </v-icon>
                         <v-spacer></v-spacer>
                         <v-icon>fa-cog</v-icon>
                         </v-app-bar>
@@ -36,12 +36,13 @@
                     :items-per-page="5"
                     class="elevation-1">
                     <template slot="items" slot-scope="props">
-                        <tr @click="alert("HI!!!")">
+                        <tr>
                         <td>{{ props.item.name }}</td>
                         <td class="text-s-right">{{ props.item.name }}</td>
+                         <td class="text-s-right">{{ props.item.id }}</td>
                         <td class="text-s-right">{{ props.item.jail }}</td>
-                        <td class="text-s-right">{{ props.item.id }}</td>
                         <td class="text-s-right">{{ props.item.date}}</td>
+                        <td class="text-s-right">{{ props.item.message}}</td>
                             </tr>
                     </template>
                     <v-alert slot="no-results" :value="true" color="error" icon="warning">
@@ -89,25 +90,33 @@ export default {
           {
               text: 'Date of Request',
               value: 'date'
-          }],
+          },
+          {
+              text: 'Message',
+              value: 'message'
+          }
+          ],
       items: [
           {
-              name: "Timmy Smith",
+              name: "Cici Chown",
               jail: "Demo County Jail",
               id: "2473294873894",
-              date:"May 20, 2019"
+              date:"May 20, 2019",
+              message:"Hello there Susie I hope you are doing well."
           },
           {
-              name: "Tom Smith Sr",
+              name: "Tom Jom Sr",
               jail: "Demo County Jail",
               id: "209830984",
-              date:"May 20, 1999"
+              date:"May 20, 1999",
+              message:"Hello there I am having trouble with my video call"
           },
           {
-              name: "Jane Annie",
+              name: "Elizabeth Brown",
               jail: "Demo County Jail",
               id: "2234242",
-              date:"September 21, 2001"
+              date:"September 21, 2001",
+              message:"Hello I wanted to follow up on my family connection."
           }
       ],
 
