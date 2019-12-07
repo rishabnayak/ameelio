@@ -4,7 +4,9 @@
    name="Sarah Smith" >
         <template v-slot:body>
             <v-container>
-                <p> Manage Prisons </p>
+                <h1> Manage Prisons </h1>
+                <br>
+                <v-toolbar dense elevation=1> <v-text-field v-model="search" placeholder="Search Prison" prepend-icon="search" full-width=true single-line hide-details></v-text-field></v-toolbar>
                 
             </v-container>
 

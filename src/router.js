@@ -73,6 +73,14 @@ const router = new Router({
       meta: {
         requiresAuth: false
       }
+    },
+    {
+      path:"/admin-messages",
+      name: "admin-messages",
+      component: () => import("./views/AdminMessages.vue"),
+      meta: {
+        requiresAuth: false
+      }
     }
   ]
 });

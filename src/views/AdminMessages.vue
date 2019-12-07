@@ -4,7 +4,7 @@
    name="Sarah Smith" >
         <template v-slot:body>
             <v-container>
-                <h1> Admin Requests </h1>
+                <h1> Admin Messages </h1>
                 <br>
                 <v-toolbar dense elevation=1> <v-text-field v-model="search" placeholder="Search Requests" prepend-icon="search" single-line hide-details  full-width="True"></v-text-field></v-toolbar>
                 <v-container>
