@@ -68,20 +68,6 @@ export default {
       photoURL: null,
     }
   },
-<<<<<<< HEAD
-   data () {
-     return {
-       drawer: true,
-       items: [
-         { title: 'Home', icon: 'dashboard' },
-         { title: 'About', icon: 'question_answer' },
-         { title: 'Calendar', icon: 'event'}
-       ],
-       mini: true,
-     }
-   },
- }
-=======
   beforeMount() {
     this.name = this.user.displayName;
     this.photoURL = this.user.photoURL;
@@ -107,7 +93,6 @@ export default {
     }
   }
 };
->>>>>>> master
 </script>
 
 
