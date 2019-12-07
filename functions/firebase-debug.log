@@ -1,89 +1,165 @@
-[debug] [2019-11-28T01:27:37.410Z] ----------------------------------------------------------------------
-[debug] [2019-11-28T01:27:37.411Z] Command:       /usr/local/Cellar/node/12.12.0/bin/node /usr/local/bin/firebase deploy --only functions
-[debug] [2019-11-28T01:27:37.411Z] CLI Version:   7.8.1
-[debug] [2019-11-28T01:27:37.411Z] Platform:      darwin
-[debug] [2019-11-28T01:27:37.412Z] Node Version:  v12.12.0
-[debug] [2019-11-28T01:27:37.413Z] Time:          Wed Nov 27 2019 20:27:37 GMT-0500 (Eastern Standard Time)
-[debug] [2019-11-28T01:27:37.413Z] ----------------------------------------------------------------------
-[debug] [2019-11-28T01:27:37.413Z] 
-[debug] [2019-11-28T01:27:37.423Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
-[debug] [2019-11-28T01:27:37.423Z] > authorizing via signed-in user
-[debug] [2019-11-28T01:27:37.423Z] [iam] checking project ameelio-badeb for permissions ["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]
-[debug] [2019-11-28T01:27:37.424Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/ameelio-badeb:testIamPermissions  
+[debug] [2019-12-07T17:11:59.458Z] ----------------------------------------------------------------------
+[debug] [2019-12-07T17:11:59.459Z] Command:       /usr/local/bin/node /usr/local/bin/firebase serve --only functions
+[debug] [2019-12-07T17:11:59.459Z] CLI Version:   7.6.1
+[debug] [2019-12-07T17:11:59.459Z] Platform:      darwin
+[debug] [2019-12-07T17:11:59.459Z] Node Version:  v10.16.3
+[debug] [2019-12-07T17:11:59.460Z] Time:          Sat Dec 07 2019 12:11:59 GMT-0500 (Eastern Standard Time)
+[debug] [2019-12-07T17:11:59.460Z] ----------------------------------------------------------------------
+[debug] [2019-12-07T17:11:59.460Z] 
+[debug] [2019-12-07T17:11:59.469Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2019-12-07T17:11:59.469Z] > authorizing via signed-in user
+[debug] [2019-12-07T17:11:59.469Z] [iam] checking project ameelio-badeb for permissions ["firebase.projects.get"]
+[debug] [2019-12-07T17:11:59.470Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/ameelio-badeb:testIamPermissions  
 
-[debug] [2019-11-28T01:27:37.697Z] <<< HTTP RESPONSE 200
-[info] 
-[info] === Deploying to 'ameelio-badeb'...
-[info] 
-[info] i  deploying functions
-[debug] [2019-11-28T01:27:39.065Z] > [functions] package.json contents: {
-  "name": "functions",
-  "description": "Cloud Functions for Firebase",
-  "scripts": {
-    "serve": "firebase serve --only functions",
-    "shell": "firebase functions:shell",
-    "start": "npm run shell",
-    "deploy": "firebase deploy --only functions",
-    "logs": "firebase functions:log"
-  },
-  "engines": {
-    "node": "8"
-  },
-  "dependencies": {
-    "async": "^3.1.0",
-    "firebase-admin": "^8.6.0",
-    "firebase-functions": "^3.3.0",
-    "glob": "^7.1.6",
-    "request": "^2.88.0",
-    "request-promise": "^4.2.5"
-  },
-  "devDependencies": {
-    "firebase-functions-test": "^0.1.6"
-  },
-  "private": true
-}
-[info] i  functions: ensuring necessary APIs are enabled...
-[debug] [2019-11-28T01:27:39.066Z] >>> HTTP REQUEST GET https://serviceusage.googleapis.com/v1/projects/ameelio-badeb/services/cloudfunctions.googleapis.com  
+[debug] [2019-12-07T17:11:59.763Z] <<< HTTP RESPONSE 200
+[debug] [2019-12-07T17:11:59.766Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/ameelio-badeb  
  
-[debug] [2019-11-28T01:27:39.067Z] >>> HTTP REQUEST GET https://serviceusage.googleapis.com/v1/projects/ameelio-badeb/services/runtimeconfig.googleapis.com  
- 
-[debug] [2019-11-28T01:27:39.387Z] <<< HTTP RESPONSE 200
-[debug] [2019-11-28T01:27:39.395Z] <<< HTTP RESPONSE 200
-[info] ✔  functions: all necessary APIs are enabled
-[debug] [2019-11-28T01:27:39.396Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/ameelio-badeb/adminSdkConfig  
- 
-[debug] [2019-11-28T01:27:39.640Z] <<< HTTP RESPONSE 200
-[info] i  functions: preparing functions directory for uploading...
-[debug] [2019-11-28T01:27:39.642Z] >>> HTTP REQUEST GET https://runtimeconfig.googleapis.com/v1beta1/projects/ameelio-badeb/configs  
- 
-[debug] [2019-11-28T01:27:40.037Z] <<< HTTP RESPONSE 200
-[info] i  functions: packaged functions (31.84 KB) for uploading
-[debug] [2019-11-28T01:27:40.457Z] >>> HTTP REQUEST POST https://cloudfunctions.googleapis.com/v1/projects/ameelio-badeb/locations/us-central1/functions:generateUploadUrl  
- 
-[debug] [2019-11-28T01:27:41.245Z] <<< HTTP RESPONSE 200
-[debug] [2019-11-28T01:27:41.246Z] >>> HTTP REQUEST PUT https://storage.googleapis.com/gcf-upload-us-central1-9ecfa3a2-0015-4663-950d-252a1f94179b/b085b05e-7727-44bf-bb9b-607c8eb6251f.zip?GoogleAccessId=service-42596678946@gcf-admin-robot.iam.gserviceaccount.com&Expires=1574906287&Signature=OB5sFjFEr796X8vMFMilshtU%2F1N1IRsqQ6GtRyK61YNLlYSLwOiTiZPPCQKOg7EnUq2pCHmhSJu02k8kCkzkA7Q7SYuVORbKlUGU5FC9b4hEH4anT0JOaocsVeJ3NA4uLy6PUywiABFH1cyMF0xL6pjGqQLZbkaNkIiVpJipYJeCAeKLr4t8xp0zPcm73MwK5Yw3RUUudTWyjsjCbu8rqtSbQfAoRTBnHxMGp09WZeSFxEFlbE8NfECNSbDmBr4MxnXaWHFZktnTavn3cRKa9PFKoLR5Qz4m6bscWeQsd4ZBLwc8pFbD%2BMbtdXtqlyCNen%2Fb73TY6ff6sQL6VbLzBQ%3D%3D  
- <request body omitted>
-[debug] [2019-11-28T01:27:41.423Z] <<< HTTP RESPONSE 200
-[info] ✔  functions: functions folder uploaded successfully
-[debug] [2019-11-28T01:27:41.425Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/projects/ameelio-badeb/locations/-/functions  
- 
-[debug] [2019-11-28T01:27:41.908Z] <<< HTTP RESPONSE 200
-[info] i  functions: updating Node.js 8 function createCometChatUser(us-central1)...
-[debug] [2019-11-28T01:27:41.910Z] Trigger is:  {"eventTrigger":{"resource":"projects/ameelio-badeb","eventType":"providers/firebase.auth/eventTypes/user.create","service":"firebaseauth.googleapis.com"}}
-[info] 
-The following functions are found in your project but do not exist in your local source code:
-	addToDatabase(us-central1)
-	pushTest(us-central1)
+[debug] [2019-12-07T17:12:00.033Z] <<< HTTP RESPONSE 200
+[info] ✔  functions: Using node@10 from host.
+[info] ✔  functions: Emulator started at http://localhost:5000
+[info] i  functions: Watching "/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/functions" for Cloud Functions...
+[debug] [2019-12-07T17:12:00.546Z] [runtime-status] Functions runtime initialized. {"cwd":"/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/functions","node_version":"10.16.3"}
+[debug] [2019-12-07T17:12:00.546Z] [runtime-status] Disabled runtime features: {"functions_config_helper":true,"network_filtering":true,"timeout":true,"memory_limiting":true,"admin_stubs":true} {}
+[debug] [2019-12-07T17:12:00.548Z] [runtime-status] Resolved module firebase-admin {"declared":true,"installed":true,"version":"8.8.0","resolution":"/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2019-12-07T17:12:00.548Z] [runtime-status] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2019-12-07T17:12:00.549Z] [runtime-status] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/functions/node_modules/firebase-functions/lib/index.js"}
+[warn] ⚠  /Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/functions/csv_parsing/csv_parsing.function.js:49
+  catch((err) => {
+  ^^^^^
 
-If you are renaming a function or changing its region, it is recommended that you create the new function first before deleting the old one to prevent event loss. For more info, visit https://firebase.google.com/docs/functions/manage-functions#modify
+SyntaxError: Unexpected token catch
+    at Module._compile (internal/modules/cjs/loader.js:723:23)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:789:10)
+    at Module.load (internal/modules/cjs/loader.js:653:32)
+    at tryModuleLoad (internal/modules/cjs/loader.js:593:12)
+    at Function.Module._load (internal/modules/cjs/loader.js:585:3)
+    at Module.require (internal/modules/cjs/loader.js:692:17)
+    at require (internal/modules/cjs/helpers.js:25:18)
+    at files.forEach.file (/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/functions/index.js:11:26)
+    at Array.forEach (<anonymous>)
+    at Object.<anonymous> (/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/functions/index.js:10:7)
+    at Module._compile (internal/modules/cjs/loader.js:778:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:789:10)
+    at Module.load (internal/modules/cjs/loader.js:653:32)
+    at tryModuleLoad (internal/modules/cjs/loader.js:593:12)
+    at Function.Module._load (internal/modules/cjs/loader.js:585:3)
+    at Module.require (internal/modules/cjs/loader.js:692:17)
+    at require (internal/modules/cjs/helpers.js:25:18)
+    at /usr/local/lib/node_modules/firebase-tools/lib/emulator/functionsEmulatorRuntime.js:677:33
+    at Generator.next (<anonymous>)
+    at fulfilled (/usr/local/lib/node_modules/firebase-tools/lib/emulator/functionsEmulatorRuntime.js:4:58)
+    at process._tickCallback (internal/process/next_tick.js:68:7)
+    at Function.Module.runMain (internal/modules/cjs/loader.js:834:11)
+[warn] ⚠  We were unable to load your functions code. (see above)
+[debug] [2019-12-07T17:12:45.664Z] File /Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/functions/csv_parsing/csv_parsing.function.js changed, reloading triggers
+[debug] [2019-12-07T17:12:46.928Z] [runtime-status] Functions runtime initialized. {"cwd":"/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/functions","node_version":"10.16.3"}
+[debug] [2019-12-07T17:12:46.928Z] [runtime-status] Disabled runtime features: {"functions_config_helper":true,"network_filtering":true,"timeout":true,"memory_limiting":true,"admin_stubs":true} {}
+[debug] [2019-12-07T17:12:46.930Z] [runtime-status] Resolved module firebase-admin {"declared":true,"installed":true,"version":"8.8.0","resolution":"/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2019-12-07T17:12:46.931Z] [runtime-status] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2019-12-07T17:12:46.932Z] [runtime-status] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2019-12-07T17:12:47.179Z] Unsupported trigger: {"eventTrigger":{"resource":"projects/ameelio-badeb","eventType":"providers/firebase.auth/eventTypes/user.create","service":"firebaseauth.googleapis.com"},"name":"createCometChatUser","entryPoint":"createCometChatUser"}
+[info] ✔  functions[pushTest]: http function initialized (http://localhost:5000/ameelio-badeb/us-central1/pushTest).
+[info] i  functions[createCometChatUser]: function ignored because the firebaseauth.googleapis.com emulator does not exist or is not running.
+[debug] [2019-12-07T17:12:47.221Z] File /Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/functions/csv_parsing/csv_parsing.function.js changed, reloading triggers
+[debug] [2019-12-07T17:12:48.451Z] [runtime-status] Functions runtime initialized. {"cwd":"/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/functions","node_version":"10.16.3"}
+[debug] [2019-12-07T17:12:48.452Z] [runtime-status] Disabled runtime features: {"functions_config_helper":true,"network_filtering":true,"timeout":true,"memory_limiting":true,"admin_stubs":true} {}
+[debug] [2019-12-07T17:12:48.454Z] [runtime-status] Resolved module firebase-admin {"declared":true,"installed":true,"version":"8.8.0","resolution":"/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2019-12-07T17:12:48.455Z] [runtime-status] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2019-12-07T17:12:48.455Z] [runtime-status] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2019-12-07T17:12:50.931Z] File /Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/functions/csv_parsing/csv_parsing.function.js changed, reloading triggers
+[debug] [2019-12-07T17:12:52.169Z] [runtime-status] Functions runtime initialized. {"cwd":"/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/functions","node_version":"10.16.3"}
+[debug] [2019-12-07T17:12:52.170Z] [runtime-status] Disabled runtime features: {"functions_config_helper":true,"network_filtering":true,"timeout":true,"memory_limiting":true,"admin_stubs":true} {}
+[debug] [2019-12-07T17:12:52.173Z] [runtime-status] Resolved module firebase-admin {"declared":true,"installed":true,"version":"8.8.0","resolution":"/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2019-12-07T17:12:52.173Z] [runtime-status] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2019-12-07T17:12:52.174Z] [runtime-status] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2019-12-07T17:12:54.400Z] File /Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/functions/csv_parsing/csv_parsing.function.js changed, reloading triggers
+[debug] [2019-12-07T17:12:55.656Z] [runtime-status] Functions runtime initialized. {"cwd":"/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/functions","node_version":"10.16.3"}
+[debug] [2019-12-07T17:12:55.656Z] [runtime-status] Disabled runtime features: {"functions_config_helper":true,"network_filtering":true,"timeout":true,"memory_limiting":true,"admin_stubs":true} {}
+[debug] [2019-12-07T17:12:55.658Z] [runtime-status] Resolved module firebase-admin {"declared":true,"installed":true,"version":"8.8.0","resolution":"/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2019-12-07T17:12:55.659Z] [runtime-status] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2019-12-07T17:12:55.660Z] [runtime-status] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2019-12-07T17:13:03.323Z] File /Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/functions/csv_parsing/csv_parsing.function.js changed, reloading triggers
+[debug] [2019-12-07T17:13:04.610Z] [runtime-status] Functions runtime initialized. {"cwd":"/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/functions","node_version":"10.16.3"}
+[debug] [2019-12-07T17:13:04.610Z] [runtime-status] Disabled runtime features: {"functions_config_helper":true,"network_filtering":true,"timeout":true,"memory_limiting":true,"admin_stubs":true} {}
+[debug] [2019-12-07T17:13:04.613Z] [runtime-status] Resolved module firebase-admin {"declared":true,"installed":true,"version":"8.8.0","resolution":"/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2019-12-07T17:13:04.614Z] [runtime-status] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2019-12-07T17:13:04.615Z] [runtime-status] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2019-12-07T17:13:05.606Z] File /Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/functions/csv_parsing/csv_parsing.function.js changed, reloading triggers
+[debug] [2019-12-07T17:13:05.707Z] File /Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/functions/csv_parsing/csv_parsing.function.js changed, reloading triggers
+[debug] [2019-12-07T17:13:06.942Z] [runtime-status] Functions runtime initialized. {"cwd":"/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/functions","node_version":"10.16.3"}
+[debug] [2019-12-07T17:13:06.942Z] [runtime-status] Disabled runtime features: {"functions_config_helper":true,"network_filtering":true,"timeout":true,"memory_limiting":true,"admin_stubs":true} {}
+[debug] [2019-12-07T17:13:06.944Z] [runtime-status] Resolved module firebase-admin {"declared":true,"installed":true,"version":"8.8.0","resolution":"/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2019-12-07T17:13:06.945Z] [runtime-status] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2019-12-07T17:13:06.946Z] [runtime-status] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2019-12-07T17:13:09.555Z] File /Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/functions/csv_parsing/csv_parsing.function.js changed, reloading triggers
+[debug] [2019-12-07T17:13:10.803Z] [runtime-status] Functions runtime initialized. {"cwd":"/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/functions","node_version":"10.16.3"}
+[debug] [2019-12-07T17:13:10.803Z] [runtime-status] Disabled runtime features: {"functions_config_helper":true,"network_filtering":true,"timeout":true,"memory_limiting":true,"admin_stubs":true} {}
+[debug] [2019-12-07T17:13:10.806Z] [runtime-status] Resolved module firebase-admin {"declared":true,"installed":true,"version":"8.8.0","resolution":"/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2019-12-07T17:13:10.807Z] [runtime-status] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2019-12-07T17:13:10.807Z] [runtime-status] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2019-12-07T17:13:18.077Z] ----------------------------------------------------------------------
+[debug] [2019-12-07T17:13:18.079Z] Command:       /usr/local/bin/node /usr/local/bin/firebase serve --only functions
+[debug] [2019-12-07T17:13:18.079Z] CLI Version:   7.6.1
+[debug] [2019-12-07T17:13:18.079Z] Platform:      darwin
+[debug] [2019-12-07T17:13:18.079Z] Node Version:  v10.16.3
+[debug] [2019-12-07T17:13:18.079Z] Time:          Sat Dec 07 2019 12:13:18 GMT-0500 (Eastern Standard Time)
+[debug] [2019-12-07T17:13:18.079Z] ----------------------------------------------------------------------
+[debug] [2019-12-07T17:13:18.080Z] 
+[debug] [2019-12-07T17:13:18.088Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2019-12-07T17:13:18.088Z] > authorizing via signed-in user
+[debug] [2019-12-07T17:13:18.088Z] [iam] checking project ameelio-badeb for permissions ["firebase.projects.get"]
+[debug] [2019-12-07T17:13:18.089Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/ameelio-badeb:testIamPermissions  
 
-[info] i  functions: continuing with other deployments.
-[debug] [2019-11-28T01:27:41.924Z] >>> HTTP REQUEST GET https://serviceusage.googleapis.com/v1/projects/ameelio-badeb/services/cloudscheduler.googleapis.com  
+[debug] [2019-12-07T17:13:18.324Z] <<< HTTP RESPONSE 200
+[debug] [2019-12-07T17:13:18.327Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/ameelio-badeb  
  
-[debug] [2019-11-28T01:27:42.290Z] <<< HTTP RESPONSE 200
-[debug] [2019-11-28T01:27:42.291Z] >>> HTTP REQUEST PATCH https://cloudfunctions.googleapis.com/v1/projects/ameelio-badeb/locations/us-central1/functions/createCometChatUser {"updateMask":"sourceUploadUrl,name,labels,runtime,eventTrigger.resource,eventTrigger.eventType,eventTrigger.service"} 
-
-[debug] [2019-11-28T01:27:42.723Z] <<< HTTP RESPONSE 200
-[debug] [2019-11-28T01:27:42.724Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/YW1lZWxpby1iYWRlYi91cy1jZW50cmFsMS9jcmVhdGVDb21ldENoYXRVc2VyL0RVZjhJWGtZWVl3  
- 
-[debug] [2019-11-28T01:27:43.032Z] <<< HTTP RESPONSE 200
+[debug] [2019-12-07T17:13:18.581Z] <<< HTTP RESPONSE 200
+[info] ✔  functions: Using node@10 from host.
+[info] ✔  functions: Emulator started at http://localhost:5000
+[info] i  functions: Watching "/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/functions" for Cloud Functions...
+[debug] [2019-12-07T17:13:19.094Z] [runtime-status] Functions runtime initialized. {"cwd":"/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/functions","node_version":"10.16.3"}
+[debug] [2019-12-07T17:13:19.094Z] [runtime-status] Disabled runtime features: {"functions_config_helper":true,"network_filtering":true,"timeout":true,"memory_limiting":true,"admin_stubs":true} {}
+[debug] [2019-12-07T17:13:19.096Z] [runtime-status] Resolved module firebase-admin {"declared":true,"installed":true,"version":"8.8.0","resolution":"/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2019-12-07T17:13:19.097Z] [runtime-status] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2019-12-07T17:13:19.097Z] [runtime-status] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2019-12-07T17:13:19.320Z] Unsupported trigger: {"eventTrigger":{"resource":"projects/ameelio-badeb","eventType":"providers/firebase.auth/eventTypes/user.create","service":"firebaseauth.googleapis.com"},"name":"createCometChatUser","entryPoint":"createCometChatUser"}
+[info] ✔  functions[pushTest]: http function initialized (http://localhost:5000/ameelio-badeb/us-central1/pushTest).
+[info] i  functions[createCometChatUser]: function ignored because the firebaseauth.googleapis.com emulator does not exist or is not running.
+[debug] [2019-12-07T17:13:50.771Z] File /Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/functions/csv_parsing/csv_parsing.function.js changed, reloading triggers
+[debug] [2019-12-07T17:13:52.035Z] [runtime-status] Functions runtime initialized. {"cwd":"/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/functions","node_version":"10.16.3"}
+[debug] [2019-12-07T17:13:52.035Z] [runtime-status] Disabled runtime features: {"functions_config_helper":true,"network_filtering":true,"timeout":true,"memory_limiting":true,"admin_stubs":true} {}
+[debug] [2019-12-07T17:13:52.037Z] [runtime-status] Resolved module firebase-admin {"declared":true,"installed":true,"version":"8.8.0","resolution":"/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2019-12-07T17:13:52.038Z] [runtime-status] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2019-12-07T17:13:52.039Z] [runtime-status] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2019-12-07T17:14:05.363Z] File /Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/functions/csv_parsing/csv_parsing.function.js changed, reloading triggers
+[debug] [2019-12-07T17:14:06.609Z] [runtime-status] Functions runtime initialized. {"cwd":"/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/functions","node_version":"10.16.3"}
+[debug] [2019-12-07T17:14:06.610Z] [runtime-status] Disabled runtime features: {"functions_config_helper":true,"network_filtering":true,"timeout":true,"memory_limiting":true,"admin_stubs":true} {}
+[debug] [2019-12-07T17:14:06.612Z] [runtime-status] Resolved module firebase-admin {"declared":true,"installed":true,"version":"8.8.0","resolution":"/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2019-12-07T17:14:06.613Z] [runtime-status] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2019-12-07T17:14:06.613Z] [runtime-status] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2019-12-07T17:14:25.740Z] Accepted request POST /ameelio-badeb/us-central1/pushTest --> pushTest
+[debug] [2019-12-07T17:14:25.967Z] [runtime-status] Functions runtime initialized. {"cwd":"/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/functions","node_version":"10.16.3"}
+[info] i  functions: Beginning execution of "pushTest"
+[debug] [2019-12-07T17:14:25.968Z] [runtime-status] Disabled runtime features: {"functions_config_helper":true,"network_filtering":true,"timeout":true,"memory_limiting":true,"admin_stubs":true} {}
+[debug] [2019-12-07T17:14:25.971Z] [runtime-status] Resolved module firebase-admin {"declared":true,"installed":true,"version":"8.8.0","resolution":"/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2019-12-07T17:14:25.972Z] [runtime-status] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2019-12-07T17:14:25.972Z] [runtime-status] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/valence/Documents/google_drive/ofCodrs/hack4impact/all_ameelio/general_collaboration/ameelio/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2019-12-07T17:14:26.199Z] [runtime-status] Trigger "pushTest" has been found, beginning invocation! {}
+[debug] [2019-12-07T17:14:26.199Z] [runtime-status]  {"httpsTrigger":{},"name":"pushTest","entryPoint":"pushTest"}
+[debug] [2019-12-07T17:14:26.199Z] [runtime-status] Running pushTest in mode HTTPS {}
+[debug] [2019-12-07T17:14:26.204Z] {"socketPath":"/var/folders/t3/wvxr19lx76jb6f6ydrz6z4rh0000gn/T/firebase_emulator_invocation_85317.sock"}
+[debug] [2019-12-07T17:14:26.206Z] [functions] Runtime ready! Sending request! {"socketPath":"/var/folders/t3/wvxr19lx76jb6f6ydrz6z4rh0000gn/T/firebase_emulator_invocation_85317.sock"}
+[debug] [2019-12-07T17:14:26.229Z] [runtime-status] Ephemeral server used! {}
+[debug] [2019-12-07T17:14:26.231Z] [runtime-status] Ephemeral server survived. {}
+[info] >  raw body:
+[info] >  First Name,Last Name,Age,Race,Sex
+[info] >  John,Smith,34,White,Male,
+[info] >  Lenny,Kaufman,22,Hispanic,Male
+[info] >  starting parsed
+[info] >  result was 
+[info] >  First Name,Last Name,Age,Race,Sex,John,Smith,34,White,Male,,Lenny,Kaufman,22,Hispanic,Male
+[info] >  first name:
+[info] >  John
+[info] >  first name:
+[info] >  Lenny
+[info] i  functions: Finished "pushTest" in ~1s
