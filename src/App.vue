@@ -11,6 +11,8 @@
 <script>
 import Sidebar from "@/components/Sidebar.vue";
 
+
+// import navigationBar from "@/components/NavigationBar.vue";
 export default {
   name: 'App',
   computed: {

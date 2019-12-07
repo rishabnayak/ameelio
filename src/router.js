@@ -56,6 +56,33 @@ const router = new Router({
       }
     },
     {
+      path:"/super-user",
+      name: "superUserView",
+      component: () => import("./views/superUser.vue"),
+      meta: {
+        requiresAuth: false
+      }
+    },
+    {
+      path:"/admin-requests",
+      name: "admin-requests",
+      component: () => import("./views/AdminRequests.vue"),
+      meta: {
+        requiresAuth: false
+      }
+    },
+    {
+      path:"/admin-calendar",
+      name: "admin-calendar",
+      component: () => import("./views/AdminCalendar.vue"),
+      meta: {
+        requiresAuth: false
+      }
+    },
+    {
+      path:"/manage-prisons",
+      name: "manage-prisons",
+      component: () => import("./views/ManagePrisons.vue"),
       path: "/csvparsing",
       name: "csvparsing",
       component: () => import("./views/CSVParsing.vue")
@@ -68,6 +95,22 @@ const router = new Router({
         requiresAuth: false
       }
     },
+    {
+      path:"/reports",
+      name: "reports",
+      component: () => import("./views/Reports.vue"),
+      meta: {
+        requiresAuth: false
+      }
+    },
+    {
+      path:"/admin-messages",
+      name: "admin-messages",
+      component: () => import("./views/AdminMessages.vue"),
+      meta: {
+        requiresAuth: false
+      }
+    }
   ]
 });
 
