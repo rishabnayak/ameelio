@@ -57,7 +57,6 @@ export default {
   },
   computed: {
     show() {
-      console.log(this.$route.path);
       return !(this.$route.path == "/" || this.$route.path == "/login");
     },
     user() {
