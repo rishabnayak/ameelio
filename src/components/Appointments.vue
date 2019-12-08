@@ -30,17 +30,13 @@ export default {
   methods:{
     async getPastCalls(){
       let allEvents = await this.user.calEvent;
-      console.log('allEvents is: ', allEvents);
       let currentDate = new Date();
       for(var i = 0; i < allEvents.length; i++){
         let eventDate = new Date(allEvents[i].start + "T"+allEvents[i].startTime+":00");
-        console.log("this is the events date", eventDate);
         if(currentDate > eventDate){
-          console.log('which has passed');
           this.pastEvents.push({name: allEvents[i].name, date: allEvents[i].start, time: allEvents[i].startTime});
         }
       }
-      console.log('the past events are: ', this.pastEvents);
     },
   },
 
