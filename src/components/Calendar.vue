@@ -130,7 +130,7 @@
       >
         <v-card color="grey lighten-4" :width="350" flat>
           <v-toolbar :color="selectedEvent.color" dark>
-            <v-btn v-if="needsCall" color="secondary" dark @click="checkCalls(selectedEvent)">Join a Call</v-btn>
+            <v-btn color="secondary" dark @click="checkCalls(selectedEvent)">Join a Call</v-btn>
             <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
             <div class="flex-grow-1"></div>
           </v-toolbar>
@@ -152,6 +152,7 @@ export default {
     typeToLabel: {
       month: "Month"
     },
+    pastEvents: [],
     contacts: [],
     name: null,
     color: "#1976D2",
@@ -192,13 +193,6 @@ export default {
   computed: {
     user() {
       return this.$store.state.user;
-    },
-    isExternal() {
-      console.log(this.$route.path);
-      return this.$route.path == "/external";
-    },
-    needsCall() {
-      return this.$route.path != "/admin";
     },
     title() {
       const { start, end } = this;

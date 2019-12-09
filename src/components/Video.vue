@@ -4,10 +4,6 @@
     </div>
 
     <div class="form-group">
-      <div class="form-group">
-        <h2>Welcome {{ this.name}}</h2>
- 
-      </div>
       
         <div v-if="incomingCall">
           <button class="btn btn-success" @click="acceptCall">Accept Call</button>  
@@ -34,12 +30,11 @@ import { CometChat } from "@cometchat-pro/chat";
 export default {
   name: "Video",
   props:{
-    name: String
+    receiver_id: String
   },
   data() {
     return {
       session_id: "",
-      receiver_id: null,
       error: false,
       showSpinner: false,
       incomingCall: false,
@@ -98,7 +93,6 @@ export default {
           console.log("Outgoing call rejected:", call);
           this.incomingCall = false;
           this.ongoingCall = false;
-          this.receiver_id = "";
           // Outgoing Call Rejected
           this.onCall = false;
         },

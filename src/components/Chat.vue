@@ -17,7 +17,7 @@
                             Loading Messages
                           </span>
                         </div>
-                        <div class="text-center img-fluid empty-chat" v-else-if="!groupMessages.length" >
+                        <div class="text-center img-fluid empty-chat" v-else-if="!messages.length" >
                           <div class="empty-chat-holder">
                             <img src="../assets/empty-state.svg" class="img-res" alt="empty chat image">
                           </div>
@@ -31,15 +31,16 @@
                         </div>
 
                         <div v-else>
-                          <div v-for="message in groupMessages" v-bind:key="message.id">
-                            <div class="received-chats" v-if="message.sender.uid != user.uid">
+                          <div v-for="message in messages" v-bind:key="message.id">
+                            <div class="received-chats" v-if="message.receiverId == user.uid.toLowerCase() ">
                                 <div class="received-chats-img">
                                   <img v-bind:src="message.sender.avatar" alt="" class="avatar">
                                 </div>
 
                                 <div class="received-msg">
                                     <div class="received-msg-inbox">
-                                        <p ><span>{{ message.sender.name }}</span><br>{{ message.data.text }}</p>
+
+                                        <p ><span>{{ message.sender.name }}</span><br>{{ message.text }}</p>
                                     </div>
                                 </div>
                               </div>
@@ -47,7 +48,7 @@
 
                             <div class="outgoing-chats" v-else>
                                   <div class="outgoing-chats-msg">
-                                      <p>{{ message.data.text }}</p>
+                                      <p>{{ message.text }}</p>
                                   </div>
 
                                   <div class="outgoing-chats-img">
@@ -86,12 +87,16 @@ export default {
   components: {
     Spinner
   },
+  props: {
+    receiverID: String
+  },
   data() {
     return {
       sendingMessage: false,
       chatMessage: "",
-      groupMessages: [],
-      loadingMessages: false
+      // groupMessages: [],
+      loadingMessages: false,
+      messages: []
     };
   },
   mounted() {
@@ -103,12 +108,14 @@ export default {
     messagesRequest.fetchPrevious().then(
       messages => {
         console.log("Message list fetched:", messages);
-        console.log("this.groupMessages", this.groupMessages);
-        this.groupMessages = [...this.groupMessages, ...messages];
+        messages.forEach(
+          message => this.checkIfChat(message));
+        console.log(this.messages);
+        // this.groupMessages = [...this.groupMessages, ...messages];
         this.loadingMessages = false;
         this.$nextTick(() => {
           this.scrollToBottom();
-        });
+        })
       },
       error => {
         console.log("Message fetching failed with error:", error);
@@ -120,9 +127,7 @@ export default {
         onTextMessageReceived: textMessage => {
           console.log("Text message received successfully", textMessage);
           // Handle text message
-          console.log(this.groupMessages);
-          this.groupMessages = [...this.groupMessages, textMessage];
-          // console.log("avatar", textMessage.sender.avatar)
+          this.messages = [...this.messages, textMessage];
           this.loadingMessages = false;
           this.$nextTick(() => {
             this.scrollToBottom();
@@ -135,18 +140,24 @@ export default {
     user(){
       return this.$store.state.user
     },
-    receiverID(){
-      return "superhero2";
-    }
 
   },
   methods: {
+    checkIfChat(message){
+      if(message.category == 'message'){
+        console.log('this is the data');
+        if(message.receiverId == this.receiverID.toLowerCase() || (message.sender.uid == this.receiverID.toLowerCase())){
+          this.messages.push(message);
+        }
+      }
+    },
     sendGroupMessage() {
       this.sendingMessage = true;
       var messageText = this.chatMessage;
       var messageType = CometChat.MESSAGE_TYPE.TEXT;
       var receiverType = CometChat.RECEIVER_TYPE.USER;
       let globalContext = this;
+
       var textMessage = new CometChat.TextMessage(
         this.receiverID,
         messageText,
@@ -158,7 +169,7 @@ export default {
           this.chatMessage = "";
           this.sendingMessage = false;
           // Text Message Sent Successfully
-          this.groupMessages = [...globalContext.groupMessages, message];
+          this.messages = [...globalContext.messages, message];
           this.$nextTick(() => {
             this.scrollToBottom();
           });

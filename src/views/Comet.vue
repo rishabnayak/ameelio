@@ -1,8 +1,10 @@
 <template>
   <v-container>
     <v-row>
-      <v-col><CometVideo :name=user.displayName /></v-col>
-      <v-col><Chat /></v-col>
+      <CometVideo :receiver_id=receiverUID />
+    </v-row>
+    <v-row>
+      <Chat :receiverID=receiverUID />
     </v-row>
 </v-container>
 </template>
@@ -28,7 +30,8 @@ export default {
       showSpinner: false,
       incomingCall: false,
       ongoingCall: false,
-      appID: '11033fd257dda26'
+      appID: '11033fd257dda26',
+      receiverUID: ""
     }
   },
   computed: {
@@ -37,7 +40,8 @@ export default {
     }
   },
   created() {
-
+    this.receiverUID = this.$route.params.uid
+    console.log('the id is: ', this.receiverUID);
     let cometChatSettings = new CometChat.AppSettingsBuilder().subscribePresenceForAllUsers().setRegion('us').build();
       CometChat.init('11033fd257dda26',cometChatSettings)
         .then(
@@ -76,18 +80,6 @@ export default {
         },
         error => {
           console.log(error);
-        }
-      );
-    },
-    logoutUser() {
-      CometChat.logout().then(
-        success => {
-          console.log("Logout completed successfully");
-          console.log(success);
-        },
-        error => {
-          //Logout failed with exception
-          console.log("Logout failed with exception:", { error });
         }
       );
     },
