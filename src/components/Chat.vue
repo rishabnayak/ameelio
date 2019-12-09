@@ -32,7 +32,7 @@
 
                         <div v-else>
                           <div v-for="message in messages" v-bind:key="message.id">
-                            <div class="received-chats" v-if="message.receiverId == user.uid.toLowerCase() ">
+                            <div class="received-chats" v-if="message.receiverId == userUID ">
                                 <div class="received-chats-img">
                                   <img v-bind:src="message.sender.avatar" alt="" class="avatar">
                                 </div>
@@ -88,7 +88,8 @@ export default {
     Spinner
   },
   props: {
-    receiverID: String
+    receiverID: String,
+    userUID: String
   },
   data() {
     return {
@@ -136,17 +137,10 @@ export default {
       })
     );
   },
-  computed: {
-    user(){
-      return this.$store.state.user
-    },
-
-  },
   methods: {
     checkIfChat(message){
       if(message.category == 'message'){
-        console.log('this is the data');
-        if(message.receiverId == this.receiverID.toLowerCase() || (message.sender.uid == this.receiverID.toLowerCase())){
+        if(message.receiverId == this.receiverID || (message.sender.uid == this.receiverID)){
           this.messages.push(message);
         }
       }
@@ -206,26 +200,6 @@ h3 {
   margin-bottom: 20px;
 }
 
-button {
-  border: none;
-  width: 100%;
-  margin: auto;
-  margin-top: 40px;
-  cursor: pointer;
-  padding: 10px 0;
-  background: #1B47DB;
-  font-size: 14px;
-  color: #fff;
-  border-radius: 4px;
-  box-shadow: 0 4px 8px 0 #CFDFFF, 0 6px 20px 0 #CFDFFF;
-  font-weight: 700;
-  transform: perspective(1px) translateZ(0);
-}
-
-button:hover {
-  background: #2B57EB;
-}
-
 label {
   color: #c9d4d8;
   font-weight: bold;
@@ -253,8 +227,6 @@ label {
 
 .chat {
   flex: 1;
-  padding-top: 40px;
-  background-color: #204CD2;
   background-repeat: no-repeat;
   background-position: center top;
   background-size: cover;
@@ -304,10 +276,8 @@ label {
   letter-spacing: 0.5px;
   background: #f8f9fb;
   padding: 0 !important;
-  box-shadow: 0 0 50px rgba(0, 0, 0, 0.2);
   border-radius: 7px;
   box-sizing: border-box;
-  border: 1px solid #BFCDD8;
 }
 
 .active {
@@ -436,7 +406,7 @@ label {
 
 .outgoing-chats-msg p {
   font-family: 'Roboto';
-  background: #1546dc none repeat scroll 0 0;
+  background: #2296f3 none repeat scroll 0 0;
   color: #fff;
   font-size: 16px;
   margin: 0;
@@ -459,7 +429,7 @@ label {
   width: 0;
   height: 0;
   border: 10px solid transparent;
-  border-left-color: #1546dc;
+  border-left-color: #2296f3;
   border-right: 0;
   margin-top: -10px;
   margin-right: -10px;

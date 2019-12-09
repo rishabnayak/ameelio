@@ -1,10 +1,10 @@
 <template>
   <v-container>
     <v-row>
-      <CometVideo :receiver_id=receiverUID />
+      <!-- <CometVideo :receiver_id=receiverUID /> -->
     </v-row>
     <v-row>
-      <Chat :receiverID=receiverUID />
+      <!-- <Chat :userUID="uid.toLowerCase()" :receiverID="receiverUID.toLowerCase()" /> -->
     </v-row>
 </v-container>
 </template>
@@ -41,9 +41,8 @@ export default {
   },
   created() {
     this.receiverUID = this.$route.params.uid
-    console.log('the id is: ', this.receiverUID);
     let cometChatSettings = new CometChat.AppSettingsBuilder().subscribePresenceForAllUsers().setRegion('us').build();
-      CometChat.init('11033fd257dda26',cometChatSettings)
+    CometChat.init('11033fd257dda26',cometChatSettings)
         .then(
           () => {
             console.log("Initialization completed successfully");
@@ -58,8 +57,9 @@ export default {
   },
   methods: {
     logInUser(){
+      console.log('we are ')
       var authToken = this.user.authToken;
-
+      // console.log('the auth token is ', authToken)
       CometChat.login(authToken).then(
         User => {
           console.log("Login successfully:", { User });

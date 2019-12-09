@@ -6,16 +6,16 @@
     <div class="form-group">
       
         <div v-if="incomingCall">
-          <button class="btn btn-success" @click="acceptCall">Accept Call</button>  
-          <button class="btn btn-success" @click="rejectCall">Reject Call</button> 
+          <v-btn  @click="acceptCall">Accept Call</v-btn>  
+          <v-btn  @click="rejectCall">Reject Call</v-btn> 
         </div>
 
         <div v-else-if="ongoingCall">
-          <button class="btn btn-secondary"> Ongoing Call ... </button>
+          <v-btn > Ongoing Call ... </v-btn>
         </div>
 
         <div v-else>
-          <button  @click="startVideoChat" class="btn btn-secondary"> Start Call <span v-if="showSpinner" class="fa fa-spin fa-spinner"></span> </button>
+          <v-btn color="error"  @click="startVideoChat" > Start Call <span v-if="showSpinner" class="fa fa-spin fa-spinner"></span> </v-btn>
         </div>
 
     </div>
@@ -114,7 +114,7 @@ export default {
       CometChat.initiateCall(call).then(
         outGoingCall => {
           this.showSpinner = false;
-          console.x("Call initiated successfully:", outGoingCall);
+          console.log("Call initiated successfully:", outGoingCall);
           // perform action on success. Like show your calling screen.
         },
         error => {
@@ -188,7 +188,7 @@ export default {
   
   #callScreen {
     width: 100%;
-    height: 100%;
+    height: 100vh;
 
   }
 </style>
