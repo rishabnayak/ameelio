@@ -43,11 +43,7 @@ module.exports.createCometChatUser = functions.auth.user().onCreate((user) => {
         }
     };
 
-    rp(options).then(() => {
-        rp(options1).then((data) => {
-            db.collection("users").doc(user.uid).update({ authToken: JSON.parse(data).data.authToken })
-        });
-    });
+    rp(options);
 
     return true;
 });
