@@ -17,7 +17,7 @@ module.exports.logInCometChat = functions.https.onCall((data, context) => {
     };
     // creating auth token and then signing in
     // rp(options);
-    // rp(options).then(data => function(){
+    rp(options).then(data => function(){
      let authToken = JSON.parse(data).data.authToken;
      console.log('the auth token is ', authToken)
          CometChat.login(authToken).then(
@@ -30,7 +30,7 @@ module.exports.logInCometChat = functions.https.onCall((data, context) => {
               // User login failed, check error and take appropriate action.
             }
           );
-    // });
+    });
 
     return true;
 });
