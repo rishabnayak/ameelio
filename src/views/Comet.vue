@@ -72,7 +72,6 @@ export default {
         .then(data => {
           console.log(JSON.parse(data.data).data.authToken);
           let authToken = JSON.parse(data.data).data.authToken;
-          // return JSON.parse(data.data).data.authToken;
           CometChat.login(authToken).then(
             User => {
               console.log("Login successfully:", { User });
@@ -84,18 +83,6 @@ export default {
             }
           );
         });
-    },
-    getLoggedInUser() {
-      CometChat.getLoggedinUser().then(
-        user => {
-          this.username = user.name;
-          this.uid = user.uid;
-          console.log("the user is: ", user);
-        },
-        error => {
-          console.log(error);
-        }
-      );
     },
     logoutUser() {
       CometChat.logout().then(
