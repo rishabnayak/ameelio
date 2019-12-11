@@ -11,10 +11,14 @@
 
 <script>
 // @ is an alias to /src
+
 import { CometChat } from "@cometchat-pro/chat";
 import firebase from "firebase/app";
+import "@firebase/functions";
 import CometVideo from '../components/Video'
 import Chat from '../components/Chat'
+
+// firebase.functions().useFunctionsEmulator('http://localhost:5000');
 export default {
   name: "videocall",
   components: {
@@ -42,8 +46,7 @@ export default {
   },
   created() {
     this.receiverUID = this.$route.params.uid
-    this.logInUser();
-    this.getLoggedinUser();
+
     let cometChatSettings = new CometChat.AppSettingsBuilder().subscribePresenceForAllUsers().setRegion('us').build();
     CometChat.init('11033fd257dda26',cometChatSettings)
         .then(
@@ -55,7 +58,7 @@ export default {
             console.log("Initialization failed with error:", error);
             //Check the reason for error and take apppropriate action.
           }
-        ).then(this.logInUser);
+        ).then(this.logInUser).then(this.getLoggedInUser());
     
   },
   destroyed(){
@@ -63,23 +66,20 @@ export default {
   },
   methods: {
     logInUser(){
-      firebase.functions().httpsCallable('logInCometChat')({uid: this.user.uid.toLowerCase()})
-      .then(result => console.log('the result is ', result)
-      );
-      // signInCometChat(this.user.uid.toLowerCase());
-      // console.log('we are ')
-      // var authToken = this.user.authToken;
-      // console.log('the auth token is ', authToken)
-      // CometChat.login(authToken).then(
-      //   User => {
-      //     console.log("Login successfully:", { User });
-      //     // User loged in successfully.
-      //   },
-      //   error => {
-      //     console.log("Login failed with exception:", { error });
-      //     // User login failed, check error and take appropriate action.
-      //   }
-      // );
+      // firebase.functions().httpsCallable('logInCometChat')({uid: this.user.uid})
+      // .then( () => {
+          var authToken = this.user.authToken;
+          console.log('the token is: ',authToken);
+          CometChat.login(authToken).then(
+            User => {
+              console.log("Login successfully:", { User });
+              // User loged in successfully.
+          },
+            error => {
+              console.log("Login failed with exception:", { error });
+            // User login failed, check error and take appropriate action.
+          });
+      // });
     },
     getLoggedInUser() {
       CometChat.getLoggedinUser().then(
@@ -94,9 +94,9 @@ export default {
       );
     },
     logoutUser(){
-      CometChat.logout().then({
+      CometChat.logout().then(() => {
         //Logout completed successfully
-        console.log("Logout completed successfully");
+        console.log("Logout completed successfully")
       },error=>{
         //Logout failed with exception
         console.log("Logout failed with exception:",{error});
