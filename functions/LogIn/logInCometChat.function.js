@@ -22,21 +22,5 @@ module.exports.logInCometChat = functions.https.onCall((data, context) => {
             accept: 'application/json'
         }
     };
-    // console.log("initializing comet chat")
-    // let cometChatSettings = new CometChat.AppSettingsBuilder().subscribePresenceForAllUsers().setRegion('us').build();
-    // CometChat.init('11033fd257dda26',cometChatSettings)
-    // .then(() => {
-    //         console.log("Initialization completed successfully");
-    //     },
-    //     error => {
-    //     console.log("Initialization failed with error:", error);})
-    // .then(
-    rp(options)
-    .then((result) => {
-        console.log(result);
-        db.collection("users").doc(data.uid).update({ authToken: JSON.parse(result).data.authToken })
-    });
-
-
-    return true;
+    return rp(options);
 });

@@ -1,12 +1,12 @@
 <template>
   <v-container>
     <v-row>
-      <!-- <CometVideo :receiver_id=receiverUID /> -->
+      <CometVideo :receiver_id=receiverUID />
     </v-row>
     <v-row>
-      <!-- <Chat :userUID="uid.toLowerCase()" :receiverID="receiverUID.toLowerCase()" /> -->
+      <Chat :userUID="uid.toLowerCase()" :receiverID="receiverUID.toLowerCase()" />
     </v-row>
-</v-container>
+  </v-container>
 </template>
 
 <script>
@@ -15,10 +15,9 @@
 import { CometChat } from "@cometchat-pro/chat";
 import firebase from "firebase/app";
 import "@firebase/functions";
-import CometVideo from '../components/Video'
-import Chat from '../components/Chat'
+import CometVideo from "../components/Video";
+import Chat from "../components/Chat";
 
-// firebase.functions().useFunctionsEmulator('http://localhost:5000');
 export default {
   name: "videocall",
   components: {
@@ -35,9 +34,9 @@ export default {
       showSpinner: false,
       incomingCall: false,
       ongoingCall: false,
-      appID: '11033fd257dda26',
+      appID: "11033fd257dda26",
       receiverUID: ""
-    }
+    };
   },
   computed: {
     user() {
@@ -45,8 +44,8 @@ export default {
     }
   },
   created() {
-    this.receiverUID = this.$route.params.uid
-
+    this.receiverUID = this.$route.params.uid;
+    // this.logInUser();
     let cometChatSettings = new CometChat.AppSettingsBuilder().subscribePresenceForAllUsers().setRegion('us').build();
     CometChat.init('11033fd257dda26',cometChatSettings)
         .then(
@@ -58,51 +57,58 @@ export default {
             console.log("Initialization failed with error:", error);
             //Check the reason for error and take apppropriate action.
           }
-        ).then(this.logInUser).then(this.getLoggedInUser());
-    
+        )
+    .then(this.logInUser).then(this.getLoggedInUser);
   },
-  destroyed(){
+  destroyed() {
     this.logoutUser();
+    console.log('destroyed');
   },
   methods: {
-    logInUser(){
-      // firebase.functions().httpsCallable('logInCometChat')({uid: this.user.uid})
-      // .then( () => {
-          var authToken = this.user.authToken;
-          console.log('the token is: ',authToken);
+    logInUser() {
+      firebase
+        .functions()
+        .httpsCallable("logInCometChat")({ uid: this.user.uid })
+        .then(data => {
+          console.log(JSON.parse(data.data).data.authToken);
+          let authToken = JSON.parse(data.data).data.authToken;
+          // return JSON.parse(data.data).data.authToken;
           CometChat.login(authToken).then(
             User => {
               console.log("Login successfully:", { User });
               // User loged in successfully.
-          },
+            },
             error => {
               console.log("Login failed with exception:", { error });
-            // User login failed, check error and take appropriate action.
-          });
-      // });
+              // User login failed, check error and take appropriate action.
+            }
+          );
+        });
     },
     getLoggedInUser() {
       CometChat.getLoggedinUser().then(
         user => {
           this.username = user.name;
           this.uid = user.uid;
-          console.log('the user is: ', user)
+          console.log("the user is: ", user);
         },
         error => {
           console.log(error);
         }
       );
     },
-    logoutUser(){
-      CometChat.logout().then(() => {
-        //Logout completed successfully
-        console.log("Logout completed successfully")
-      },error=>{
-        //Logout failed with exception
-        console.log("Logout failed with exception:",{error});
-      })
+    logoutUser() {
+      CometChat.logout().then(
+        () => {
+          //Logout completed successfully
+          console.log("Logout completed successfully");
+        },
+        error => {
+          //Logout failed with exception
+          console.log("Logout failed with exception:", { error });
+        }
+      );
     }
   }
-}
-
+};
 </script>
