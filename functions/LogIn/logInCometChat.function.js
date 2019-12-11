@@ -14,7 +14,7 @@ module.exports.logInCometChat = functions.https.onCall((data, context) => {
 
     var options = {
         method: 'POST',
-        url: `https://api-us.cometchat.io/v2.0/users/${data.uid.toLowerCas()}/auth_tokens`,
+        url: `https://api-us.cometchat.io/v2.0/users/${data.uid.toLowerCase()}/auth_tokens`,
         headers: {
             appid: '11033fd257dda26',
             apikey: '666dfb04a6f6d3b31ba2c535c0a3f59570c7ecb7',
