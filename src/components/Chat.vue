@@ -111,7 +111,6 @@ export default {
         console.log("Message list fetched:", messages);
         messages.forEach(
           message => this.checkIfChat(message));
-        console.log(this.messages);
         // this.groupMessages = [...this.groupMessages, ...messages];
         this.loadingMessages = false;
         this.$nextTick(() => {

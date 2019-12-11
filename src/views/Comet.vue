@@ -58,15 +58,15 @@ export default {
             //Check the reason for error and take apppropriate action.
           }
         )
-    .then(this.logInUser).then(this.getLoggedInUser);
+    .then(this.logInUser);
   },
   destroyed() {
     this.logoutUser();
     console.log('destroyed');
   },
   methods: {
-    logInUser() {
-      firebase
+    async logInUser() {
+      await firebase
         .functions()
         .httpsCallable("logInCometChat")({ uid: this.user.uid })
         .then(data => {

@@ -1,26 +1,32 @@
 <template>
   <div class="home">
-     <div id="nav">
-    </div>
+   
 
     <div class="form-group">
-      
-        <div v-if="incomingCall">
-          <v-btn  @click="acceptCall">Accept Call</v-btn>  
-          <v-btn  @click="rejectCall">Reject Call</v-btn> 
-        </div>
+      <div v-if="incomingCall">
+        <div id="callScreen"></div>
+        <v-btn @click="acceptCall">Accept Call</v-btn>
+        <v-btn @click="rejectCall">Reject Call</v-btn>
+      </div>
 
-        <div v-else-if="ongoingCall">
-          <v-btn > Ongoing Call ... </v-btn>
-        </div>
+      <div v-else-if="ongoingCall">
+        <div id="callScreen"></div>
+        <v-btn>Ongoing Call ...</v-btn>
+      </div>
 
-        <div v-else>
-          <v-btn color="error"  @click="startVideoChat" > Start Call <span v-if="showSpinner" class="fa fa-spin fa-spinner"></span> </v-btn>
-        </div>
-
+      <!-- <v-container  > -->
+        <v-container id="noCall" bg fill-height grid-list-md v-else>
+          <v-layout row wrap align-center >
+            <v-flex>
+              <v-btn id="callButton" color="error" @click="startVideoChat" >
+                Start Call
+                <span v-if="showSpinner" class="fa fa-spin fa-spinner"></span>
+              </v-btn>
+            </v-flex>
+          </v-layout>
+        <!-- </v-container> -->
+      </v-container>
     </div>
-
-    <div id="callScreen"></div>
   </div>
 </template>
 
@@ -29,7 +35,7 @@
 import { CometChat } from "@cometchat-pro/chat";
 export default {
   name: "Video",
-  props:{
+  props: {
     receiver_id: String
   },
   data() {
@@ -39,9 +45,9 @@ export default {
       showSpinner: false,
       incomingCall: false,
       ongoingCall: false,
-      appID: '11033fd257dda26',
+      appID: "11033fd257dda26",
       onCall: false
-    }
+    };
   },
   computed: {
     user() {
@@ -146,7 +152,6 @@ export default {
                 /* Notification received here if another user left the call. */
                 console.log("User left call:", user);
                 /* this method can be use to display message or perform any actions if someone leaving the call */
-
               },
               onCallEnded: call => {
                 /* Notification received here if current ongoing call is ended. */
@@ -184,11 +189,21 @@ export default {
   }
 };
 </script>
-<style scoped> 
-  
-  #callScreen {
-    width: 100%;
-    height: 100vh;
+<style scoped>
 
-  }
+.home{
+  width: 100%;
+}
+
+#callScreen {
+  width: 100%;
+  height: 100vh;
+}
+#noCall {
+  height: 100vh;
+  width: 100%;
+}
+#callButton {
+  margin: auto;
+}
 </style>
