@@ -21,12 +21,13 @@
           :must-sort="true"
           item-key="name"
         >
-          <template #item.name='{item}'>
+          
+          <template #item.inmateName='{item}'>
             <router-link :to="{ name: 'otherprofile', params: {uid:item.inmateUID} }">
               {{item.inmateName}}
             </router-link>
           </template>
-          <template #item.family='{item}'>
+          <template #item.familyName='{item}'>
             <router-link :to="{ name: 'otherprofile', params: {uid:item.familyUID} }">
               {{item.familyName}}
             </router-link>
@@ -83,11 +84,11 @@ export default {
       //contacts: ["Louis", "Amelia", "etc."],
       search: '',
       mainHeaders: [
-        { text: "Inmate", value: "name" },
+        { text: "Inmate", value: "inmateName" },
         //{ text: "Location", value: "location" },
         //{ text: "ID", value: "id" },
         //{ text: "Date & Time", value: "time" },
-        { text: "Family/Friend", value: "family" },
+        { text: "Family/Friend", value: "familyName" },
         { text: "Action", value: "action", sortable: false, align: "center"},
       ],
       // mainItems: [
@@ -166,6 +167,6 @@ export default {
         });
       location.reload();
     }
-  }
+  },
 };
 </script>
