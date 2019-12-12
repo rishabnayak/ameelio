@@ -19,17 +19,10 @@
             </v-layout>
             <v-layout row>
               <v-flex xs12>
-                <v-select
-                  v-if="role == null"
-                  :items="roles"
-                  label="User Role"
-                  v-model="role"
-                  :rules="roleRules"
-                ></v-select>
-                <v-text-field v-else label="User Role" v-model="role" :disabled="true"></v-text-field>
+                <v-select v-if="role == null" :items="roles" label="User Role" v-model="role" :rules="roleRules"></v-select>
+                <v-text-field v-else label="User Role" v-model="role" :disabled=true></v-text-field>
               </v-flex>
             </v-layout>
-            <v-btn @click="updateProfile" color="primary">Update</v-btn>
           </v-form>
         </v-card-text>
       </v-card>
@@ -39,9 +32,9 @@
 
 <script>
 import { db } from "../firebase/init";
-import store from "../store";
+import store from '../store';
 export default {
-  name: "profileUI",
+  name: "otherProfileUI",
   computed: {
     user() {
       return this.$store.state.user;
@@ -49,6 +42,7 @@ export default {
   },
   data() {
     return {
+      uid: this.$route.params.uid,  
       name: null,
       role: null,
       email: null,
@@ -56,31 +50,21 @@ export default {
       contacts: null,
       valid: false,
       roleRules: [val => !!val || "Role Required"],
-      roles: ["Friends and Family", "Inmate"]
+      roles:["Friends and Family", "Inmate"]
     };
   },
-  async mounted() {
-    await store.dispatch("getUser");
-    this.name = this.user.displayName;
-    this.role = this.user.role;
-    this.email = this.user.email;
-    this.calEvents = this.user.calEvents;
-    this.contacts = this.user.contacts;
-  },
-  methods: {
-    async updateProfile() {
-      if (this.$refs.form.validate()) {
-        const ref = db.collection("users").doc(this.user.uid);
-        await ref
-          .update({
-            role: this.role
-          })
-          .then(() => {
-            this.$store.dispatch("setUser").then(() => {
-              this.$router.push("/user");
-            });
-          });
-      }
+  async created() {
+    let finduser = await db.collection('users').doc(this.uid).get()
+    if (finduser.empty) {
+      this.$router.push({
+        name: "profile"
+      })
+    } else {
+      this.name = finduser.data().displayName
+      this.role = finduser.data().role
+      this.email = finduser.data().email
+      this.calEvents = finduser.data().calEvents
+      this.contacts = finduser.data().contacts
     }
   }
 };

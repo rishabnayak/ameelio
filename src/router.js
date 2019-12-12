@@ -10,40 +10,39 @@ const router = new Router({
   routes: [
     {
       path: "/",
-      name: "external",
-      component: () => import("./views/External.vue"),
-      meta: {
-        requiresAuth: true
-      }
-    },
-    {
-      path: "/profile",
-      name: "profile",
-      component: () => import("./views/Profile.vue"),
-      meta: {
-        requiresAuth: true
-      }
-    },
-    {
-      path: "/inmate",
-      name: "inmate",
-      component: () => import("./views/Inmate.vue"),
-      meta: {
-        requiresAuth: true
-      }
+      name: "home",
+      component: () => import("./views/Home.vue"),
     },
     {
       path: "/admin",
       name: "admin",
       component: () => import("./views/Admin.vue"),
       meta: {
+        requiresAuth: true,
+        isAdmin: true
+      }
+    },
+    {
+      path: "/user",
+      name: "user",
+      component: () => import("./views/User.vue"),
+      meta: {
         requiresAuth: true
       }
     },
     {
-      path: "/add-contact-form",
-      name: "addContactForm",
-      component: () => import("./views/AddContactForm.vue"),
+      path: "/profile/:uid",
+      name: "otherprofile",
+      component: () => import("./views/OtherProfile.vue"),
+      meta: {
+        requiresAuth: true,
+        isAdmin: true
+      }
+    },
+    {
+      path: "/profile",
+      name: "profile",
+      component: () => import("./views/Profile.vue"),
       meta: {
         requiresAuth: true
       }
@@ -56,12 +55,25 @@ const router = new Router({
         requiresAuth: false
       }
     },
+    {
+      path: "/csvparsing",
+      name: "csvparsing",
+      component: () => import("./views/CSVParsing.vue")
+    },
+    {
+      path: "/videocall/:uid",
+      name: "videocall",
+      component: () => import("./views/Comet.vue"),
+      meta: {
+        requiresAuth: true
+      }
+    },
   ]
 });
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some(rec => rec.meta.requiresAuth)) {
-    let user = store.state.user
+    let user = store.state.user;
     if (user) {
       if (to.name == "profile") {
         next();
@@ -74,14 +86,31 @@ router.beforeEach((to, from, next) => {
           });
         }
       }
+    } else {
+      next({ name: "login" });
     }
-    else {
-      next({ name: 'login' })
+  } else {
+    next();
+  }
+});
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(rec => rec.meta.isAdmin)) {
+    let user = store.state.user;
+    if (user) {
+      if (user.role == "Admin") {
+        next();
+      } else {
+        next({
+          name: "profile"
+        });
+      }
+    } else {
+      next({ name: "login" });
     }
+  } else {
+    next();
   }
-  else {
-    next()
-  }
-})
+});
 
 export default router;

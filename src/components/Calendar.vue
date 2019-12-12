@@ -1,10 +1,21 @@
+
 <template>
   <div>
     <v-sheet height="64">
       <v-toolbar flat color="white">
         <div v-if="defaultMenu">
-          <v-btn color="primary" dark @click.stop="dialog = true">Schedule A Call</v-btn>
-          <v-btn color="primary" dark @click="contactDialog = true">Add Contact</v-btn>
+          <v-btn
+            color="primary"
+            dark
+            v-if="user.role == 'Friends and Family'"
+            @click.stop="dialog = true"
+          >Schedule A Call</v-btn>
+          <v-btn
+            color="primary"
+            dark
+            v-if="user.role == 'Friends and Family'"
+            @click="contactDialog = true"
+          >Add Contact</v-btn>
         </div>
         <v-btn outlined class="mr-4" @click="setToday">Today</v-btn>
         <v-btn fab text small @click="prev">
@@ -23,17 +34,8 @@
             </v-btn>
           </template>
           <v-list>
-            <v-list-item @click="type = 'day'">
-              <v-list-item-title>Day</v-list-item-title>
-            </v-list-item>
-            <v-list-item @click="type = 'week'">
-              <v-list-item-title>Week</v-list-item-title>
-            </v-list-item>
             <v-list-item @click="type = 'month'">
               <v-list-item-title>Month</v-list-item-title>
-            </v-list-item>
-            <v-list-item @click="type = '4day'">
-              <v-list-item-title>4 days</v-list-item-title>
             </v-list-item>
           </v-list>
         </v-menu>
@@ -42,7 +44,31 @@
     <v-dialog v-model="contactDialog" max-width="500">
       <v-card>
         <v-container>
-          <AddContact />
+          <v-form @submit.prevent="addCon">
+            <div>
+              <h2 id="addContactTitle">Inmate Information</h2>
+            </div>
+            <v-text-field v-model="firstname" type="text" label="First Name" placeholder="John"></v-text-field>
+            <v-text-field v-model="lastname" type="text" label="Last Name" placeholder="Doe"></v-text-field>
+            <v-text-field v-model="inmateID" type="text" label="Inmate ID" placeholder="123456789"></v-text-field>
+            <v-text-field v-model="birthdate" type="date" label="Birth Date"></v-text-field>
+            <label>Place of Incarceration</label>
+            <v-select :items="prisons" v-model="location" label="Select the prison (required)"></v-select>
+            <v-text-field v-model="race" type="text" label="Race"></v-text-field>
+            <label for="sex">Sex</label>
+            <v-radio-group v-model="sex" row>
+              <v-radio label="Female" value="fem"></v-radio>
+              <v-radio label="Male" value="mal"></v-radio>
+            </v-radio-group>
+            <v-btn
+              type="submit"
+              color="primary"
+              class="mr-4"
+              @click.stop="contactDialog = false"
+              :disabled="firstname == null || lastname == null || inmateID == null || birthdate == null || location == null || race== null || sex == null"
+            >Submit</v-btn>
+            <!-- <v-btn type="submit" @click.stop="contactDialog = false" :disabled= "firstname == null || ">Submit</v-btn> -->
+          </v-form>
         </v-container>
       </v-card>
     </v-dialog>
@@ -52,6 +78,8 @@
           <v-form @submit.prevent="addEvent">
             <v-select
               :items="contacts"
+              item-text="name"
+              item-value="uid"
               v-model="name"
               label="Select a person from your contacts (required)"
             ></v-select>
@@ -73,6 +101,7 @@
               color="primary"
               class="mr-4"
               @click.stop="dialog = false"
+              :disabled="name == null || start == null || startTime == null"
             >create event</v-btn>
           </v-form>
         </v-container>
@@ -101,33 +130,10 @@
       >
         <v-card color="grey lighten-4" :width="350" flat>
           <v-toolbar :color="selectedEvent.color" dark>
-            <v-btn @click="deleteEvent(selectedEvent.id)" icon>
-              <v-icon>mdi-delete</v-icon>
-            </v-btn>
+            <v-btn v-if="needsCall" color="secondary" dark @click="checkCalls(selectedEvent)">Join a Call</v-btn>
             <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
             <div class="flex-grow-1"></div>
           </v-toolbar>
-          <v-card-text>
-            <form v-if="currentlyEditing !== selectedEvent.id">{{ selectedEvent.details }}</form>
-            <form v-else>
-              <textarea-autosize
-                v-model="selectedEvent.details"
-                type="text"
-                style="width: 100%"
-                :min-height="100"
-                placeholder="add note"
-              ></textarea-autosize>
-            </form>
-          </v-card-text>
-          <v-card-actions>
-            <v-btn text color="secondary" @click="selectedOpen = false">close</v-btn>
-            <v-btn
-              v-if="currentlyEditing !== selectedEvent.id"
-              text
-              @click.prevent="editEvent(selectedEvent)"
-            >edit</v-btn>
-            <v-btn text v-else type="submit" @click.prevent="updateEvent(selectedEvent)">Save</v-btn>
-          </v-card-actions>
         </v-card>
       </v-menu>
     </v-sheet>
@@ -135,25 +141,20 @@
 </template>
 <script>
 import { db } from "@/main";
-import AddContact from "../components/AddContact";
+import firebase from "firebase/app";
+import { log } from 'util';
 
 export default {
-  components: {
-    AddContact
-  },
   data: () => ({
     today: new Date().toISOString().substr(0, 10),
     focus: new Date().toISOString().substr(0, 10),
     type: "month",
     typeToLabel: {
-      month: "Month",
-      week: "Week",
-      day: "Day",
-      "4day": "4 Days"
+      month: "Month"
     },
-    contacts: ["Foo", "Bar", "Fizz", "Buzz"], //temporary contacts
+    contacts: [],
     name: null,
-    details: null,
+    color: "#1976D2",
     start: null,
     startTime: null,
     currentlyEditing: null,
@@ -162,12 +163,43 @@ export default {
     selectedOpen: false,
     events: [],
     dialog: false,
-    contactDialog: false
+    contactDialog: false,
+    prisons: [],
+    firstname: null,
+    lastname: null,
+    inmateID: null,
+    birthdate: null,
+    location: null,
+    race: null,
+    sex: null
   }),
   mounted() {
     this.getEvents();
+    this.getPrison();
+    for (let index = 0; index < this.user.contactList.length; index++) {
+      const element = this.user.contactList[index];
+      db.collection("users")
+        .doc(element)
+        .get()
+        .then(doc => {
+          this.contacts.push({
+            name: doc.data().displayName,
+            uid: doc.data().uid
+          });
+        });
+    }
   },
   computed: {
+    user() {
+      return this.$store.state.user;
+    },
+    isExternal() {
+      console.log(this.$route.path);
+      return this.$route.path == "/external";
+    },
+    needsCall() {
+      return this.$route.path != "/admin";
+    },
     title() {
       const { start, end } = this;
       if (!start || !end) {
@@ -199,22 +231,68 @@ export default {
       });
     },
     defaultMenu() {
-      return !(this.$route.name === 'admin');
+      return !(this.$route.name === "admin");
     }
   },
   methods: {
-    allowedHours: v => v % 2,
+    async getPrison() {
+      let snapshot = await db.collection("users").get();
+      snapshot.forEach(doc => {
+        if (doc.data().location) {
+          this.prisons.push(doc.data().location);
+        }
+      });
+    },
+    async addCon() {
+      if (
+        this.firstname &&
+        this.lastname &&
+        this.inmateID &&
+        this.birthdate &&
+        this.location &&
+        this.race &&
+        this.sex
+      ) {
+        let inmateDetails = await db
+          .collection("users")
+          .where("inmateID", "==", this.inmateID)
+          .get();
+        if (inmateDetails.empty) {
+          return;
+        } else {
+          let adminDetails = await db
+            .collection("users")
+            .where("location", "==", inmateDetails.docs[0].data().location)
+            .where("role", "==", "Admin")
+            .get();
+          if (adminDetails.empty) {
+            return;
+          } else {
+            db.collection("users")
+              .doc(adminDetails.docs[0].data().uid)
+              .update({
+                contactRequests: firebase.firestore.FieldValue.arrayUnion({
+                  inmateUID: inmateDetails.docs[0].data().uid,
+                  familyUID: this.user.uid
+                })
+              });
+            alert("Succeessfully added");
+
+            return;
+          }
+        }
+      }
+      return;
+    },
+
+    checkCalls(selectedEvent) {
+      this.$router.push({ name: 'videocall', params: { uid: selectedEvent.uid } })
+    },
+
+    allowedHours: v => v,
 
     async getEvents() {
-      let snapshot = await db.collection("calEvent").get();
-      let events = [];
-      snapshot.forEach(doc => {
-        let appData = doc.data();
-        console.log(appData);
-        appData.id = doc.id;
-        events.push(appData);
-      });
-      this.events = events;
+      this.events = this.user.calEvent;
     },
     viewDay({ date }) {
       this.focus = date;
@@ -234,46 +312,48 @@ export default {
     },
     async addEvent() {
       if (this.name && this.start && this.startTime) {
-        await db.collection("calEvent").add({
-          name: "DUMMY USER",
-          details: this.details,
-          start: this.start,
-          startTime: this.startTime,
-          //endTime: this.endTime,
-          //start: this.start,
-          //end: this.end,
-          color: this.color
-        });
-        this.getEvents();
-        (this.name = ""),
-          //this.details = '',
-          (this.start = ""),
-          (this.startTime = "");
-        //this.endTime = '',
-        //this.end = '',
-        //this.color = ''
-      } else {
-        alert("You must select a contact, a date, and start time");
+
+        db.collection("users")
+          .doc(this.name)
+          .get()
+          .then(doc => {
+            let userEvent = {
+              name: doc.data().displayName,
+              uid: this.name,
+              start: this.start,
+              startTime: this.startTime,
+              color: "blue"
+            };
+
+            let inmateEvent = {
+              name: this.user.displayName,
+              uid: this.user.uid,
+              start: this.start,
+              startTime: this.startTime,
+              color: "blue"
+            };
+
+            db.collection("users")
+              .doc(this.user.uid)
+              .update({
+                calEvent: firebase.firestore.FieldValue.arrayUnion(userEvent)
+              });
+
+            db.collection("users")
+              .doc(this.name)
+              .update({
+                calEvent: firebase.firestore.FieldValue.arrayUnion(inmateEvent)
+              });
+
+            this.getEvents();
+            (this.name = ""), (this.start = ""), (this.startTime = "");
+
+            alert("Succeessfully added");
+          });
       }
     },
     editEvent(ev) {
       this.currentlyEditing = ev.id;
-    },
-    async updateEvent(ev) {
-      await db
-        .collection("calEvent")
-        .doc(this.currentlyEditing)
-        .update({
-          details: ev.details
-        });
-      (this.selectedOpen = false), (this.currentlyEditing = null);
-    },
-    async deleteEvent(ev) {
-      await db
-        .collection("calEvent")
-        .doc(ev)
-        .delete();
-      (this.selectedOpen = false), this.getEvents();
     },
     showEvent({ nativeEvent, event }) {
       const open = () => {
@@ -303,6 +383,9 @@ export default {
 </script>
 
 <style>
+#addContactTitle {
+  margin-bottom: 30px;
+}
 .popUp {
   width: 50%;
 }
