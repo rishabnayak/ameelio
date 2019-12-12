@@ -3,8 +3,9 @@
   <div>
     <v-sheet height="64">
       <v-toolbar flat color="white">
-        <div v-if="defaultMenu">
+        <div v-if="defaultMenu" >
           <v-btn
+            class=".d-none"
             color="primary"
             dark
             v-if="user.role == 'Friends and Family'"
