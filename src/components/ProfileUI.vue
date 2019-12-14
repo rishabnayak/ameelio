@@ -29,6 +29,18 @@
                 <v-text-field v-else label="User Role" v-model="role" :disabled="true"></v-text-field>
               </v-flex>
             </v-layout>
+            <v-layout row v-if="role == Admin || role == Inmate">
+              <v-flex xs12>
+                <v-combobox
+                  v-if="location == null"
+                  v-model="location"
+                  :items="prisons"
+                  :rules="locationRules"
+                  label="Prison Location"
+                />
+                <v-text-field v-else label="Prison Location" v-model="location" :disabled="true"></v-text-field>
+              </v-flex>
+            </v-layout>
             <v-btn @click="updateProfile" color="primary">Update</v-btn>
           </v-form>
         </v-card-text>
@@ -55,7 +67,10 @@ export default {
       calEvents: null,
       contacts: null,
       valid: false,
+      location: null,
+      prisons: [],
       roleRules: [val => !!val || "Role Required"],
+      locationRules: [val => !!val || "Location Required"],
       roles: ["Friends and Family", "Inmate"]
     };
   },
@@ -66,6 +81,8 @@ export default {
     this.email = this.user.email;
     this.calEvents = this.user.calEvents;
     this.contacts = this.user.contacts;
+    this.location = this.user.location;
+    this.getPrison();
   },
   methods: {
     async updateProfile() {
@@ -73,7 +90,8 @@ export default {
         const ref = db.collection("users").doc(this.user.uid);
         await ref
           .update({
-            role: this.role
+            role: this.role,
+            location: this.location
           })
           .then(() => {
             this.$store.dispatch("setUser").then(() => {
@@ -81,6 +99,14 @@ export default {
             });
           });
       }
+    },
+    async getPrison() {
+      let snapshot = await db.collection("users").get();
+      snapshot.forEach(doc => {
+        if (doc.data().location) {
+          this.prisons.push(doc.data().location);
+        }
+      });
     }
   }
 };
