@@ -3,8 +3,9 @@
   <div>
     <v-sheet height="64">
       <v-toolbar flat color="white">
-        <div v-if="defaultMenu">
+        <div v-if="defaultMenu" >
           <v-btn
+            class=".d-none"
             color="primary"
             dark
             v-if="user.role == 'Friends and Family'"
@@ -157,6 +158,7 @@ export default {
     typeToLabel: {
       month: "Month"
     },
+    pastEvents: [],
     contacts: [],
     name: null,
     color: "#1976D2",
@@ -197,13 +199,6 @@ export default {
   computed: {
     user() {
       return this.$store.state.user;
-    },
-    isExternal() {
-      console.log(this.$route.path);
-      return this.$route.path == "/external";
-    },
-    needsCall() {
-      return this.$route.path != "/admin";
     },
     title() {
       const { start, end } = this;

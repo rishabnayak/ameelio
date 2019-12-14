@@ -1,78 +1,74 @@
 <template>
   <div class="booker">
     <div class="chat">
-        <div class="container">
+      <div class="container">
+        <div class="chat-page">
+          <div class="msg-inbox">
+            <div class="chats" id="chats">
+              <div class="msg-page" id="msg-page">
+                <div v-if="loadingMessages" class="loading-messages-container">
+                  <spinner :size="100" />
+                  <span class="loading-text">Loading Messages</span>
+                </div>
+                <div class="text-center img-fluid empty-chat" v-else-if="!messages.length">
+                  <div class="empty-chat-holder">
+                    <img src="../assets/empty-state.svg" class="img-res" alt="empty chat image" />
+                  </div>
 
-          <div class="chat-page">
-              <div class="msg-inbox">
-                  <div class="chats" id="chats">
-                      <div class="msg-page" id="msg-page">
+                  <div>
+                    <h2>No new message?</h2>
+                    <h6 class="empty-chat-sub-title">Send your first message below.</h6>
+                  </div>
+                </div>
 
-                        <div
-                          v-if="loadingMessages"
-                          class="loading-messages-container"
-                        >
-                          <spinner :size="100"/>
-                          <span class="loading-text">
-                            Loading Messages
-                          </span>
-                        </div>
-                        <div class="text-center img-fluid empty-chat" v-else-if="!groupMessages.length" >
-                          <div class="empty-chat-holder">
-                            <img src="../assets/empty-state.svg" class="img-res" alt="empty chat image">
-                          </div>
+                <div v-else>
+                  <div v-for="message in messages" v-bind:key="message.id">
+                    <div class="received-chats" v-if="message.receiverId == userUID ">
+                      <div class="received-chats-img">
+                        <img v-bind:src="message.sender.avatar" alt class="avatar" />
+                      </div>
 
-                          <div>
-                            <h2> No new message? </h2>
-                            <h6 class="empty-chat-sub-title">
-                              Send your first message below.
-                            </h6>
-                          </div>
-                        </div>
-
-                        <div v-else>
-                          <div v-for="message in groupMessages" v-bind:key="message.id">
-                            <div class="received-chats" v-if="message.sender.uid != user.uid">
-                                <div class="received-chats-img">
-                                  <img v-bind:src="message.sender.avatar" alt="" class="avatar">
-                                </div>
-
-                                <div class="received-msg">
-                                    <div class="received-msg-inbox">
-                                        <p ><span>{{ message.sender.name }}</span><br>{{ message.data.text }}</p>
-                                    </div>
-                                </div>
-                              </div>
-
-
-                            <div class="outgoing-chats" v-else>
-                                  <div class="outgoing-chats-msg">
-                                      <p>{{ message.data.text }}</p>
-                                  </div>
-
-                                  <div class="outgoing-chats-img">
-                                      <img v-bind:src="message.sender.avatar" alt="" class="avatar">
-                                  </div>
-                              </div>
-                          </div>
+                      <div class="received-msg">
+                        <div class="received-msg-inbox">
+                          <p>
+                            <span>{{ message.sender.name }}</span>
+                            <br />
+                            {{ message.text }}
+                          </p>
                         </div>
                       </div>
-                  </div>
-              </div>
+                    </div>
 
-              <div class="msg-bottom">
-                <form class="message-form" v-on:submit.prevent="sendGroupMessage">
-                  <div class="input-group">
-                    <input type="text" class="form-control message-input" placeholder="Type something" v-model="chatMessage" required>
-                    <spinner
-                      v-if="sendingMessage"
-                      class="sending-message-spinner"
-                      :size="30"
-                    />
+                    <div class="outgoing-chats" v-else>
+                      <div class="outgoing-chats-msg">
+                        <p>{{ message.text }}</p>
+                      </div>
+
+                      <div class="outgoing-chats-img">
+                        <img v-bind:src="message.sender.avatar" alt class="avatar" />
+                      </div>
+                    </div>
                   </div>
-                </form>
+                </div>
               </div>
+            </div>
           </div>
+
+          <div class="msg-bottom">
+            <form class="message-form" v-on:submit.prevent="sendGroupMessage">
+              <div class="input-group">
+                <input
+                  type="text"
+                  class="form-control message-input"
+                  placeholder="Type something"
+                  v-model="chatMessage"
+                  required
+                />
+                <spinner v-if="sendingMessage" class="sending-message-spinner" :size="30" />
+              </div>
+            </form>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -86,67 +82,76 @@ export default {
   components: {
     Spinner
   },
+  props: {
+    receiverID: String,
+    userUID: String
+  },
   data() {
     return {
       sendingMessage: false,
       chatMessage: "",
-      groupMessages: [],
-      loadingMessages: false
+      // groupMessages: [],
+      loadingMessages: false,
+      messages: []
     };
   },
   mounted() {
-    this.loadingMessages = true;
-    var listenerID = "UNIQUE_LISTENER_ID";
-    const messagesRequest = new CometChat.MessagesRequestBuilder()
-      .setLimit(100)
-      .build();
-    messagesRequest.fetchPrevious().then(
-      messages => {
-        console.log("Message list fetched:", messages);
-        console.log("this.groupMessages", this.groupMessages);
-        this.groupMessages = [...this.groupMessages, ...messages];
-        this.loadingMessages = false;
-        this.$nextTick(() => {
-          this.scrollToBottom();
-        });
-      },
-      error => {
-        console.log("Message fetching failed with error:", error);
-      }
-    );
-    CometChat.addMessageListener(
-      listenerID,
-      new CometChat.MessageListener({
-        onTextMessageReceived: textMessage => {
-          console.log("Text message received successfully", textMessage);
-          // Handle text message
-          console.log(this.groupMessages);
-          this.groupMessages = [...this.groupMessages, textMessage];
-          // console.log("avatar", textMessage.sender.avatar)
+    // this.getMessages();
+  },
+  methods: {
+    getMessages() {
+      this.loadingMessages = true;
+      var listenerID = "UNIQUE_LISTENER_ID";
+      const messagesRequest = new CometChat.MessagesRequestBuilder()
+        .setLimit(100)
+        .build();
+      messagesRequest.fetchPrevious().then(
+        messages => {
+          console.log("Message list fetched:", messages);
+          messages.forEach(message => this.checkIfChat(message));
+          // this.groupMessages = [...this.groupMessages, ...messages];
           this.loadingMessages = false;
           this.$nextTick(() => {
             this.scrollToBottom();
           });
+        },
+        error => {
+          console.log("Message fetching failed with error:", error);
+          // location.reload();
         }
-      })
-    );
-  },
-  computed: {
-    user(){
-      return this.$store.state.user
+      );
+      CometChat.addMessageListener(
+        listenerID,
+        new CometChat.MessageListener({
+          onTextMessageReceived: textMessage => {
+            console.log("Text message received successfully", textMessage);
+            // Handle text message
+            this.messages = [...this.messages, textMessage];
+            this.loadingMessages = false;
+            this.$nextTick(() => {
+              this.scrollToBottom();
+            });
+          }
+        })
+      );
     },
-    receiverID(){
-      return "superhero2";
-    }
-
-  },
-  methods: {
+    checkIfChat(message) {
+      if (message.category == "message") {
+        if (
+          message.receiverId == this.receiverID ||
+          message.sender.uid == this.receiverID
+        ) {
+          this.messages.push(message);
+        }
+      }
+    },
     sendGroupMessage() {
       this.sendingMessage = true;
       var messageText = this.chatMessage;
       var messageType = CometChat.MESSAGE_TYPE.TEXT;
       var receiverType = CometChat.RECEIVER_TYPE.USER;
       let globalContext = this;
+
       var textMessage = new CometChat.TextMessage(
         this.receiverID,
         messageText,
@@ -158,7 +163,7 @@ export default {
           this.chatMessage = "";
           this.sendingMessage = false;
           // Text Message Sent Successfully
-          this.groupMessages = [...globalContext.groupMessages, message];
+          this.messages = [...globalContext.messages, message];
           this.$nextTick(() => {
             this.scrollToBottom();
           });
@@ -177,7 +182,7 @@ export default {
 };
 </script>
 <style scoped>
-  * {
+* {
   box-sizing: border-box;
 }
 
@@ -191,28 +196,8 @@ body {
 }
 
 h3 {
-  font-family: 'Abril Fatface';
+  font-family: "Abril Fatface";
   margin-bottom: 20px;
-}
-
-button {
-  border: none;
-  width: 100%;
-  margin: auto;
-  margin-top: 40px;
-  cursor: pointer;
-  padding: 10px 0;
-  background: #1B47DB;
-  font-size: 14px;
-  color: #fff;
-  border-radius: 4px;
-  box-shadow: 0 4px 8px 0 #CFDFFF, 0 6px 20px 0 #CFDFFF;
-  font-weight: 700;
-  transform: perspective(1px) translateZ(0);
-}
-
-button:hover {
-  background: #2B57EB;
 }
 
 label {
@@ -222,11 +207,11 @@ label {
 
 .form-wrapper label {
   margin: 0;
-  color: #BFCDD8;
+  color: #bfcdd8;
 }
 
 .form-wrapper #username {
-  border-bottom: 2px solid #E6ECEE !important;
+  border-bottom: 2px solid #e6ecee !important;
   border-radius: 0 !important;
   padding-top: 0.375rem;
   padding-right: 0.75rem;
@@ -242,8 +227,6 @@ label {
 
 .chat {
   flex: 1;
-  padding-top: 40px;
-  background-color: #204CD2;
   background-repeat: no-repeat;
   background-position: center top;
   background-size: cover;
@@ -268,7 +251,7 @@ label {
 
 .empty-chat h2 {
   color: #1546dc;
-  font-family: 'Abril Fatface';
+  font-family: "Abril Fatface";
   padding: 0;
   font-size: 2rem;
   margin: 25px auto 15px;
@@ -293,14 +276,12 @@ label {
   letter-spacing: 0.5px;
   background: #f8f9fb;
   padding: 0 !important;
-  box-shadow: 0 0 50px rgba(0, 0, 0, 0.2);
   border-radius: 7px;
   box-sizing: border-box;
-  border: 1px solid #BFCDD8;
 }
 
 .active {
-  font-family: 'Roboto';
+  font-family: "Roboto";
   width: 120px;
   float: left;
 }
@@ -365,7 +346,7 @@ label {
 }
 
 .received-msg-inbox p {
-  font-family: 'Roboto';
+  font-family: "Roboto";
   background: #ffffff none repeat scroll 0 0;
   border-radius: 7px;
   color: #646464;
@@ -387,7 +368,7 @@ label {
 }
 
 .received-msg-inbox p:after {
-  content: '';
+  content: "";
   position: absolute;
   left: 0;
   top: 50%;
@@ -424,8 +405,8 @@ label {
 }
 
 .outgoing-chats-msg p {
-  font-family: 'Roboto';
-  background: #1546dc none repeat scroll 0 0;
+  font-family: "Roboto";
+  background: #2296f3 none repeat scroll 0 0;
   color: #fff;
   font-size: 16px;
   margin: 0;
@@ -441,14 +422,14 @@ label {
 }
 
 .outgoing-chats-msg p::before {
-  content: '';
+  content: "";
   position: absolute;
   right: 0;
   top: 50%;
   width: 0;
   height: 0;
   border: 10px solid transparent;
-  border-left-color: #1546dc;
+  border-left-color: #2296f3;
   border-right: 0;
   margin-top: -10px;
   margin-right: -10px;
@@ -471,11 +452,11 @@ label {
 
 .input-group {
   margin-right: 20px;
-  border-top: 1px solid #DEE6EB;
+  border-top: 1px solid #dee6eb;
   width: 100% !important;
   background-color: #fff;
   height: 100%;
-  border-radius: 0 0 7px 7px
+  border-radius: 0 0 7px 7px;
 }
 
 .input-group input {
@@ -484,10 +465,10 @@ label {
 }
 
 .input-group ::placeholder {
-  color: #C0C0C0 !important;
+  color: #c0c0c0 !important;
 }
 
-input.form-control.message-input{
+input.form-control.message-input {
   width: 100%;
 }
 
@@ -541,7 +522,6 @@ input.form-control.message-input{
   position: relative;
 }
 
-
 .nav-right-section {
   display: flex;
   align-items: center;
@@ -575,14 +555,14 @@ nav .spinner {
 }
 
 .loading-text {
-  font-family: 'Roboto';
+  font-family: "Roboto";
   color: #1546dc;
   font-size: 25px;
   margin-top: 20px;
 }
 
 .loading-messages-container .spinner svg {
-  stroke: #CCD7F0;
+  stroke: #ccd7f0;
 }
 
 @media (max-width: 450px) {
@@ -614,7 +594,6 @@ nav .spinner {
   .outgoing-chats-msg p::before {
     display: none;
   }
-
 }
 
 .booker {
@@ -622,5 +601,4 @@ nav .spinner {
   flex-direction: column;
   flex: 1;
 }
-
 </style>

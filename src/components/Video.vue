@@ -1,30 +1,32 @@
 <template>
   <div class="home">
-     <div id="nav">
-    </div>
+   
 
     <div class="form-group">
-      <div class="form-group">
-        <h2>Welcome {{ this.name}}</h2>
- 
+      <div v-if="incomingCall">
+        <div id="callScreen"></div>
+        <v-btn @click="acceptCall">Accept Call</v-btn>
+        <v-btn @click="rejectCall">Reject Call</v-btn>
       </div>
-      
-        <div v-if="incomingCall">
-          <button class="btn btn-success" @click="acceptCall">Accept Call</button>  
-          <button class="btn btn-success" @click="rejectCall">Reject Call</button> 
-        </div>
 
-        <div v-else-if="ongoingCall">
-          <button class="btn btn-secondary"> Ongoing Call ... </button>
-        </div>
+      <div v-else-if="ongoingCall">
+        <div id="callScreen"></div>
+        <v-btn>Ongoing Call ...</v-btn>
+      </div>
 
-        <div v-else>
-          <button  @click="startVideoChat" class="btn btn-secondary"> Start Call <span v-if="showSpinner" class="fa fa-spin fa-spinner"></span> </button>
-        </div>
-
+      <!-- <v-container  > -->
+        <v-container id="noCall" bg fill-height grid-list-md v-else>
+          <v-layout row wrap align-center >
+            <v-flex>
+              <v-btn id="callButton" color="error" @click="startVideoChat" >
+                Start Call
+                <span v-if="showSpinner" class="fa fa-spin fa-spinner"></span>
+              </v-btn>
+            </v-flex>
+          </v-layout>
+        <!-- </v-container> -->
+      </v-container>
     </div>
-
-    <div id="callScreen"></div>
   </div>
 </template>
 
@@ -33,20 +35,19 @@
 import { CometChat } from "@cometchat-pro/chat";
 export default {
   name: "Video",
-  props:{
-    name: String
+  props: {
+    receiver_id: String
   },
   data() {
     return {
       session_id: "",
-      receiver_id: null,
       error: false,
       showSpinner: false,
       incomingCall: false,
       ongoingCall: false,
-      appID: '11033fd257dda26',
+      appID: "11033fd257dda26",
       onCall: false
-    }
+    };
   },
   computed: {
     user() {
@@ -98,7 +99,6 @@ export default {
           console.log("Outgoing call rejected:", call);
           this.incomingCall = false;
           this.ongoingCall = false;
-          this.receiver_id = "";
           // Outgoing Call Rejected
           this.onCall = false;
         },
@@ -120,7 +120,7 @@ export default {
       CometChat.initiateCall(call).then(
         outGoingCall => {
           this.showSpinner = false;
-          console.x("Call initiated successfully:", outGoingCall);
+          console.log("Call initiated successfully:", outGoingCall);
           // perform action on success. Like show your calling screen.
         },
         error => {
@@ -152,7 +152,6 @@ export default {
                 /* Notification received here if another user left the call. */
                 console.log("User left call:", user);
                 /* this method can be use to display message or perform any actions if someone leaving the call */
-
               },
               onCallEnded: call => {
                 /* Notification received here if current ongoing call is ended. */
@@ -190,11 +189,21 @@ export default {
   }
 };
 </script>
-<style scoped> 
-  
-  #callScreen {
-    width: 100%;
-    height: 100%;
+<style scoped>
 
-  }
+.home{
+  width: 100%;
+}
+
+#callScreen {
+  width: 100%;
+  height: 100vh;
+}
+#noCall {
+  height: 100vh;
+  width: 100%;
+}
+#callButton {
+  margin: auto;
+}
 </style>
