@@ -9,12 +9,22 @@
           <v-form ref="form" v-model="valid">
             <v-layout row>
               <v-flex xs12>
-                <v-text-field v-model="name" label="Name" name="name" readonly></v-text-field>
+                <v-text-field
+                  v-model="name"
+                  label="Name"
+                  name="name"
+                  readonly
+                ></v-text-field>
               </v-flex>
             </v-layout>
             <v-layout row>
               <v-flex xs12>
-                <v-text-field v-model="email" label="Email" name="email" readonly></v-text-field>
+                <v-text-field
+                  v-model="email"
+                  label="Email"
+                  name="email"
+                  readonly
+                ></v-text-field>
               </v-flex>
             </v-layout>
             <v-layout row>
@@ -26,7 +36,12 @@
                   v-model="role"
                   :rules="roleRules"
                 ></v-select>
-                <v-text-field v-else label="User Role" v-model="role" :disabled="true"></v-text-field>
+                <v-text-field
+                  v-else
+                  label="User Role"
+                  v-model="role"
+                  :disabled="true"
+                ></v-text-field>
               </v-flex>
             </v-layout>
             <v-layout row v-if="role == Admin || role == Inmate">
@@ -38,7 +53,12 @@
                   :rules="locationRules"
                   label="Prison Location"
                 />
-                <v-text-field v-else label="Prison Location" v-model="location" :disabled="true"></v-text-field>
+                <v-text-field
+                  v-else
+                  label="Prison Location"
+                  v-model="location"
+                  :disabled="true"
+                ></v-text-field>
               </v-flex>
             </v-layout>
             <v-btn @click="updateProfile" color="primary">Update</v-btn>

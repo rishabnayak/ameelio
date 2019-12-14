@@ -20,7 +20,7 @@
               >
                 <template slot="prisons" slot-scope="props">
                   <tr>
-                    <td>{{ props.prison.prison }}</td>
+                    <td>{{ props.prison.location }}</td>
                     <td class="text-m-right">{{ props.prison.prison }}</td>
                     <td class="text-m-right">{{ props.prison.address }}</td>
                   </tr>
@@ -155,10 +155,10 @@ export default {
     SideBar
   },
   mounted() {
+    this.getPrison();
     db.collection("users")
       .get()
       .then(snapshot => {
-        console.log("doc.data().displayName");
         snapshot.forEach(doc => {
           if (doc.data().role != "Inmate") {
             console.log("doc.data().displayName");
@@ -167,10 +167,21 @@ export default {
         });
       });
   },
-  methods: {},
+  methods: {
+    async getPrison() {
+      let snapshot = await db.collection("users").get();
+      snapshot.forEach(doc => {
+        if (doc.data().location) {
+          this.prisons.push({ location: doc.data().location });
+        }
+      });
+    }
+  },
   data() {
     return {
       admins: [],
+      prisons: [],
+      dialog: false,
       isExpanded: false,
       search: "",
       headers: [
@@ -190,21 +201,7 @@ export default {
         //   text: 'Phone Number',
         //   value: 'phone'
         // }
-      ],
-      prisons: [
-        {
-          prison: "Demo County Prison",
-          address: "49 Anderson Blvd, Stoughton, WI, 02345"
-        },
-        {
-          prison: "State Prison",
-          address: "110 Yellow Brick Road, Kings, WA, 02345"
-        },
-        {
-          prison: "County Prison",
-          address: "11 Hello World, Boston, MA, 02215"
-        }
-      ],
+      ]
     };
   }
 };
