@@ -81,9 +81,6 @@ export default {
           })
       )
       .then(() => {
-        // if(!this.isLoggedIn()){
-        //   location.reload()
-        // }
         this.$refs.fetchChat.getMessages;
       }
         
