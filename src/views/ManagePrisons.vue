@@ -12,27 +12,11 @@
                 <v-spacer></v-spacer>
               </v-card-title>
               <v-data-table
-                v-model="selected"
-                :headers="headers"
+                :headers="prisonHeaders"
                 :items="prisons"
                 :items-per-page="5"
                 class="elevation-1"
               >
-                <template slot="prisons" slot-scope="props">
-                  <tr>
-                    <td>{{ props.prison.location }}</td>
-                    <td class="text-m-right">{{ props.prison.prison }}</td>
-                    <td class="text-m-right">{{ props.prison.address }}</td>
-                  </tr>
-                </template>
-                <v-alert
-                  slot="no-results"
-                  :value="true"
-                  color="error"
-                  icon="warning"
-                >
-                  Your search for "{{ search }}" found no results.
-                </v-alert>
               </v-data-table>
             </v-card>
             <br />
@@ -161,7 +145,6 @@ export default {
       .then(snapshot => {
         snapshot.forEach(doc => {
           if (doc.data().role != "Inmate") {
-            console.log("doc.data().displayName");
             this.admins.push(doc.data().displayName);
           }
         });
@@ -172,7 +155,14 @@ export default {
       let snapshot = await db.collection("users").get();
       snapshot.forEach(doc => {
         if (doc.data().location) {
-          this.prisons.push({ location: doc.data().location });
+          // for (let index = 0; index <= this.prisons.length; index++) {
+          //   console.log(this.prisons[index]);
+          //   if (this.prisons.index == undefined) {
+          //     this.prisons.push({ location: doc.data().location });
+          //   } else if (!this.prisons[index].location == doc.data().location) {
+          //     this.prisons.push({ location: doc.data().location });
+          //   }
+          // }
         }
       });
     }
@@ -184,6 +174,13 @@ export default {
       dialog: false,
       isExpanded: false,
       search: "",
+      selected: null,
+      prisonHeaders: [
+        {
+          text: "Prison",
+          value: "location"
+        }
+      ],
       headers: [
         {
           text: "Prison",
@@ -193,14 +190,6 @@ export default {
           text: "Address",
           value: "address"
         }
-        // {
-        //   text:'name',
-        //   value:'name'
-        // },
-        // {
-        //   text: 'Phone Number',
-        //   value: 'phone'
-        // }
       ]
     };
   }

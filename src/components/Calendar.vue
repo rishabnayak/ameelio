@@ -1,22 +1,23 @@
-
 <template>
   <div>
     <v-sheet height="64">
       <v-toolbar flat color="white">
-        <div v-if="defaultMenu" >
+        <div v-if="defaultMenu">
           <v-btn
             class=".d-none"
             color="primary"
             dark
             v-if="user.role == 'Friends and Family'"
             @click.stop="dialog = true"
-          >Schedule A Call</v-btn>
+            >Schedule A Call</v-btn
+          >
           <v-btn
             color="primary"
             dark
             v-if="user.role == 'Friends and Family'"
             @click="contactDialog = true"
-          >Add Contact</v-btn>
+            >Add Contact</v-btn
+          >
         </div>
         <v-btn outlined class="mr-4" @click="setToday">Today</v-btn>
         <v-btn fab text small @click="prev">
@@ -49,13 +50,40 @@
             <div>
               <h2 id="addContactTitle">Inmate Information</h2>
             </div>
-            <v-text-field v-model="firstname" type="text" label="First Name" placeholder="John"></v-text-field>
-            <v-text-field v-model="lastname" type="text" label="Last Name" placeholder="Doe"></v-text-field>
-            <v-text-field v-model="inmateID" type="text" label="Inmate ID" placeholder="123456789"></v-text-field>
-            <v-text-field v-model="birthdate" type="date" label="Birth Date"></v-text-field>
+            <v-text-field
+              v-model="firstname"
+              type="text"
+              label="First Name"
+              placeholder="John"
+            ></v-text-field>
+            <v-text-field
+              v-model="lastname"
+              type="text"
+              label="Last Name"
+              placeholder="Doe"
+            ></v-text-field>
+            <v-text-field
+              v-model="inmateID"
+              type="text"
+              label="Inmate ID"
+              placeholder="123456789"
+            ></v-text-field>
+            <v-text-field
+              v-model="birthdate"
+              type="date"
+              label="Birth Date"
+            ></v-text-field>
             <label>Place of Incarceration</label>
-            <v-select :items="prisons" v-model="location" label="Select the prison (required)"></v-select>
-            <v-text-field v-model="race" type="text" label="Race"></v-text-field>
+            <v-select
+              :items="prisons"
+              v-model="location"
+              label="Select the prison (required)"
+            ></v-select>
+            <v-text-field
+              v-model="race"
+              type="text"
+              label="Race"
+            ></v-text-field>
             <label for="sex">Sex</label>
             <v-radio-group v-model="sex" row>
               <v-radio label="Female" value="fem"></v-radio>
@@ -66,8 +94,17 @@
               color="primary"
               class="mr-4"
               @click.stop="contactDialog = false"
-              :disabled="firstname == null || lastname == null || inmateID == null || birthdate == null || location == null || race== null || sex == null"
-            >Submit</v-btn>
+              :disabled="
+                firstname == null ||
+                  lastname == null ||
+                  inmateID == null ||
+                  birthdate == null ||
+                  location == null ||
+                  race == null ||
+                  sex == null
+              "
+              >Submit</v-btn
+            >
             <!-- <v-btn type="submit" @click.stop="contactDialog = false" :disabled= "firstname == null || ">Submit</v-btn> -->
           </v-form>
         </v-container>
@@ -84,7 +121,11 @@
               v-model="name"
               label="Select a person from your contacts (required)"
             ></v-select>
-            <v-text-field v-model="start" type="date" label="Date (required)"></v-text-field>
+            <v-text-field
+              v-model="start"
+              type="date"
+              label="Date (required)"
+            ></v-text-field>
             <v-row justify="center">
               <v-time-picker
                 v-model="startTime"
@@ -103,7 +144,8 @@
               class="mr-4"
               @click.stop="dialog = false"
               :disabled="name == null || start == null || startTime == null"
-            >create event</v-btn>
+              >create event</v-btn
+            >
           </v-form>
         </v-container>
       </v-card>
@@ -131,7 +173,9 @@
       >
         <v-card color="grey lighten-4" :width="350" flat>
           <v-toolbar :color="selectedEvent.color" dark>
-            <v-btn color="secondary" dark @click="checkCalls(selectedEvent)">Join a Call</v-btn>
+            <v-btn color="secondary" dark @click="checkCalls(selectedEvent)"
+              >Join a Call</v-btn
+            >
             <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
             <div class="flex-grow-1"></div>
           </v-toolbar>
@@ -143,7 +187,7 @@
 <script>
 import { db } from "@/main";
 import firebase from "firebase/app";
-import { log } from 'util';
+import { log } from "util";
 
 export default {
   data: () => ({
@@ -281,7 +325,10 @@ export default {
     },
 
     checkCalls(selectedEvent) {
-      this.$router.push({ name: 'videocall', params: { uid: selectedEvent.uid } })
+      this.$router.push({
+        name: "videocall",
+        params: { uid: selectedEvent.uid }
+      });
     },
 
     allowedHours: v => v,
@@ -307,7 +354,6 @@ export default {
     },
     async addEvent() {
       if (this.name && this.start && this.startTime) {
-
         db.collection("users")
           .doc(this.name)
           .get()
