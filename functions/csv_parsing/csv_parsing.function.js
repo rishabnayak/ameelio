@@ -7,35 +7,7 @@ adminConfig.credential = admin.credential.cert(serviceAccount);
 //admin.initializeApp(adminConfig);
 const db = admin.firestore();
 
-/*
-module.exports.addToDatabase = functions.https.onRequest((req, res) => {
-  let data = {
-    name: 'Los Angeles',
-    state: 'CA',
-    country: 'USA'
-  };
 
-  db.collection('users').doc('LA').set(data).catch((err) => {
-    console.log(err)
-  });
-  db.collection('prisons').doc('LA').set(data).catch((err) => {
-    console.log(err)
-  });
-});*/
-
-/**
-* Begin the code where I really parse the csv and do work
-*/
-
-
-
-/*
- * What to do next time:
-
-  Put the business logic in an "async" function, which gets called from pushTest, which then 
-  returns 200--I need to make all the database calls synchronous more or less, so being able to 
-  use await would be helpful
- */
 
 module.exports.pushTest = functions.https.onRequest((req, res) => {
  
@@ -75,12 +47,12 @@ module.exports.pushTest = functions.https.onRequest((req, res) => {
          console.log("\n the error was \n" + error + "\n\n")
        });
        allAsyncAdds.push(added);
-
      }
-   
-   
     }
     
+    //We need to work for all database adds to finish before we 
+    //tell the user everything went. If you don't wait, the database adds
+    //will never happen
     Promise.all(allAsyncAdds).then(function(values) {
       const formattedDate = req.query.this;
       res.status(200).send(formattedDate);
@@ -89,11 +61,6 @@ module.exports.pushTest = functions.https.onRequest((req, res) => {
    // [END sendResponse]
 });
 
-
-async function addUsersToDatabase(userData)
-{
-
-}
 
 
 //Credit to https://www.bennadel.com/blog/1504-ask-ben-parsing-csv-strings-with-javascript-exec-regular-expression-command.htm
