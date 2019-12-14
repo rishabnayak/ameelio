@@ -15,17 +15,9 @@
                         <v-card-title>
                           Prisons
                           <v-spacer></v-spacer>
-                          <v-text-field
-                            append-icon="search"
-                            label="Search"
-                            single-line
-                            hide-details
-                            v-model="search"
-                          ></v-text-field>
                         </v-card-title>
                           <v-data-table
                               v-model="selected"
-                              :search="search"
                               :headers="headers"
                               :items="prisons"
                               :items-per-page="5"
@@ -50,17 +42,38 @@
                         <v-card-title>
                           Admins
                           <v-spacer></v-spacer>
-                          <v-text-field
-                            append-icon="search"
-                            label="Search"
-                            single-line
-                            hide-details
-                            v-model="search"
-                          ></v-text-field>
+                           <v-dialog v-model="dialog" persistent max-width="600px">
+                            <template v-slot:activator="{ on }">
+                            <v-btn color="primary" dark v-on="on">Open Dialog</v-btn>
+                            </template>
+                            <v-card>
+                            <v-card-title>
+                                <span class="headline">Add Admin </span>
+                            </v-card-title>
+                            <v-card-text>
+                                <v-container>
+                                <v-row>
+                                    <v-col cols="12" sm="6">
+                                    <v-select
+                                        :items="['John X', 'Cici Chen', 'Lizzy Slade', 'Rishab']"
+                                        label="Admin Name*"
+                                        required
+                                    ></v-select>
+                                    </v-col>
+                                </v-row>
+                                </v-container>
+                                <small>*indicates required field</small>
+                            </v-card-text>
+                            <v-card-actions>
+                                <v-spacer></v-spacer>
+                                <v-btn color="blue darken-1" text @click="dialog = false">Close</v-btn>
+                                <v-btn color="blue darken-1" text @click="dialog = false">Add Admin</v-btn>
+                            </v-card-actions>
+                            </v-card>
+                        </v-dialog>
                         </v-card-title>
                           <v-data-table
                               v-model="selected"
-                              :search="search"
                               :headers="headers"
                               :admins="admins"
                               :items-per-page="5"
