@@ -40,22 +40,13 @@ module.exports.addToDatabase = functions.https.onRequest((req, res) => {
 module.exports.pushTest = functions.https.onRequest((req, res) => {
  
 
-
-  let data = {
-    name: 'Los Angeles',
-    state: 'CA',
-    country: 'USA'
-  };
-
-  let noError = db.collection('users').doc('NY').set(data);
-  noError.then(snapshot => {
-
     const rawBody = req.rawBody
     console.log("raw body:\n" + rawBody)
     let result = CSVToArray(rawBody, undefined)
     console.log("starting parsed")
     console.log("result was \n" + result)
    
+    let allAsyncAdds = [];
     if(!Array.isArray(result))
     {
       console.log("The csv file could not be parsed")
@@ -83,20 +74,26 @@ module.exports.pushTest = functions.https.onRequest((req, res) => {
        let added = db.collection("prisons").doc("test_prison_1").collection("prisoners").add(inmate).catch(function(error) {
          console.log("\n the error was \n" + error + "\n\n")
        });
+       allAsyncAdds.push(added);
+
      }
    
    
     }
-   
+    
+    Promise.all(allAsyncAdds).then(function(values) {
       const formattedDate = req.query.this;
       res.status(200).send(formattedDate);
-})
-  .catch(error => {
-    console.log(error)
-});
+    })
 
    // [END sendResponse]
 });
+
+
+async function addUsersToDatabase(userData)
+{
+
+}
 
 
 //Credit to https://www.bennadel.com/blog/1504-ask-ben-parsing-csv-strings-with-javascript-exec-regular-expression-command.htm
