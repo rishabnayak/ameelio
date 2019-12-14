@@ -68,6 +68,14 @@ const router = new Router({
         requiresAuth: true
       }
     },
+    {
+      path: "/manageprisons",
+      name: "manageprisons",
+      component: () => import("./views/ManagePrisons.vue"),
+      meta: {
+        requiresAuth: true
+      }
+    },
   ]
 });
 
