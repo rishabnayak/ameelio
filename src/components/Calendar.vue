@@ -130,7 +130,12 @@
       >
         <v-card color="grey lighten-4" :width="350" flat>
           <v-toolbar :color="selectedEvent.color" dark>
-            <v-btn v-if="needsCall" color="secondary" dark @click="checkCalls(selectedEvent)">Join a Call</v-btn>
+            <v-btn
+              v-if="needsCall"
+              color="secondary"
+              dark
+              @click="checkCalls(selectedEvent)"
+            >Join a Call</v-btn>
             <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
             <div class="flex-grow-1"></div>
           </v-toolbar>
@@ -142,7 +147,7 @@
 <script>
 import { db } from "@/main";
 import firebase from "firebase/app";
-import { log } from 'util';
+import { log } from "util";
 
 export default {
   data: () => ({
@@ -268,16 +273,18 @@ export default {
           if (adminDetails.empty) {
             return;
           } else {
-            db.collection("users")
-              .doc(adminDetails.docs[0].data().uid)
-              .update({
-                contactRequests: firebase.firestore.FieldValue.arrayUnion({
-                  inmateUID: inmateDetails.docs[0].data().uid,
-                  familyUID: this.user.uid
-                })
-              });
-            alert("Succeessfully added");
-
+            console.log(adminDetails.size);
+            for (let index = 0; index < adminDetails.size; index++) {
+              db.collection("users")
+                .doc(adminDetails.docs[index].data().uid)
+                .update({
+                  contactRequests: firebase.firestore.FieldValue.arrayUnion({
+                    inmateUID: inmateDetails.docs[0].data().uid,
+                    familyUID: this.user.uid
+                  })
+                });
+              console.log("Done");
+            }
             return;
           }
         }
@@ -286,7 +293,10 @@ export default {
     },
 
     checkCalls(selectedEvent) {
-      this.$router.push({ name: 'videocall', params: { uid: selectedEvent.uid } })
+      this.$router.push({
+        name: "videocall",
+        params: { uid: selectedEvent.uid }
+      });
     },
 
     allowedHours: v => v,
@@ -312,7 +322,6 @@ export default {
     },
     async addEvent() {
       if (this.name && this.start && this.startTime) {
-
         db.collection("users")
           .doc(this.name)
           .get()
