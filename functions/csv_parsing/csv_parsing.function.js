@@ -28,6 +28,15 @@ module.exports.addToDatabase = functions.https.onRequest((req, res) => {
 */
 
 
+
+/*
+ * What to do next time:
+
+  Put the business logic in an "async" function, which gets called from pushTest, which then 
+  returns 200--I need to make all the database calls synchronous more or less, so being able to 
+  use await would be helpful
+ */
+
 module.exports.pushTest = functions.https.onRequest((req, res) => {
  
 
@@ -40,7 +49,7 @@ module.exports.pushTest = functions.https.onRequest((req, res) => {
 
   let noError = db.collection('users').doc('NY').set(data);
   noError.then(snapshot => {
-    // handle the document snapshot here
+
     const rawBody = req.rawBody
     console.log("raw body:\n" + rawBody)
     let result = CSVToArray(rawBody, undefined)
@@ -71,7 +80,7 @@ module.exports.pushTest = functions.https.onRequest((req, res) => {
        };
        console.log("first name:")
        console.log(inmate.firstname)
-       let added = db.collection("prisons").add(inmate).catch(function(error) {
+       let added = db.collection("prisons").doc("test_prison_1").collection("prisoners").add(inmate).catch(function(error) {
          console.log("\n the error was \n" + error + "\n\n")
        });
      }
