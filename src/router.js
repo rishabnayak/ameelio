@@ -11,7 +11,7 @@ const router = new Router({
     {
       path: "/",
       name: "home",
-      component: () => import("./views/Home.vue"),
+      component: () => import("./views/Home.vue")
     },
     {
       path: "/admin",
@@ -73,9 +73,10 @@ const router = new Router({
       name: "manageprisons",
       component: () => import("./views/ManagePrisons.vue"),
       meta: {
-        requiresAuth: true
+        requiresAuth: true,
+        isSuperUser: true
       }
-    },
+    }
   ]
 });
 
@@ -111,6 +112,25 @@ router.beforeEach((to, from, next) => {
       } else {
         next({
           name: "profile"
+        });
+      }
+    } else {
+      next({ name: "login" });
+    }
+  } else {
+    next();
+  }
+});
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(rec => rec.meta.isSuperUser)) {
+    let user = store.state.user;
+    if (user) {
+      if (user.role == "SuperUser") {
+        next();
+      } else {
+        next({
+          name: "home"
         });
       }
     } else {
