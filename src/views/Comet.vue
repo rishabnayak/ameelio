@@ -58,15 +58,8 @@ export default {
             //Check the reason for error and take apppropriate action.
           }
         )
-    .then(this.logInUser);
-  },
-  destroyed() {
-    this.logoutUser();
-    console.log('destroyed');
-  },
-  methods: {
-    async logInUser() {
-      await firebase
+    .then(
+      firebase
         .functions()
         .httpsCallable("logInCometChat")({ uid: this.user.uid })
         .then(data => {
@@ -82,8 +75,13 @@ export default {
               // User login failed, check error and take appropriate action.
             }
           );
-        });
-    },
+        }));
+  },
+  destroyed() {
+    this.logoutUser();
+    console.log('destroyed');
+  },
+  methods: {
     logoutUser() {
       CometChat.logout().then(
         () => {
