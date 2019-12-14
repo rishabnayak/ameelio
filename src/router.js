@@ -68,6 +68,14 @@ const router = new Router({
         requiresAuth: false
       }
     },
+    {
+      path: '/csv',
+      name: 'csv',
+      component: () => import("./views/CSV.vue"),
+      meta: {
+        requiresAuth: true
+      }
+    }
   ]
 });
 
