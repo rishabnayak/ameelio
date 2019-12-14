@@ -108,7 +108,8 @@ export default {
     async updateProfile() {
       if (this.$refs.form.validate()) {
         const ref = db.collection("users").doc(this.user.uid);
-        await ref
+        if (this.location) {
+          await ref
           .update({
             role: this.role,
             location: this.location
@@ -118,6 +119,17 @@ export default {
               this.$router.push("/user");
             });
           });
+        } else {
+          await ref
+          .update({
+            role: this.role,
+          })
+          .then(() => {
+            this.$store.dispatch("setUser").then(() => {
+              this.$router.push("/user");
+            });
+          });
+        }
       }
     },
     async getPrison() {
