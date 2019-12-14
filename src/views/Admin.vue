@@ -1,22 +1,58 @@
 <template>
   <div>
+    <v-container>
+      <h1>Connection Requests</h1>
+      <v-card>
+        <v-card-title>
+          <v-text-field
+            v-model="search"
+            append-icon="search"
+            label="Search"
+            single-line
+            hide-details
+          ></v-text-field>
+        </v-card-title>
+        <v-data-table
+          :headers="mainHeaders"
+          :items="requests"
+          :search="search"
+          :no-data-text="'There are no requests at the moment'"
+          :no-results-text="'No matching requests found'"
+          :must-sort="true"
+          item-key="name"
+        >
+          
+          <template #item.inmateName='{item}'>
+            <router-link :to="{ name: 'otherprofile', params: {uid:item.inmateUID} }">
+              {{item.inmateName}}
+            </router-link>
+          </template>
+          <template #item.familyName='{item}'>
+            <router-link :to="{ name: 'otherprofile', params: {uid:item.familyUID} }">
+              {{item.familyName}}
+            </router-link>
+          </template>
+          <template v-slot:item.action="{item}">
+            <v-btn 
+              class="mr-2"
+              text icon color="blue lighten-2"
+              @click="approveRequest(item)"
+            >
+              <v-icon small>mdi-thumb-up</v-icon>
+            </v-btn>
+            <v-btn
+              text icon color="red lighten-2"
+              @click="denyRequest(item)"
+            >
+              <v-icon small>mdi-thumb-down</v-icon>
+            </v-btn>
+          </template>
+        </v-data-table>
+      </v-card>
+    </v-container>
     <v-container class="calendar">
       <h1>Calendar</h1>
       <Calendar />
-    </v-container>
-    <v-container>
-      <h1>Connection Requests</h1>
-      <div v-for="request in requests" v-bind:key="request.id">
-        <router-link :to="{ name: 'otherprofile', params: {uid:request.familyUID} }">
-          <p>{{request.familyName}}</p>
-        </router-link>
-        <p>would like to connect to</p>
-        <router-link :to="{ name: 'otherprofile', params: {uid:request.inmateUID} }">
-          <p>{{request.inmateName}}</p>
-        </router-link>
-        <v-btn @click="approveRequest(request)" color="primary">Approve</v-btn>
-        <v-btn @click="denyRequest(request)" color="primary">Deny</v-btn>
-      </div>
     </v-container>
   </div>
 </template>
@@ -45,18 +81,22 @@ export default {
 
       isExpanded: false,
       isModalVisible: false,
-      contacts: ["Louis", "Amelia", "etc."],
-      mainHeadersContacts: [
-        { text: "Name", value: "name" },
-        { text: "Date", value: "date" },
-        { text: "Time", value: "time" }
+      //contacts: ["Louis", "Amelia", "etc."],
+      search: '',
+      mainHeaders: [
+        { text: "Inmate", value: "inmateName" },
+        //{ text: "Location", value: "location" },
+        //{ text: "ID", value: "id" },
+        //{ text: "Date & Time", value: "time" },
+        { text: "Family/Friend", value: "familyName" },
+        { text: "Action", value: "action", sortable: false, align: "center"},
       ],
-
-      mainItemsContacts: [
-        { name: "Marc Moreno", date: "October 30", time: "3:00pm" },
-        { name: "Wallace  Frank", date: "October 31", time: "4:00pm" },
-        { name: "Enrique  Sanders", date: "October 23", time: "5:00pm" }
-      ]
+      // mainItems: [
+      //   { name: "Marc Moreno", location: "Demo County Jail", id: "012345", time: "Monday, Aug 17th 2019, 3:00pm", family: "Bobson Doe", },
+      //   { name: "Wallace  Frank", location: "Demo County Jail", id: "123456", time: "Wednesday, Nov 13th 2019, 5:00pm", family: "Bob Doe" },
+      //   { name: "Enrique  Sanders", location: "Demo County Jail", id: "234567", time: "Thursday, Nov 21st 2019, 2:00pm", family: "John Doe" },
+      //   { name: "Michael Johnson", location: "Demo County Jail", id: "345678", time: "Friday, Nov 22nd 2019, 12:00pm", family: "John Do" }
+      // ],
     };
   },
   mounted() {
@@ -127,6 +167,6 @@ export default {
         });
       location.reload();
     }
-  }
+  },
 };
 </script>
