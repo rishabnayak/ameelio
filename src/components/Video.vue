@@ -18,7 +18,7 @@
         <v-container id="noCall" bg fill-height grid-list-md v-else>
           <v-layout row wrap align-center >
             <v-flex>
-              <v-btn id="callButton" color="error" @click="startVideoChat" >
+              <v-btn  v-if="isLoggedIn" id="callButton" color="error" @click="startVideoChat" >
                 Start Call
                 <span v-if="showSpinner" class="fa fa-spin fa-spinner"></span>
               </v-btn>
@@ -46,7 +46,8 @@ export default {
       incomingCall: false,
       ongoingCall: false,
       appID: "11033fd257dda26",
-      onCall: false
+      onCall: false,
+      isLoggedIn: false
     };
   },
   computed: {
