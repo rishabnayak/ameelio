@@ -4,8 +4,8 @@
 
     <div class="form-group">
       <div v-if="incomingCall">
-        <v-btn @click="acceptCall">Accept Call</v-btn>
-        <v-btn @click="rejectCall">Reject Call</v-btn>
+        <v-btn color='primary' @click="acceptCall">Accept Call</v-btn>
+        <v-btn  color ='error' @click="rejectCall">Reject Call</v-btn>
       </div>
 
       <div v-else-if="ongoingCall">
@@ -207,5 +207,9 @@ export default {
 }
 #callButton {
   margin: auto;
+}
+
+.v-btn{
+  margin-right: 20px;
 }
 </style>
