@@ -4,7 +4,7 @@
       <CometVideo ref="showVideo" :receiver_id="receiverUID" />
     </v-row>
     <v-row>
-      <Chat ref="fetchChat" :userUID="uid.toLowerCase()" :receiverID="receiverUID.toLowerCase()" />
+      <Chat ref="fetchChat" :userUID="user.uid.toLowerCase()" :receiverID="receiverUID.toLowerCase()" />
     </v-row>
   </v-container>
 </template>

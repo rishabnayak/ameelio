@@ -96,6 +96,8 @@ export default {
     };
   },
   mounted() {
+    console.log('uid is ', this.userUID);
+    console.log('other id is ', this.receiverID);
           this.loadingMessages = true;
   },
   methods: {
