@@ -4,18 +4,18 @@
 
     <div class="form-group">
       <div v-if="incomingCall">
-        <div id="callScreen"></div>
         <v-btn @click="acceptCall">Accept Call</v-btn>
         <v-btn @click="rejectCall">Reject Call</v-btn>
       </div>
 
       <div v-else-if="ongoingCall">
-        <div id="callScreen"></div>
-        <v-btn>Ongoing Call ...</v-btn>
+        
+        <h4>Ongoing Call ...</h4>
       </div>
+      
 
       <!-- <v-container  > -->
-        <v-container id="noCall" bg fill-height grid-list-md v-else>
+        <v-container  bg fill-height grid-list-md v-else>
           <v-layout row wrap align-center >
             <v-flex>
               <v-btn  v-if="isLoggedIn" id="callButton" color="error" @click="startVideoChat" >
@@ -26,6 +26,7 @@
           </v-layout>
         <!-- </v-container> -->
       </v-container>
+      <div id="callScreen"></div>
     </div>
   </div>
 </template>
