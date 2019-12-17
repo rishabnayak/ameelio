@@ -1,12 +1,12 @@
 <template>
     <div>
-        <form>
+        <form action='http://localhost:5001/ameelio-badeb/us-central1/pushTest' method='PUT'>
             <input type="file" name="fileName" accept=".csv,image/*" value="CSV_file">
 
             <br>
             <br>
             <input type="hidden" name="uid" :value="uid" />
-            <input  method='POST' type="submit" name="item" id="second" value="Upload">
+            <input type="submit" name="item" id="second" value="Upload">
 
         </form>
     </div>

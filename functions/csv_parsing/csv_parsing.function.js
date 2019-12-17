@@ -11,7 +11,8 @@ const db = admin.firestore();
 
 module.exports.pushTest = functions.https.onRequest((req, res) => {
  
-
+    console.log(req.fileName)
+    console.log(req.uid)
     const rawBody = req.rawBody
     console.log("raw body:\n" + rawBody)
     let result = CSVToArray(rawBody, undefined)
