@@ -1,6 +1,7 @@
 <template>
     <div>
-        <form action='http://localhost:5001/ameelio-badeb/us-central1/pushTest' method='PUT'>
+        <form action="https://us-central1-ameelio-badeb.cloudfunctions.net/csvUploadFunction" method="post"
+        enctype="multipart/form-data">
             <input type="file" name="fileName" accept=".csv,image/*" value="CSV_file">
 
             <br>
