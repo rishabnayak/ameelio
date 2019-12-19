@@ -1,10 +1,10 @@
 <template>
   <v-container>
     <v-row>
-      <CometVideo :receiver_id="receiverUID" />
+      <CometVideo ref="showVideo" :receiver_id="receiverUID" />
     </v-row>
     <v-row>
-      <Chat ref="fetchChat" :userUID="uid.toLowerCase()" :receiverID="receiverUID.toLowerCase()" />
+      <Chat ref="fetchChat" :userUID="user.uid.toLowerCase()" :receiverID="receiverUID.toLowerCase()" />
     </v-row>
   </v-container>
 </template>
@@ -79,11 +79,11 @@ export default {
               }
             );
           })
-      )
-      .then(() => {
-        this.$refs.fetchChat.getMessages;
-      }
-        
+          .then(() => {
+            console.log('fetching')
+            this.$refs.fetchChat.getMessages();
+            this.$refs.showVideo.isLoggedIn = true;
+          })
       );
   },
   destroyed() {
@@ -91,8 +91,8 @@ export default {
     console.log("destroyed");
   },
   methods: {
-    isLoggedIn(){
-            CometChat.getLoggedinUser().then(
+    isLoggedIn() {
+      CometChat.getLoggedinUser().then(
         user => {
           return true;
         },

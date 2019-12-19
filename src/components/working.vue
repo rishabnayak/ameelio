@@ -1,62 +1,3 @@
-<template>
-  <div class="home">
-   
-
-    <div class="form-group">
-      <div v-if="incomingCall">
-        <v-btn color='primary' @click="acceptCall">Accept Call</v-btn>
-        <v-btn  color ='error' @click="rejectCall">Reject Call</v-btn>
-      </div>
-
-      <div v-else-if="ongoingCall">
-        
-        <h4>Ongoing Call ...</h4>
-      </div>
-      
-
-      <!-- <v-container  > -->
-        <v-container  bg fill-height grid-list-md v-else>
-          <v-layout row wrap align-center >
-            <v-flex>
-              <v-btn  v-if="isLoggedIn" id="callButton" color="error" @click="startVideoChat" >
-                Start Call
-                <span v-if="showSpinner" class="fa fa-spin fa-spinner"></span>
-              </v-btn>
-            </v-flex>
-          </v-layout>
-        <!-- </v-container> -->
-      </v-container>
-      <div id="callScreen"></div>
-    </div>
-  </div>
-</template>
-
-<script>
-// @ is an alias to /src
-import { CometChat } from "@cometchat-pro/chat";
-export default {
-  name: "Video",
-  props: {
-    receiver_id: String
-  },
-  data() {
-    return {
-      session_id: "",
-      error: false,
-      showSpinner: false,
-      incomingCall: false,
-      ongoingCall: false,
-      appID: "11033fd257dda26",
-      onCall: false,
-      isLoggedIn: false
-    };
-  },
-  computed: {
-    user() {
-      return this.$store.state.user;
-    }
-  },
-  created() {
     let globalContext = this;
     var listnerID = "UNIQUE_LISTENER_ID";
     CometChat.addCallListener(
@@ -66,7 +7,6 @@ export default {
           console.log("Incoming call:", call);
           globalContext.incomingCall = true;
           globalContext.session_id = call.sessionId;
-          this.onCall = true;
         },
         onOutgoingCallAccepted(call) {
           console.log("Outgoing call accepted:", call);
@@ -94,24 +34,47 @@ export default {
               }
             })
           );
-          this.onCall = true;
           // Outgoing Call Accepted
         },
         onOutgoingCallRejected(call) {
           console.log("Outgoing call rejected:", call);
           this.incomingCall = false;
           this.ongoingCall = false;
+          this.receiver_id = "";
           // Outgoing Call Rejected
-          this.onCall = false;
         },
         onIncomingCallCancelled(call) {
           console.log("Incoming call calcelled:", call);
-          this.onCall = false;
         }
       })
     );
   },
   methods: {
+    getLoggedInUser() {
+      CometChat.getLoggedinUser().then(
+        user => {
+          this.username = user.name;
+          this.uid = user.uid;
+        },
+        error => {
+          this.$router.push({ name: "homepage" });
+          console.log(error);
+        }
+      );
+    },
+    logoutUser() {
+      CometChat.logout().then(
+        success => {
+          console.log("Logout completed successfully");
+          this.$router.push({ name: "homepage" });
+          console.log(success);
+        },
+        error => {
+          //Logout failed with exception
+          console.log("Logout failed with exception:", { error });
+        }
+      );
+    },
     startVideoChat() {
       if (!this.receiver_id) this.error = true;
       this.showSpinner = true;
@@ -161,7 +124,6 @@ export default {
                 globalContext.ongoingCall = false;
                 globalContext.incomingCall = false;
                 /* hiding/closing the call screen can be done here. */
-                this.onCall = false;
               }
             })
           );
@@ -191,25 +153,3 @@ export default {
   }
 };
 </script>
-<style scoped>
-
-.home{
-  width: 100%;
-}
-
-#callScreen {
-  width: 100%;
-  height: 100vh;
-}
-#noCall {
-  height: 100vh;
-  width: 100%;
-}
-#callButton {
-  margin: auto;
-}
-
-.v-btn{
-  margin-right: 20px;
-}
-</style>

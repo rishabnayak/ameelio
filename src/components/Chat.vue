@@ -96,11 +96,13 @@ export default {
     };
   },
   mounted() {
-    // this.getMessages();
+    console.log('uid is ', this.userUID);
+    console.log('other id is ', this.receiverID);
+          this.loadingMessages = true;
   },
   methods: {
     getMessages() {
-      this.loadingMessages = true;
+      console.log('enother fetching')
       var listenerID = "UNIQUE_LISTENER_ID";
       const messagesRequest = new CometChat.MessagesRequestBuilder()
         .setLimit(100)
