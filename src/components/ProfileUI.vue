@@ -44,7 +44,7 @@
                 ></v-text-field>
               </v-flex>
             </v-layout>
-            <v-layout row v-if="role == Admin || role == Inmate">
+            <v-layout row v-if="role == 'Admin' || role == 'Inmate'">
               <v-flex xs12>
                 <v-combobox
                   v-if="location == null"

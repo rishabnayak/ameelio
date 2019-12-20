@@ -152,7 +152,7 @@ export default {
       .get()
       .then(snapshot => {
         snapshot.forEach(doc => {
-          if (doc.data().role != "Inmate" && doc.data().role != "Admin") {
+          if (doc.data().role != "Inmate" && doc.data().role != "Admin" && doc.data().role != "SuperUser") {
             this.admins.push({
               name: doc.data().displayName,
               uid: doc.data().uid

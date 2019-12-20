@@ -56,7 +56,7 @@ export default {
       return this.$store.state.user;
     }
   },
-  created() {
+  created() {    
     let globalContext = this;
     var listnerID = "UNIQUE_LISTENER_ID";
     CometChat.addCallListener(
