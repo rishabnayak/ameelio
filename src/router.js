@@ -56,16 +56,11 @@ const router = new Router({
       }
     },
     {
-      path: "/csvparsing",
-      name: "csvparsing",
-      component: () => import("./views/CSVParsing.vue")
-    },
-    {
       path: "/videocall",
       name: "videocall",
       component: () => import("./views/Comet.vue"),
       meta: {
-        requiresAuth: false
+        requiresAuth: true
       }
     },
     {
