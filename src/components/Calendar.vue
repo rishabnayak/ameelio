@@ -307,16 +307,16 @@ export default {
           if (adminDetails.empty) {
             return;
           } else {
-            db.collection("users")
-              .doc(adminDetails.docs[0].data().uid)
-              .update({
-                contactRequests: firebase.firestore.FieldValue.arrayUnion({
-                  inmateUID: inmateDetails.docs[0].data().uid,
-                  familyUID: this.user.uid
-                })
-              });
-            alert("Succeessfully added");
-
+            for (let index = 0; index < adminDetails.size; index++) {
+              db.collection("users")
+                .doc(adminDetails.docs[index].data().uid)
+                .update({
+                  contactRequests: firebase.firestore.FieldValue.arrayUnion({
+                    inmateUID: inmateDetails.docs[0].data().uid,
+                    familyUID: this.user.uid
+                  })
+                });
+            }
             return;
           }
         }
