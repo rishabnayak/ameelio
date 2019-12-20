@@ -38,7 +38,11 @@
                           <v-col cols="12" sm="6">
                             <v-select
                               :items="admins"
+                              item-text="name"
+                              item-value="uid"
                               label="Admin Name*"
+                              v-model="admin"
+                              :rules="adminRules"
                               required
                             ></v-select>
                           </v-col>
@@ -51,7 +55,12 @@
                       <v-btn color="blue darken-1" text @click="dialog = false"
                         >Close</v-btn
                       >
-                      <v-btn color="blue darken-1" text @click="dialog = false"
+                      <v-btn
+                        type="submit"
+                        color="blue darken-1"
+                        class="mr-4"
+                        @click.stop="addAdmin"
+                        :disabled="admin == null"
                         >Add Admin</v-btn
                       >
                     </v-card-actions>
@@ -139,41 +148,39 @@ export default {
     SideBar
   },
   mounted() {
-    this.getPrison();
     db.collection("users")
       .get()
       .then(snapshot => {
         snapshot.forEach(doc => {
-          if (doc.data().role != "Inmate") {
-            this.admins.push(doc.data().displayName);
+          if (doc.data().role != "Inmate" && doc.data().role != "Admin") {
+            this.admins.push({
+              name: doc.data().displayName,
+              uid: doc.data().uid
+            });
           }
         });
       });
   },
   methods: {
-    async getPrison() {
-      let snapshot = await db.collection("users").get();
-      snapshot.forEach(doc => {
-        if (doc.data().location) {
-          // for (let index = 0; index <= this.prisons.length; index++) {
-          //   console.log(this.prisons[index]);
-          //   if (this.prisons.index == undefined) {
-          //     this.prisons.push({ location: doc.data().location });
-          //   } else if (!this.prisons[index].location == doc.data().location) {
-          //     this.prisons.push({ location: doc.data().location });
-          //   }
-          // }
-        }
-      });
+    async addAdmin() {
+      this.dialog = false;
+      await db.collection("users")
+        .doc(this.admin)
+        .update({
+          role: "Admin"
+        });
+      this.admin = null;
     }
   },
   data() {
     return {
       admins: [],
+      adminRules: [val => !!val || "Select a User"],
       prisons: [],
       dialog: false,
       isExpanded: false,
       search: "",
+      admin: null,
       selected: null,
       prisonHeaders: [
         {
