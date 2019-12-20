@@ -54,6 +54,25 @@
       <h1>Calendar</h1>
       <Calendar />
     </v-container>
+    <v-container>
+      <h1>Connection Requests</h1> 
+      <div v-for="request in requests" v-bind:key="request.id">
+        <router-link :to="{ name: 'otherprofile', params: {uid:request.familyUID} }">
+          <p>{{request.familyName}}</p>
+        </router-link>
+        <p>would like to connect to</p>
+        <router-link :to="{ name: 'otherprofile', params: {uid:request.inmateUID} }">
+          <p>{{request.inmateName}}</p>
+        </router-link>
+        <v-btn @click="approveRequest(request)" color="primary">Approve</v-btn>
+        <v-btn @click="denyRequest(request)" color="primary">Deny</v-btn>
+      </div>
+    </v-container>
+    <v-container>
+      <v-btn color ="error">
+        <router-link :to="{name: 'csv'}" class="csv">Upload Inmate Information</router-link>
+      </v-btn> 
+    </v-container>
   </div>
 </template>
 
@@ -170,3 +189,10 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+a.csv{
+  color: white;
+  text-decoration: none;
+}
+</style>

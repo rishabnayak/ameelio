@@ -58,10 +58,14 @@ const router = new Router({
     {
       path: "/csvparsing",
       name: "csvparsing",
-      component: () => import("./views/CSVParsing.vue")
+      component: () => import("./views/CSVParsing.vue"),
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: "/videocall/:uid",
+      path: "/videocall",
       name: "videocall",
       component: () => import("./views/Comet.vue"),
       meta: {
@@ -75,6 +79,15 @@ const router = new Router({
       meta: {
         requiresAuth: true,
         isSuperUser: true
+      },
+    },
+    {
+      path: '/csv',
+      name: 'csv',
+      component: () => import("./views/CSV.vue"),
+      meta: {
+        requiresAuth: true,
+        isAdmin: true
       }
     }
   ]

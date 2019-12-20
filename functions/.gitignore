@@ -1,3 +1,4 @@
 node_modules/
 serviceAccountKey.json
-CometChat/serviceAccountKey.js
+firebase-debug.log
+CometChat/serviceAccountKey.json
