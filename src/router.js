@@ -68,7 +68,8 @@ const router = new Router({
       name: 'csv',
       component: () => import("./views/CSV.vue"),
       meta: {
-        requiresAuth: true
+        requiresAuth: true,
+        isAdmin: true
       }
     }
   ]
