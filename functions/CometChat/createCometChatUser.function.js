@@ -1,4 +1,5 @@
 const functions = require("firebase-functions");
+const rp = require('request-promise');
 
 module.exports.createCometChatUser = functions.auth.user().onCreate((user) => {
     // user is the firebase user
