@@ -56,14 +56,6 @@ const router = new Router({
       }
     },
     {
-      path: "/csvparsing",
-      name: "csvparsing",
-      component: () => import("./views/CSVParsing.vue"),
-      meta: {
-        requiresAuth: true
-      }
-    },
-    {
       path: "/videocall/:uid",
       path: "/videocall",
       name: "videocall",
