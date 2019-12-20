@@ -1,12 +1,13 @@
 <template>
     <div>
-        <form>
+        <form action="https://us-central1-ameelio-badeb.cloudfunctions.net/csvUploadFunction" method="post"
+        enctype="multipart/form-data">
             <input type="file" name="fileName" accept=".csv,image/*" value="CSV_file">
 
             <br>
             <br>
             <input type="hidden" name="uid" :value="uid" />
-            <input  method='POST' type="submit" name="item" id="second" value="Upload">
+            <input type="submit" name="item" id="second" value="Upload">
 
         </form>
     </div>

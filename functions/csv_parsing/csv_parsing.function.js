@@ -1,102 +1,110 @@
 const admin = require('firebase-admin');
 const functions = require('firebase-functions');
-serviceAccount = require('../serviceAccountKey.json');
 
-const adminConfig = JSON.parse(process.env.FIREBASE_CONFIG);
-adminConfig.credential = admin.credential.cert(serviceAccount);
-//admin.initializeApp(adminConfig);
+//Note: if you try to reauthorize this function you will get an error about multiple authorizations
 const db = admin.firestore();
 
-/*
-module.exports.addToDatabase = functions.https.onRequest((req, res) => {
-  let data = {
-    name: 'Los Angeles',
-    state: 'CA',
-    country: 'USA'
-  };
 
-  db.collection('users').doc('LA').set(data).catch((err) => {
-    console.log(err)
-  });
-  db.collection('prisons').doc('LA').set(data).catch((err) => {
-    console.log(err)
-  });
-});*/
+function exitWithError(res, message)
+{
+  console.log(message);
+  res.status(200).send("ERROR: " + message);
+}
 
-/**
-* Begin the code where I really parse the csv and do work
-*/
-
-
-
-/*
- * What to do next time:
-
-  Put the business logic in an "async" function, which gets called from pushTest, which then 
-  returns 200--I need to make all the database calls synchronous more or less, so being able to 
-  use await would be helpful
- */
-
-module.exports.pushTest = functions.https.onRequest((req, res) => {
- 
-
-
-  let data = {
-    name: 'Los Angeles',
-    state: 'CA',
-    country: 'USA'
-  };
-
-  let noError = db.collection('users').doc('NY').set(data);
-  noError.then(snapshot => {
-
-    const rawBody = req.rawBody
+module.exports.csvUploadFunction = functions.https.onRequest((req, res) => 
+{ 
+    const rawBody = Utf8ArrayToStr(req.rawBody)
     console.log("raw body:\n" + rawBody)
-    let result = CSVToArray(rawBody, undefined)
+
+    // Data is send to this function
+    // in the form/multipart content type:
+    // I do some parsing here for this, it might duplicate
+    // google code but I couldn't find their parser
+    const standardBoundaryEnd = "---";
+    const uidSentinel = "name=\"uid\"";
+    const uidDataLoc = rawBody.indexOf(uidSentinel) +  + uidSentinel.length;
+    const uidDataEnd = rawBody.indexOf(standardBoundaryEnd, uidDataLoc);
+    let uid = rawBody.substring(uidDataLoc, uidDataEnd);
+    uid = uid.trim();
+
+    console.log("uid: " + uid);
+    if (!uid || uid.length === 0)
+    {
+      exitWithError("Could not get the UID");
+    }
+    const adminCallingThis = db.collection("users").where("uid", "==",uid).get(); //get this started and running in the background
+    
+    const csvSentinel = "Content-Type: text/csv";
+    const csvDataLoc = rawBody.indexOf(csvSentinel) + csvSentinel.length;
+    const csvDataEnd = rawBody.indexOf(standardBoundaryEnd, csvDataLoc);
+    let csvData = rawBody.substring(csvDataLoc, csvDataEnd);
+    csvData = csvData.trim(); //there could be extra newlines before and after the boundaries
+    console.log("csv data:\n" + csvData);
+
+    let result = CSVToArray(csvData, undefined)
     console.log("starting parsed")
     console.log("result was \n" + result)
-   
     if(!Array.isArray(result))
     {
-      console.log("The csv file could not be parsed")
+      console.log("The csv file could not be parsed");
     }
     else if (result.length < 2)
     {
-      console.log("The csv file could not be parsed or appeared to be empty")
+      console.log("The csv file could not be parsed or appeared to be empty");
     }
-    else
+
+    //By now hopefully we heard back from the server about who was calling the function
+    adminCallingThis.then(function(querySnapshot) 
     {
+      //If there's more than one user per UID we have a problem
+      if (querySnapshot.docs.length > 1 || querySnapshot.docs.length == 0)
+      {
+        exitWithError("There was a problem fetching your admin credentials from the server");
+      }
+      
+      const adminsPrison = querySnapshot.docs[0].get("location");
+      console.log("The admin is located at prison: " + adminsPrison)
+
+      //Starting the part where we actually add inmates to the database
+      let allAsyncAdds = [];
       //Skipping how we identify what the columns are and assuming a standard order
-     for (i = 1; i < result.length; i++)
-     {
-       const eachField = result[i];
-   
-       let inmate = {
-         birthdate: eachField[2],
-         firstname: eachField[0],
-         lastname: eachField[1],
-         race: eachField[3],
-         sex: eachField[4],
-       };
-       console.log("first name:")
-       console.log(inmate.firstname)
-       let added = db.collection("prisons").doc("test_prison_1").collection("prisoners").add(inmate).catch(function(error) {
-         console.log("\n the error was \n" + error + "\n\n")
-       });
-     }
-   
-   
-    }
-   
-      const formattedDate = req.query.this;
-      res.status(200).send(formattedDate);
-})
-  .catch(error => {
-    console.log(error)
+       for (i = 1; i < result.length; i++)
+       {
+         const eachField = result[i];
+     
+         let inmate = {
+           birthdate: eachField[2],
+           firstname: eachField[0],
+           lastname: eachField[1],
+           race: eachField[3],
+           sex: eachField[4],
+         };
+         console.log("first name:")
+         console.log(inmate.firstname)
+         let added = db.collection("prisons").doc(adminsPrison).collection("prisoners").add(inmate).catch(function(error) {
+           console.log("\n There was an error adding prisoners to the collection: \n" + error + "\n\n")
+         });
+         allAsyncAdds.push(added);
+       }
+
+        //We need to work for all database adds to finish before we 
+        //tell the user everything went. If you don't wait, the database adds
+        //will never happen
+        Promise.all(allAsyncAdds).then(function(values) 
+        {
+          console.log("It seems like everything went well")
+          //you will eventually want to do something like this, with a url instead
+          //res.redirect("http://172.20.10.3:8080/admin");
+          res.status(200).send("Everything was probably fine");
+        })
+     })
+    .catch(function(error) 
+    {
+      console.log("Was unable to find your admin credentials in the datanase, recieved \""
+       + error + "\"");
+    });
 });
 
-   // [END sendResponse]
-});
 
 
 //Credit to https://www.bennadel.com/blog/1504-ask-ben-parsing-csv-strings-with-javascript-exec-regular-expression-command.htm
@@ -184,45 +192,46 @@ function CSVToArray( strData, strDelimiter ){
  }
  
 
-/*
-Sample triggers
 
-*/
+ // http://www.onicos.com/staff/iz/amuse/javascript/expert/utf.txt
 
-///Google code for one simple http trigger
-///Not what we are using right now but maybe a good example
+/* utf.js - UTF-8 <=> UTF-16 convertion
+ *
+ * Copyright (C) 1999 Masanao Izumo <iz@onicos.co.jp>
+ * Version: 1.0
+ * LastModified: Dec 25 1999
+ * This library is free.  You can redistribute it and/or modify it.
+ */
+function Utf8ArrayToStr(array) {
+  var out, i, len, c;
+  var char2, char3;
 
-// Take the text parameter passed to this HTTP endpoint and insert it into the
-// Realtime Database under the path /messages/:pushId/original
-/*
-exports.addMessage = functions.https.onRequest(async (req, res) => {
-  // Grab the text parameter.
-  const original = req.query.text;
-  // Push the new message into the Realtime Database using the Firebase Admin SDK.
-  //const snapshot = await admin.database().ref('/messages').push({original: original});
-  // Redirect with 303 SEE OTHER to the URL of the pushed object in the Firebase console.
-  res.redirect(303, "parsing_func.js" //  napshot.ref.toString()
-);
-});
-
-
-//const parsing_func = require('./parsing_func');
-//let action = parsing_func.importable();
-
-
-///Google code I'm adopting which is a simple function that returns on a value on n http request
-exports.returnSimpleValue = functions.https.onRequest((req, res) => {
-  // [END trigger]
-  // [START sendError]
-  // Forbidding PUT requests.
-  if (req.method === 'PUT') {
-    return res.status(403).send('Forbidden!');
+  out = "";
+  len = array.length;
+  i = 0;
+  while(i < len) {
+  c = array[i++];
+  switch(c >> 4)
+  { 
+    case 0: case 1: case 2: case 3: case 4: case 5: case 6: case 7:
+      // 0xxxxxxx
+      out += String.fromCharCode(c);
+      break;
+    case 12: case 13:
+      // 110x xxxx   10xx xxxx
+      char2 = array[i++];
+      out += String.fromCharCode(((c & 0x1F) << 6) | (char2 & 0x3F));
+      break;
+    case 14:
+      // 1110 xxxx  10xx xxxx  10xx xxxx
+      char2 = array[i++];
+      char3 = array[i++];
+      out += String.fromCharCode(((c & 0x0F) << 12) |
+                     ((char2 & 0x3F) << 6) |
+                     ((char3 & 0x3F) << 0));
+      break;
   }
-  // [END sendError]
+  }
 
-  
-    const formattedDate = "This is whatever text you want to be in the returned page"
-    res.status(200).send(formattedDate);
-    // [END sendResponse]
-});
-*/
+  return out;
+}
