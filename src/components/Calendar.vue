@@ -427,16 +427,7 @@ export default {
 #addContactTitle {
   margin-bottom: 30px;
 }
-.popUp {
-  width: 50%;
-}
-
-button {
-  background-color: #ff6666;
-  color: white;
-  padding: 10px;
-  border-radius: 10px;
-  margin: 10px;
-  display: inline;
+ .v-input--selection-controls__input input[role=radio]{
+  opacity: 1;
 }
 </style>
